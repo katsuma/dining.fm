@@ -7,7 +7,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: 'https://anchor.fm/diningfm',
+        destination: 'https://listen.style/p/diningfm',
         permanent: true,
       },
     ]
