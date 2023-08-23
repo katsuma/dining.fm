@@ -3,15 +3,6 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: 'https://listen.style/p/diningfm',
-        permanent: true,
-      },
-    ]
-  },
 }
 
 module.exports = nextConfig
