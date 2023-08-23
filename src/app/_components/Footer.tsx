@@ -24,7 +24,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <p>Copyright (c) dining.fm</p>
+      <p className={styles.copyright}>Copyright (c) dining.fm</p>
     </footer>
   );
 }

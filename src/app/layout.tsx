@@ -1,3 +1,4 @@
+import Header from './_components/Header'
 import Footer from './_components/Footer'
 import './globals.css'
 import type { Metadata } from 'next'
@@ -23,6 +24,7 @@ export default function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <body>
+        <Header />
         {children}
         <Footer />
       </body>
