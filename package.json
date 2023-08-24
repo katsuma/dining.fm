@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fontsource/m-plus-rounded-1c": "^5.0.7",
     "@next/font": "13.4.2",
     "@types/node": "20.1.5",
     "@types/react": "18.2.6",

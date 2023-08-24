@@ -1,5 +1,7 @@
 import Header from './_components/Header'
 import Footer from './_components/Footer'
+import '@fontsource/m-plus-rounded-1c/400.css';
+import '@fontsource/m-plus-rounded-1c/800.css';
 import './globals.css'
 import type { Metadata } from 'next'
 
