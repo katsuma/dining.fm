@@ -17,7 +17,10 @@ export const metadata: Metadata = {
   description: siteDescription,
   keywords: ['dining.fm', 'podcast', 'ポッドキャスト'],
   openGraph: {
-    title: siteName,
+    title: {
+      default: siteName,
+      template: `%s | ${siteName}`,
+    },
     description: siteDescription,
     url: '/',
     locale: 'ja_JP',
@@ -25,7 +28,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: siteName,
+    title: {
+      default: siteName,
+      template: `%s | ${siteName}`,
+    },
     description: siteDescription,
     site: '@diningfm',
     creator: '@diningfm',

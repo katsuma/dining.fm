@@ -1,18 +1,46 @@
-'use client'
+//'use client'
 
 import { notFound } from 'next/navigation'
 import Image from "next/image";
 import Link from 'next/link';
+import { Metadata, ResolvingMetadata } from 'next'
 
 import '../../layout.css'
 import styles from './page.module.css'
 import { FeedLoader } from '../../_utils/FeedLoader';
+import { Episode } from '../../_components/types/Episode';
 
 import sanitizeHtml from 'sanitize-html';
-import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
-import 'react-h5-audio-player/lib/styles.css';
 
-export default async function Episode({ params }: { params: { guid: string }}) {
+type Props = {
+  params: { guid: string }
+}
+
+export async function fetchEpisode({ params }: Props) {
+  const episodes = await FeedLoader.loadAsEpisodes() as Episode[];
+  return episodes.find((episode) => episode.guid === params.guid) as Episode;
+}
+
+export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+  const episode = await fetchEpisode({ params });
+
+  return episode && {
+    title: episode.title,
+    description: episode.contentSnippet,
+    openGraph: {
+      title: episode.title,
+      description: episode.contentSnippet,
+      images: [episode.image],
+      url: `/episodes/${episode.guid}`,
+    },
+    twitter: {
+      title: episode.title,
+      description: episode.contentSnippet,
+    }
+  }
+}
+
+export default async function EpisodeDetail({ params }: { params: { guid: string }}) {
   const episodes = await FeedLoader.loadAsEpisodes() as any[];
   const episode = episodes.find((episode) => episode.guid === params.guid) as any;
 
@@ -39,13 +67,9 @@ export default async function Episode({ params }: { params: { guid: string }}) {
           />
         </div>
         <div className={styles.description} dangerouslySetInnerHTML={{__html: sanitizeHtml(episode.content)}} />
-        <AudioPlayer
-          src={episode.url}
-          defaultCurrentTime={'00:00'}
-          defaultDuration={episode.duration}
-          customControlsSection={[RHAP_UI.MAIN_CONTROLS]}
-          layout={'horizontal-reverse'}
-        />
+        <audio controls={true} src={episode.url}>
+          <a href={episode.url}>Download audio</a>
+        </audio>
       </section>
       <section>
         <p className='link-more'>
