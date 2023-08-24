@@ -16,9 +16,11 @@
     "@types/react-dom": "18.2.4",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
+    "isomorphic-dompurify": "^1.8.0",
     "next": "13.4.19",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-h5-audio-player": "^3.8.6",
     "typescript": "5.1.6",
     "rss-parser": "3.13.0"
   }
