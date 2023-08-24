@@ -1,3 +1,4 @@
+import './layout.css'
 import styles from './page.module.css'
 import { fetchFeed } from './_utils/feedLoader';
 import EpisodeEntry from './_components/EpisodeEntry';
@@ -8,14 +9,17 @@ import Image from 'next/image';
 export default async function Home() {
   const feed = await fetchFeed();
   const entries = feed.items as unknown as EpisodeFeed[];
+
   const episodeVisibleSize = 6;
+  const currentPage = 0;
+  const currentEpisodes = entries.slice(0, episodeVisibleSize);
 
   return (
-    <main className={styles.main}>
-      <section className={styles.section}>
-        <h2 className={styles.title}>最新エピソード</h2>
+    <main className='main'>
+      <section className='section'>
+        <h2 className='title'>最新エピソード</h2>
         {
-          entries.slice(0, episodeVisibleSize).map((episode) => {
+          currentEpisodes.map((episode) => {
             return (<EpisodeEntry
               key={episode.guid}
               title={episode.title}
@@ -28,11 +32,11 @@ export default async function Home() {
           })
         }
 
-        <p className={styles.link_more}><Link href={'/episodes'}>もっと見る</Link></p>
+        <p className='link-more'><Link href={`/episodes/${currentPage + 1}`}>もっと見る</Link></p>
       </section>
 
       <section>
-        <h2 className={styles.title}>番組紹介</h2>
+        <h2 className='title'>番組紹介</h2>
         <p className={styles.description}>
           dining.fmは、ギャルソン好きの夫katsumaと、お菓子好きの妻daikokuの東京2人暮らし夫婦が、ゆるゆると話す雑談Podcast。
         </p>
