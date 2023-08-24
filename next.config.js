@@ -1,16 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
-  async redirects() {
-    return [
+  externals : { canvas: {} },
+  images: {
+    remotePatterns: [
       {
-        source: '/',
-        destination: 'https://listen.style/p/diningfm',
-        permanent: true,
+        protocol: 'https',
+        hostname: '*.cloudfront.net',
       },
-    ]
+    ],
   },
 }
 

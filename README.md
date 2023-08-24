@@ -1,3 +1,3 @@
 # dining.fm
 
-Currently we direct all pages to LISTEN.style.
+This is a [Next.js](https://nextjs.org/) project with RSS feed provided by Spotify for Podcasters.

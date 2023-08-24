@@ -1,0 +1,16 @@
+.cover-image img {
+  border-radius: 1rem;
+}
+.description {
+  font-size: 1.6rem;
+  margin: 1rem 0 3rem;
+}
+
+.description ul {
+  margin: 2rem 0 0 2rem;
+}
+
+.description a {
+  text-decoration: underline;
+}
+

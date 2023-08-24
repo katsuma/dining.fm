@@ -1,0 +1,24 @@
+.episode {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0.5rem 0;
+
+}
+.episode_image {
+  margin-right: 1rem;
+}
+.episode_image img {
+  border-radius: 1rem;
+}
+.episode_content {
+  padding-top: .5rem;
+}
+.episode_title {
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+.episode_publishedon {
+  font-size: 1.4rem;
+  color: #676767;
+}
