@@ -13,8 +13,8 @@ import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 
 export default async function Episode({ params }: { params: { guid: string }}) {
-  const episodes = await FeedLoader.loadAsEpisodes() as unknown as Episode[];
-  const episode = episodes.find((episode) => episode.guid === params.guid) as Episode;
+  const episodes = await FeedLoader.loadAsEpisodes() as any[];
+  const episode = episodes.find((episode) => episode.guid === params.guid) as any;
 
   if (!episode) {
     notFound()
