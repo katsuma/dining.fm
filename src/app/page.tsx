@@ -51,6 +51,12 @@ export default async function Home() {
           ファッション、スイーツ、ホテルなどを中心に、我が家のダイニングテーブルから家庭内で話題のトピックをお届けします🏠
         </p>
 
+        <p className={styles.description}>
+          感想はX(Twitter)のハッシュタグ<a href="https://twitter.com/search?q=%23diningfm&src=typed_query&f=top">#diningfm</a> や
+          <a href="https://twitter.com/diningfm">@diningfm</a>へのリプライ、
+          <a href="https://bit.ly/3Kq3zf2">GoogleForm</a>でのお便りなどからお待ちしています📮
+        </p>
+
         <div className={styles.icons}>
           <Image src={'/icons.svg'} alt={'dining.fm'} width={260} height={100} priority={false} />
         </div>

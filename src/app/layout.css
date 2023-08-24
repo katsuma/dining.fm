@@ -26,6 +26,13 @@
   font-size: 1.4rem;
 }
 
+.link-prev a,
+.link-more a {
+  display: inline-block;
+  border-bottom: 1px dotted #676767;
+}
+
+
 @media screen and (max-width: 768px) {
   .main {
     width: 32rem;

@@ -3,6 +3,10 @@
   margin-bottom: 1rem;
 }
 
+.description a {
+  border-bottom: 1px dotted #676767;
+}
+
 .icons {
   margin: 4rem 0;
   text-align: center;
