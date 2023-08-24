@@ -32,7 +32,7 @@ export default async function Home() {
           })
         }
 
-        <p className='link-more'><Link href={`/episodes/${currentPage + 1}`}>もっと見る</Link></p>
+        <p className='link-more'><Link href={`/episodes/page/${currentPage + 1}`}>もっと見る</Link></p>
       </section>
 
       <section>
