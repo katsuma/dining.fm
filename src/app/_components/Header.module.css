@@ -1,6 +1,7 @@
 .header {
   position: sticky;
   height: 8rem;
+  margin: 2rem;
 }
 
 .header__logo {
@@ -14,6 +15,5 @@
 @media screen and (max-width: 768px) {
   .header__logo {
     width: 32rem;
-    margin: 2rem;
   }
 }
