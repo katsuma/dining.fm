@@ -16,7 +16,7 @@ type Props = {
   params: { guid: string }
 }
 
-export async function fetchEpisode({ params }: Props) {
+async function fetchEpisode({ params }: Props) {
   const episodes = await FeedLoader.loadAsEpisodes() as Episode[];
   return episodes.find((episode) => episode.guid === params.guid) as Episode;
 }
