@@ -8,7 +8,7 @@ import '../../layout.css'
 import styles from './page.module.css'
 import { FeedLoader } from '../../_utils/FeedLoader';
 
-import DOMPurify from 'isomorphic-dompurify';
+import sanitizeHtml from 'sanitize-html';
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 
@@ -38,7 +38,7 @@ export default async function Episode({ params }: { params: { guid: string }}) {
             priority={false}
           />
         </div>
-        <div className={styles.description} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(episode.content)}} />
+        <div className={styles.description} dangerouslySetInnerHTML={{__html: sanitizeHtml(episode.content)}} />
         <AudioPlayer
           src={episode.url}
           defaultCurrentTime={'00:00'}
