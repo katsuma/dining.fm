@@ -1,18 +1,18 @@
 import './layout.css'
 import styles from './page.module.css'
-import { fetchFeed } from './_utils/feedLoader';
+import { Episode } from './_components/types/Episode';
 import EpisodeEntry from './_components/EpisodeEntry';
-import { EpisodeFeed } from './_components/types/EpisodeFeed';
+import { FeedLoader } from './_utils/FeedLoader';
+
 import Link from 'next/link';
 import Image from 'next/image';
 
 export default async function Home() {
-  const feed = await fetchFeed();
-  const entries = feed.items as unknown as EpisodeFeed[];
+  const episodes = await FeedLoader.loadAsEpisodes() as unknown as Episode[];
 
   const episodeVisibleSize = 6;
   const currentPage = 0;
-  const currentEpisodes = entries.slice(0, episodeVisibleSize);
+  const currentEpisodes = episodes.slice(0, episodeVisibleSize);
 
   return (
     <main className='main'>
@@ -20,15 +20,21 @@ export default async function Home() {
         <h2 className='title'>最新エピソード</h2>
         {
           currentEpisodes.map((episode) => {
-            return (<EpisodeEntry
-              key={episode.guid}
-              title={episode.title}
-              content={episode.content}
-              pubDate={episode.pubDate}
-              image={episode.itunes.image}
-              guid={episode.guid}
-              contentSnipet={episode.contentSnipet}
-            />);
+            return (
+              <Link href={`/episodes/${episode.guid}`} key={episode.guid}>
+                <EpisodeEntry
+                  key={episode.guid}
+                  title={episode.title}
+                  content={episode.content}
+                  pubDate={episode.pubDate}
+                  image={episode.image}
+                  guid={episode.guid}
+                  contentSnippet={episode.contentSnippet}
+                  url={episode.url}
+                  duration={episode.duration}
+                />
+              </Link>
+            )
           })
         }
 

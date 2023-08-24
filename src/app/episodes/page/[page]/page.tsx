@@ -1,18 +1,17 @@
 import '../../../layout.css'
-import { fetchFeed } from '../../../_utils/feedLoader';
 import EpisodeEntry from '../../../_components/EpisodeEntry';
-import { EpisodeFeed } from '../../../_components/types/EpisodeFeed';
+import { Episode } from '../../../_components/types/Episode';
+import { FeedLoader } from '../../../_utils/FeedLoader';
 import Link from 'next/link';
 
 export default async function Episodes({ params }: { params: { page: number } }) {
-  const feed = await fetchFeed();
-  const entries = feed.items as unknown as EpisodeFeed[];
+  const episodes = await FeedLoader.loadAsEpisodes() as unknown as Episode[];
 
   const episodeVisibleSize = 20;
   const currentPage = Number(params.page);
-  const maxPage = Math.ceil(entries.length / episodeVisibleSize);
+  const maxPage = Math.ceil(episodes.length / episodeVisibleSize);
   const slicedIndex = episodeVisibleSize * (currentPage - 1);
-  const currentEpisodes = entries.slice(slicedIndex, slicedIndex + episodeVisibleSize);
+  const currentEpisodes = episodes.slice(slicedIndex, slicedIndex + episodeVisibleSize);
 
   return (
     <main className='main'>
@@ -20,15 +19,21 @@ export default async function Episodes({ params }: { params: { page: number } })
         <h2 className='title'>エピソード一覧 ({currentPage}/{maxPage})</h2>
         {
           currentEpisodes.map((episode) => {
-            return (<EpisodeEntry
-              key={episode.guid}
-              title={episode.title}
-              content={episode.content}
-              pubDate={episode.pubDate}
-              image={episode.itunes.image}
-              guid={episode.guid}
-              contentSnipet={episode.contentSnipet}
-            />);
+            return (
+              <Link href={`/episodes/${episode.guid}`} key={episode.guid}>
+                <EpisodeEntry
+                  key={episode.guid}
+                  title={episode.title}
+                  content={episode.content}
+                  pubDate={episode.pubDate}
+                  image={episode.image}
+                  guid={episode.guid}
+                  contentSnippet={episode.contentSnippet}
+                  url={episode.url}
+                  duration={episode.duration}
+                />
+              </Link>
+            );
           })
         }
 

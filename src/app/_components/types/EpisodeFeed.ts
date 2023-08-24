@@ -8,7 +8,7 @@ export type EpisodeFeed = {
     type: string;
   };
   content: string;
-  contentSnipet: string;
+  contentSnippet: string;
   guid: string;
   isoDate: string;
   itunes: {
