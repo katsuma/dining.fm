@@ -41,8 +41,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 }
 
 export default async function EpisodeDetail({ params }: { params: { guid: string }}) {
-  const episodes = await FeedLoader.loadAsEpisodes() as any[];
-  const episode = episodes.find((episode) => episode.guid === params.guid) as any;
+  const episode = await fetchEpisode({ params });
 
   if (!episode) {
     notFound()
