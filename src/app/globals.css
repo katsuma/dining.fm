@@ -1,3 +1,14 @@
+:root {
+  --black-primary: #373737;
+  --black-secondary: #676767;
+  --gray: #676767;
+  --gray-light: #D9D9D9;
+  --yellow: #FDDF19;
+  --yellow-light: #FFFEFA;
+  --blue: #0E81B4;
+
+  --border-radius: 1rem;
+}
 * {
   box-sizing: border-box;
   padding: 0;
@@ -10,6 +21,7 @@ body {
   overflow-x: hidden;
   font-size: 10px;
   font-family: "M PLUS Rounded 1c", sans-serif;
+  background-color: var(--yellow-light);
 }
 
 a {
