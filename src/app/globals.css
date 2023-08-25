@@ -21,6 +21,7 @@ body {
   overflow-x: hidden;
   font-size: 10px;
   font-family: "M PLUS Rounded 1c", sans-serif;
+  background-color: var(--yellow-light);
 }
 
 a {
