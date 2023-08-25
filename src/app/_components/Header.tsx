@@ -9,7 +9,7 @@ export default function Header() {
     <header className={styles.header}>
       <h1 className={styles.header__logo}>
         <Link href={'/'}>
-          <Image src={logoPath} alt={'dining.fm'} width={192} height={62} priority={true} />
+          <Image src={logoPath} alt={'dining.fm'} width={176} height={60} priority={true} />
         </Link>
       </h1>
     </header>
