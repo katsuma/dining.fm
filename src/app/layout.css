@@ -14,7 +14,7 @@
   padding-bottom: 0.2rem;
   font-size: 1.9rem;
   font-weight: bold;
-  border-bottom: 3px solid #FDDF19;
+  border-bottom: 3px solid var(--yellow);
 }
 
 .link-prev,
@@ -29,7 +29,7 @@
 .link-prev a,
 .link-more a {
   display: inline-block;
-  border-bottom: 1px dotted #676767;
+  border-bottom: 1px dotted var(--black-secondary);
 }
 
 

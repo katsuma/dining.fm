@@ -4,7 +4,7 @@
 }
 
 .description a {
-  border-bottom: 1px dotted #676767;
+  border-bottom: 1px dotted var(--black-secondary);
 }
 
 .icons {

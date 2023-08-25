@@ -1,5 +1,5 @@
 .cover-image img {
-  border-radius: 1rem;
+  border-radius: var(--border-radius);
 }
 .description {
   font-size: 1.6rem;
