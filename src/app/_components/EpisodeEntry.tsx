@@ -11,7 +11,7 @@ export default function EpisodeEntry(props: Episode) {
 
       <div className={styles.episode_content}>
         <h3 className={styles.episode_title}>{props.title}</h3>
-        <p className={styles.episode_publishedon}>{new Date(props.pubDate).toLocaleString()}</p>
+        <p className={styles.episode_publishedon}>{new Date(props.pubDate).toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' })}</p>
       </div>
     </div>
   );
