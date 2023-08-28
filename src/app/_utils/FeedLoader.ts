@@ -3,11 +3,13 @@ import { Episode } from '../_components/types/Episode';
 import { EpisodeFeed } from '../_components/types/EpisodeFeed';
 
 export class FeedLoader {
-  static url = 'https://anchor.fm/s/d89790f4/podcast/rss';
+  private static url = 'https://anchor.fm/s/d89790f4/podcast/rss'
 
   static async loadAsEpisodes() {
     const parser = new Parser();
-    const feed = await parser.parseURL(FeedLoader.url);
+    const feedUrl = `${FeedLoader.url}?dt=${FeedLoader.getDateTimeQueryString()}`
+
+    const feed = await parser.parseURL(feedUrl);
     const entries = feed.items as unknown as EpisodeFeed[];
 
     if (!entries) {
@@ -26,5 +28,14 @@ export class FeedLoader {
         entry.itunes.duration,
       );
     });
+  }
+
+  private static getDateTimeQueryString(): string {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1) < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
+    const hour = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
+
+    return `${year}${month}${hour}`;
   }
 }
