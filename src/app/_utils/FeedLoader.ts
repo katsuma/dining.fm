@@ -8,7 +8,7 @@ export class FeedLoader {
   static async loadAsEpisodes() {
     const parser = new Parser();
     const feedUrl = `${FeedLoader.url}?dt=${FeedLoader.getDateTimeQueryString()}`
-
+    console.log(`[FeedURL] ${feedUrl}`);
     const feed = await parser.parseURL(feedUrl);
     const entries = feed.items as unknown as EpisodeFeed[];
 
