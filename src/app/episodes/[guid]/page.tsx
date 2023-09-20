@@ -26,16 +26,16 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 
   return episode && {
     title: episode.title,
-    description: episode.contentSnippet,
+    description: episode.description,
     openGraph: {
       title: episode.title,
-      description: episode.contentSnippet,
+      description: episode.description,
       images: [episode.image],
       url: `/episodes/${episode.guid}`,
     },
     twitter: {
       title: episode.title,
-      description: episode.contentSnippet,
+      description: episode.description,
     }
   }
 }
@@ -65,7 +65,7 @@ export default async function EpisodeDetail({ params }: { params: { guid: string
             priority={false}
           />
         </div>
-        <div className={styles.description} dangerouslySetInnerHTML={{__html: sanitizeHtml(episode.content)}} />
+        <div className={styles.description} dangerouslySetInnerHTML={{__html: sanitizeHtml(episode.description)}} />
         <audio controls={true} src={episode.url}>
           <a href={episode.url}>Download audio</a>
         </audio>
