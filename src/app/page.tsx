@@ -25,11 +25,10 @@ export default async function Home() {
                 <EpisodeEntry
                   key={episode.guid}
                   title={episode.title}
-                  content={episode.content}
+                  description={episode.description}
                   pubDate={episode.pubDate}
                   image={episode.image}
                   guid={episode.guid}
-                  contentSnippet={episode.contentSnippet}
                   url={episode.url}
                   duration={episode.duration}
                 />

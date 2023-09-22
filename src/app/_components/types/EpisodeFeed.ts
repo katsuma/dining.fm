@@ -3,18 +3,17 @@ export type EpisodeFeed = {
   link: string;
   pubDate: string;
   enclosure: {
-    url: string;
-    length: string;
-    type: string;
+    $: {
+      url: string;
+      length: string;
+      type: string;
+    }
   };
-  content: string;
-  contentSnippet: string;
-  guid: string;
+  description: string;
+  guid: { _: string };
   isoDate: string;
-  itunes: {
-    image: string;
-    duration: string;
-    episode: string;
-    season: string;
-  };
+  'itunes:image': { $: { href: string }};
+  'itunes:duration': string;
+  'itunes:episode': string;
+  'itunes:season': string;
 }

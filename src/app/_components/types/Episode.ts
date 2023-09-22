@@ -1,8 +1,7 @@
 export class Episode {
   guid: string;
   title: string;
-  content: string;
-  contentSnippet: string;
+  description: string;
   pubDate: string;
   image: string;
   url: string;
@@ -11,8 +10,7 @@ export class Episode {
   constructor(
     guid: string,
     title: string,
-    content: string,
-    contentSnippet: string,
+    description: string,
     pubDate: string,
     image: string,
     url: string,
@@ -20,8 +18,7 @@ export class Episode {
   ) {
     this.guid = guid;
     this.title = title;
-    this.content = content;
-    this.contentSnippet = contentSnippet;
+    this.description = description;
     this.pubDate = pubDate;
     this.image = image;
     this.url = url;
