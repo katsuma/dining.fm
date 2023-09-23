@@ -3,7 +3,7 @@
 }
 .description {
   font-size: 1.6rem;
-  margin: 1rem 0 3rem;
+  margin: 0 0 2rem;
 }
 
 .description ul {
@@ -12,5 +12,14 @@
 
 .description a {
   text-decoration: underline;
+}
+.audio {
+  margin: 1rem 0;
+}
+
+.publishedon {
+  font-size: 1.4rem;
+  color: var(--black-secondary);
+  margin-bottom: 2rem;
 }
 
