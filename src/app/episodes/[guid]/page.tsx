@@ -1,5 +1,3 @@
-//'use client'
-
 import { notFound } from 'next/navigation'
 import Image from "next/image";
 import Link from 'next/link';
@@ -11,6 +9,9 @@ import { FeedLoader } from '../../_utils/FeedLoader';
 import { Episode } from '../../_components/types/Episode';
 
 import sanitizeHtml from 'sanitize-html';
+import striptags from 'striptags';
+import { escapeLeadingUnderscores } from 'typescript';
+import { parseStringPromise } from 'xml2js';
 
 type Props = {
   params: { guid: string }
@@ -23,19 +24,21 @@ async function fetchEpisode({ params }: Props) {
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   const episode = await fetchEpisode({ params });
+  const feedDescription = await parseStringPromise(episode.description, { explicitArray: false }) as { p: string };
+  const description = striptags(feedDescription.p);
 
   return episode && {
     title: episode.title,
-    description: episode.description,
+    description: description,
     openGraph: {
       title: episode.title,
-      description: episode.description,
+      description: description,
       images: [episode.image],
       url: `/episodes/${episode.guid}`,
     },
     twitter: {
       title: episode.title,
-      description: episode.description,
+      description: description,
     }
   }
 }
