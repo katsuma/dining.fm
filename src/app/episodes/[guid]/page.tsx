@@ -7,10 +7,10 @@ import '../../layout.css'
 import styles from './page.module.css'
 import { FeedLoader } from '../../_utils/FeedLoader';
 import { Episode } from '../../_components/types/Episode';
+import { PublishedDate } from '../../_utils/PublishedDate';
 
 import sanitizeHtml from 'sanitize-html';
 import striptags from 'striptags';
-import { escapeLeadingUnderscores } from 'typescript';
 import { parseStringPromise } from 'xml2js';
 
 type Props = {
@@ -68,10 +68,11 @@ export default async function EpisodeDetail({ params }: { params: { guid: string
             priority={false}
           />
         </div>
-        <div className={styles.description} dangerouslySetInnerHTML={{__html: sanitizeHtml(episode.description)}} />
-        <audio controls={true} src={episode.url}>
+        <audio className={styles.audio} controls={true} src={episode.url}>
           <a href={episode.url}>Download audio</a>
         </audio>
+        <div className={styles.description} dangerouslySetInnerHTML={{__html: sanitizeHtml(episode.description)}} />
+        <p className={styles.publishedon}>公開: {PublishedDate.parse(episode.pubDate)}</p>
       </section>
       <section>
         <p className='link-more'>
