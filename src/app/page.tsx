@@ -11,7 +11,7 @@ import React from 'react';
 export default async function Home() {
   const episodes = await FeedLoader.loadAsEpisodes() as unknown as Episode[];
 
-  const episodeVisibleSize = 6;
+  const episodeVisibleSize = 3;
   const currentPage = 0;
   const currentEpisodes = episodes.slice(0, episodeVisibleSize);
 
@@ -39,6 +39,12 @@ export default async function Home() {
         }
 
         <p className='link-more'><Link href={`/episodes/page/${currentPage + 1}`}>もっと見る</Link></p>
+      </section>
+
+      <section>
+        <h2 className='title'>収録・編集環境</h2>
+        <p className={styles.description}>マイクやオーディオインターフェースなどの収録環境や、DAWやプラグインなど編集環境についてまとめてみました。</p>
+        <p className='link-more'><Link href='/podcasting-guide'>収録・編集環境を見る</Link></p>
       </section>
 
       <section>
