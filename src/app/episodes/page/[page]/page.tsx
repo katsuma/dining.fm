@@ -3,6 +3,7 @@ import EpisodeEntry from '../../../_components/EpisodeEntry';
 import { Episode } from '../../../_components/types/Episode';
 import { FeedLoader } from '../../../_utils/FeedLoader';
 import Link from 'next/link';
+import React from 'react';
 
 export default async function Episodes({ params }: { params: { page: number } }) {
   const episodes = await FeedLoader.loadAsEpisodes() as unknown as Episode[];
@@ -14,7 +15,7 @@ export default async function Episodes({ params }: { params: { page: number } })
   const currentEpisodes = episodes.slice(slicedIndex, slicedIndex + episodeVisibleSize);
 
   return (
-    <main className='main'>
+    <>
       <section className='section'>
         <h2 className='title'>エピソード一覧 ({currentPage}/{maxPage})</h2>
         {
@@ -48,6 +49,6 @@ export default async function Episodes({ params }: { params: { page: number } })
           )
         }
       </section>
-    </main>
+    </>
   )
 }

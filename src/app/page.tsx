@@ -6,6 +6,7 @@ import { FeedLoader } from './_utils/FeedLoader';
 
 import Link from 'next/link';
 import Image from 'next/image';
+import React from 'react';
 
 export default async function Home() {
   const episodes = await FeedLoader.loadAsEpisodes() as unknown as Episode[];
@@ -15,7 +16,7 @@ export default async function Home() {
   const currentEpisodes = episodes.slice(0, episodeVisibleSize);
 
   return (
-    <main className='main'>
+    <>
       <section className='section'>
         <h2 className='title'>最新エピソード</h2>
         {
@@ -60,6 +61,6 @@ export default async function Home() {
           <Image src={'/icons.svg'} alt={'dining.fm'} width={260} height={100} priority={false} />
         </div>
       </section>
-    </main>
+    </>
   )
 }
