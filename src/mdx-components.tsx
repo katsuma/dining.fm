@@ -15,7 +15,12 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       <Image
         width={600}
         height={400}
-        priority={true}
+        priority={false}
+        sizes="100vw"
+        style={{
+          width: '100%',
+          height: 'auto',
+        }}
         {...(props as ImageProps)}
       />
     ),
