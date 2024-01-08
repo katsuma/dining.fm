@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: {
       default: siteName,
-      template: `%s | ${siteName}`,
+      template: `%s - ${siteName}`,
     },
     description: siteDescription,
     url: '/',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: {
       default: siteName,
-      template: `%s | ${siteName}`,
+      template: `%s - ${siteName}`,
     },
     description: siteDescription,
     site: '@diningfm',
