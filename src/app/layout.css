@@ -6,14 +6,18 @@
 
 .section {
   margin-bottom: 4rem;
+}
 
-  a {
-    border-bottom: 1px dotted var(--black-secondary);
-  }
+.section  a {
+  border-bottom: 1px dotted var(--black-secondary);
+}
 
-  p {
-    margin-bottom: 1.2rem;
-  }
+.section  p {
+  margin-bottom: 1.2rem;
+}
+
+.section img {
+  border-radius: var(--border-radius);
 }
 
 .title {
@@ -43,12 +47,5 @@
 @media screen and (max-width: 768px) {
   .main {
     width: 32rem;
-  }
-
-  section {
-    img {
-      width: 100%;
-      height: auto;
-    }
   }
 }
