@@ -37,6 +37,8 @@ export default async function Episodes({ params }: { params: { page: number } })
           })
         }
 
+      </section>
+      <section className='pagination'>
         {
           (currentPage - 1 > 0) && (
             <p className='link-prev'><Link href={`/episodes/page/${currentPage - 1}`}>前へ</Link></p>

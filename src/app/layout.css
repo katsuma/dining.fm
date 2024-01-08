@@ -28,6 +28,16 @@
   border-bottom: 3px solid var(--yellow);
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination p {
+  width: 6rem;
+}
+
 .link-prev,
 .link-more {
   height: 4rem;
