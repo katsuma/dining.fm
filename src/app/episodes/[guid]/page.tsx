@@ -12,6 +12,7 @@ import { PublishedDate } from '../../_utils/PublishedDate';
 import sanitizeHtml from 'sanitize-html';
 import striptags from 'striptags';
 import { parseStringPromise } from 'xml2js';
+import React from 'react';
 
 type Props = {
   params: { guid: string }
@@ -51,7 +52,7 @@ export default async function EpisodeDetail({ params }: { params: { guid: string
   }
 
   return (
-    <main className='main'>
+    <>
       <section className='section'>
         <h2 className='title'>{episode.title}</h2>
         <div className={styles['cover-image']}>
@@ -79,6 +80,6 @@ export default async function EpisodeDetail({ params }: { params: { guid: string
           <Link href={'/episodes/page/1'}>エピソード一覧</Link>
         </p>
       </section>
-    </main>
+    </>
   )
 }
