@@ -19,8 +19,9 @@ export default function Footer() {
         <div className={styles.footer_content}>
           <p className={styles.caption}>SNS</p>
           <ul className={styles.list_links}>
-            <li><a href="https://x.com/diningfm">X(@diningfm)</a></li>
-            <li><a href="https://instagram.com/diningfm">Instagram(@diningfm)</a></li>
+            <li><a href="https://x.com/diningfm">X</a></li>
+            <li><a href="https://threads.net/diningfm">Threads</a></li>
+            <li><a href="https://instagram.com/diningfm">Instagram</a></li>
           </ul>
         </div>
       </div>
