@@ -22,6 +22,7 @@ export default function Footer() {
             <li><a href="https://x.com/diningfm">X</a></li>
             <li><a href="https://threads.net/diningfm">Threads</a></li>
             <li><a href="https://instagram.com/diningfm">Instagram</a></li>
+            <li><a href="https://youtube.com/@diningfm">YouTube</a></li>
           </ul>
         </div>
       </div>
