@@ -1,20 +1,12 @@
 export class Episode {
-  guid: string;
-  title: string;
-  description: string;
-  pubDate: string;
-  image: string;
-  url: string;
-  duration: string;
-
   constructor(
-    guid: string,
-    title: string,
-    description: string,
-    pubDate: string,
-    image: string,
-    url: string,
-    duration: string,
+    public readonly guid: string,
+    public readonly title: string,
+    public readonly description: string,
+    public readonly pubDate: string,
+    public readonly image: string,
+    public readonly url: string,
+    public readonly duration: string,
   ) {
     this.guid = guid;
     this.title = title;

@@ -18,7 +18,7 @@ export class FeedLoader {
     }
     return entries.map((entry) => {
       return new Episode(
-        entry.guid._,
+        entry['itunes:episode'],
         entry.title,
         entry.description,
         entry.pubDate,

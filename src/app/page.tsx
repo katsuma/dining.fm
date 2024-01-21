@@ -11,7 +11,7 @@ import React from 'react';
 export default async function Home() {
   const episodes = await FeedLoader.loadAsEpisodes() as unknown as Episode[];
 
-  const episodeVisibleSize = 3;
+  const episodeVisibleSize = 5;
   const currentPage = 0;
   const currentEpisodes = episodes.slice(0, episodeVisibleSize);
 
