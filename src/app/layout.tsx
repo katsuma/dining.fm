@@ -7,7 +7,7 @@ import type { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/react';
 import React from 'react';
 
-const siteName = 'dining.fm'
+const siteName = 'dining.fm ~ 東京の夫婦のある日の食卓'
 const siteDescription = 'dining.fmは、ギャルソン好きの夫katsumaと、お菓子好きの妻daikokuの東京2人暮らし夫婦が、ゆるゆると話す雑談Podcast。ファッション、スイーツ、ホテルなどを中心に、我が家のダイニングテーブルから家庭内で話題のトピックをお届けします🏠'
 
 export const metadata: Metadata = {

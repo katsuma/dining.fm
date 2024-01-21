@@ -2,7 +2,7 @@ import { MetadataRoute } from "next"
 import { FeedLoader } from './_utils/FeedLoader';
 import { Episode } from "./_components/types/Episode";
 
-const BASE_URL = 'https://dining.fm';
+const BASE_URL = process.env.BASE_URL || '';
 
 function getStaticPaths(): MetadataRoute.Sitemap {
   return [
@@ -14,7 +14,7 @@ function getStaticPaths(): MetadataRoute.Sitemap {
 async function getEpisodePaths(): Promise<MetadataRoute.Sitemap> {
   const episodes = await FeedLoader.loadAsEpisodes() as unknown as Episode[];
   return episodes.map((episode) => ({
-    url: `${BASE_URL}/product/${episode.guid}`,
+    url: `${BASE_URL}/episodes/${episode.guid}`,
     lastModified: new Date(episode.pubDate),
   }));
 }
