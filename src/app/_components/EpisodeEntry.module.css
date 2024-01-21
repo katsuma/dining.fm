@@ -17,6 +17,7 @@
 .episode_title {
   font-weight: bold;
   font-size: 1.6rem;
+  margin-bottom: 0;
 }
 .episode_publishedon {
   font-size: 1.4rem;

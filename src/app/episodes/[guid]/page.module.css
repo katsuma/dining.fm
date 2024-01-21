@@ -10,9 +10,10 @@
   margin: 2rem 0 0 2rem;
 }
 
-.description a {
-  text-decoration: underline;
+.description li {
+  margin-bottom: 0.4rem;
 }
+
 .audio {
   margin: 1rem 0;
 }
