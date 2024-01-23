@@ -42,9 +42,9 @@ export default async function Home() {
       </section>
 
       <section>
-        <h2 className='title'>収録・編集環境</h2>
+        <h2 className='title'>ポッドキャストの収録・編集環境</h2>
         <p className={styles.description}>マイクやオーディオインターフェースなどの収録環境や、DAWやプラグインなど編集環境についてまとめてみました。</p>
-        <p className='link-more'><Link href='/podcasting-guide'>収録・編集環境を見る</Link></p>
+        <p className='link-more'><Link href='/podcasting-guide'>ポッドキャストの収録・編集環境を見る</Link></p>
       </section>
 
       <section>
