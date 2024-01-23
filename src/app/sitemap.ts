@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next"
-import { FeedLoader } from './_utils/FeedLoader';
+import { FeedLoader } from '../utils/FeedLoader';
 import { Episode } from "../components/types/Episode";
 
 const BASE_URL = process.env.BASE_URL || '';

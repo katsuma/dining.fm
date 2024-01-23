@@ -5,9 +5,9 @@ import { Metadata, ResolvingMetadata } from 'next'
 
 import '../../layout.css'
 import styles from './page.module.css'
-import { FeedLoader } from '../../_utils/FeedLoader';
+import { FeedLoader } from '../../../utils/FeedLoader';
 import { Episode } from '../../../components/types/Episode';
-import { PublishedDate } from '../../_utils/PublishedDate';
+import { PublishedDate } from '../../../utils/PublishedDate';
 
 import sanitizeHtml from 'sanitize-html';
 import striptags from 'striptags';

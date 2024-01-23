@@ -2,7 +2,7 @@ import './layout.css'
 import styles from './page.module.css'
 import { Episode } from '../components/types/Episode';
 import EpisodeEntry from '../components/EpisodeEntry';
-import { FeedLoader } from './_utils/FeedLoader';
+import { FeedLoader } from '../utils/FeedLoader';
 
 import Link from 'next/link';
 import Image from 'next/image';
