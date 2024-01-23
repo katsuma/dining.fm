@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styles from './EpisodeEntry.module.css';
 import { Episode } from "./types/Episode";
-import { PublishedDate } from "../_utils/PublishedDate";
+import { PublishedDate } from "../app/_utils/PublishedDate";
 
 export default function EpisodeEntry(props: Episode) {
   return (

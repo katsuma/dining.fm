@@ -1,7 +1,7 @@
 import './layout.css'
 import styles from './page.module.css'
-import { Episode } from './_components/types/Episode';
-import EpisodeEntry from './_components/EpisodeEntry';
+import { Episode } from '../components/types/Episode';
+import EpisodeEntry from '../components/EpisodeEntry';
 import { FeedLoader } from './_utils/FeedLoader';
 
 import Link from 'next/link';

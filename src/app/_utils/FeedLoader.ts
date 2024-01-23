@@ -1,6 +1,6 @@
 import { parseStringPromise } from 'xml2js';
-import { Episode } from '../_components/types/Episode';
-import { EpisodeFeed } from '../_components/types/EpisodeFeed';
+import { Episode } from '../../components/types/Episode';
+import { EpisodeFeed } from '../../components/types/EpisodeFeed';
 
 export class FeedLoader {
   private static url = 'https://anchor.fm/s/d89790f4/podcast/rss'
