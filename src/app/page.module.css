@@ -11,3 +11,16 @@
   margin: 4rem 0;
   text-align: center;
 }
+
+.listens_on {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.listens_on a {
+  border: none;
+}
+
