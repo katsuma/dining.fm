@@ -46,7 +46,7 @@ export default async function Home() {
             <Image src={'/listen-on/apple.svg'} alt={'Listen on Apple Podcasts'} width={160} height={40} priority={false} />
           </a>
 
-          <a href="https://dining.fm/#:~:text=Overcast-,Amazon%20Music,-Google%20Podcasts" target="_blank" rel="noopener noreferrer">
+          <a href="https://music.amazon.co.jp/podcasts/2a16e7f2-2c99-4d85-8ee7-0916a6c1f56d" target="_blank" rel="noopener noreferrer">
             <Image src={'/listen-on/amazon.svg'} alt={'Listen on Amazon Music'} width={160} height={40} priority={false} />
           </a>
         </div>
