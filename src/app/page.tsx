@@ -36,7 +36,7 @@ export default async function Home() {
 
       </section>
 
-      <section className='section'>
+      <section className={styles.section}>
         <div className={styles.listens_on}>
           <a href="https://open.spotify.com/show/3wSB2J20uqON5nPhCmMia5" target="_blank" rel="noopener noreferrer">
             <Image src={'/listen-on/spotify.svg'} alt={'Listen on Spotify'} width={160} height={40} priority={false} />
