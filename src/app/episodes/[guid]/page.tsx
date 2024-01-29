@@ -1,15 +1,12 @@
 import { notFound } from 'next/navigation'
-import Image from "next/image";
-import Link from 'next/link';
 import { Metadata, ResolvingMetadata } from 'next'
+import { kv } from "@vercel/kv";
 
 import '../../layout.css'
-import styles from './page.module.css'
 import { FeedLoader } from '../../../utils/FeedLoader';
 import { Episode } from '../../../components/types/Episode';
-import { PublishedDate } from '../../../utils/PublishedDate';
+import { Player } from './Player';
 
-import sanitizeHtml from 'sanitize-html';
 import striptags from 'striptags';
 import { parseStringPromise } from 'xml2js';
 import React from 'react';
@@ -21,6 +18,10 @@ type Props = {
 async function fetchEpisode({ params }: Props) {
   const episodes = await FeedLoader.loadAsEpisodes() as Episode[];
   return episodes.find((episode) => episode.guid === params.guid) as Episode;
+}
+
+async function fetchSpotifyId(idKey: string) {
+  return kv.get(idKey);
 }
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
@@ -51,35 +52,15 @@ export default async function EpisodeDetail({ params }: { params: { guid: string
     notFound()
   }
 
+  const spotifyEpisodeId = await fetchSpotifyId(episode.guid);
+
   return (
-    <>
-      <section className='section'>
-        <h2 className='title'>{episode.title}</h2>
-        <div className={styles['cover-image']}>
-          <Image
-            src={episode.image}
-            alt={episode.title}
-            width={600}
-            height={600}
-            sizes="100vw"
-            style={{
-              width: '100%',
-              height: 'auto',
-            }}
-            priority={false}
-          />
-        </div>
-        <audio className={styles.audio} controls={true} src={episode.url}>
-          <a href={episode.url}>Download audio</a>
-        </audio>
-        <div className={styles.description} dangerouslySetInnerHTML={{__html: sanitizeHtml(episode.description)}} />
-        <p className={styles.publishedon}>公開: {PublishedDate.parse(episode.pubDate)}</p>
-      </section>
-      <section>
-        <p className='link-more'>
-          <Link href={'/episodes/page/1'}>エピソード一覧</Link>
-        </p>
-      </section>
-    </>
+    <Player
+      title={episode.title}
+      image={episode.image}
+      description={episode.description}
+      pubDate={episode.pubDate}
+      spotifyEpisodeId={String(spotifyEpisodeId)}
+    />
   )
 }
