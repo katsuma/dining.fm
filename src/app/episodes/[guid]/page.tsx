@@ -21,7 +21,7 @@ async function fetchEpisode({ params }: Props) {
 }
 
 async function fetchSpotifyId(idKey: string) {
-  return kv.get(idKey)
+  return kv.get(idKey);
 }
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
@@ -60,7 +60,7 @@ export default async function EpisodeDetail({ params }: { params: { guid: string
       image={episode.image}
       description={episode.description}
       pubDate={episode.pubDate}
-      spotifyEpisodeId={spotifyEpisodeId}
+      spotifyEpisodeId={String(spotifyEpisodeId)}
     />
   )
 }
