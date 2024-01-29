@@ -19,6 +19,7 @@
     "@types/react-dom": "18.2.4",
     "@types/xml2js": "^0.4.12",
     "@vercel/analytics": "^1.0.2",
+    "@vercel/kv": "^1.0.1",
     "bufferutil": "^4.0.7",
     "canvas": "^2.11.2",
     "eslint": "8.40.0",
