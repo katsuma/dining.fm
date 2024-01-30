@@ -2,10 +2,10 @@ import { notFound } from 'next/navigation'
 import { Metadata, ResolvingMetadata } from 'next'
 import { kv } from "@vercel/kv";
 
-import '../../layout.css'
-import { FeedLoader } from '../../../utils/FeedLoader';
-import { Episode } from '../../../components/types/Episode';
-import { Player } from './Player';
+import '@/app/layout.css'
+import { FeedLoader } from '@/utils/FeedLoader';
+import { Episode } from '@/components/types/Episode';
+import { Player } from '@/app/episodes/[guid]/Player';
 
 import striptags from 'striptags';
 import { parseStringPromise } from 'xml2js';

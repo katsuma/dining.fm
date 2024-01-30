@@ -1,9 +1,10 @@
-import '../../../layout.css'
-import EpisodeEntry from '../../../../components/EpisodeEntry';
-import { Episode } from '../../../../components/types/Episode';
-import { FeedLoader } from '../../../../utils/FeedLoader';
 import Link from 'next/link';
 import React from 'react';
+
+import '@/app/layout.css'
+import EpisodeEntry from '@/components/EpisodeEntry';
+import { Episode } from '@/components/types/Episode';
+import { FeedLoader } from '@/utils/FeedLoader';
 
 export default async function Episodes({ params }: { params: { page: number } }) {
   const episodes = await FeedLoader.loadAsEpisodes() as unknown as Episode[];
