@@ -8,7 +8,6 @@ import { Episode } from '@/components/types/Episode';
 import { Player } from '@/app/episodes/[guid]/Player';
 
 import striptags from 'striptags';
-import { parseStringPromise } from 'xml2js';
 import React from 'react';
 
 type Props = {
@@ -30,8 +29,7 @@ async function fetchApplePodcastId(idKey: string) {
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   const episode = await fetchEpisode({ params });
-  const feedDescription = await parseStringPromise(episode.description, { explicitArray: false }) as { p: string };
-  const description = striptags(feedDescription.p);
+  const description = striptags(episode.description).replace(/\s+/g, "、");
 
   return episode && {
     title: episode.title,
