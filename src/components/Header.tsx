@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import styles from './Header.module.css';
+
+import styles from '@/components/Header.module.css';
 
 export default function Header() {
   const logoPath = '/logo.svg';

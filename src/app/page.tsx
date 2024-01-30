@@ -1,12 +1,12 @@
-import './layout.css'
-import styles from './page.module.css'
-import { Episode } from '../components/types/Episode';
-import EpisodeEntry from '../components/EpisodeEntry';
-import { FeedLoader } from '../utils/FeedLoader';
-
 import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
+
+import '@/app/layout.css'
+import styles from '@/app/page.module.css'
+import { Episode } from '@/components/types/Episode';
+import EpisodeEntry from '@/components/EpisodeEntry';
+import { FeedLoader } from '@/utils/FeedLoader';
 
 export default async function Home() {
   const episodes = await FeedLoader.loadAsEpisodes() as unknown as Episode[];
