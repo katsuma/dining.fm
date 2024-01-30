@@ -5,6 +5,7 @@ import '@/app/globals.css'
 import type { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/react';
 import React from 'react';
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -61,6 +62,7 @@ export default function RootLayout({
         <Footer />
         <Analytics />
       </body>
+      <GoogleAnalytics gaId="G-3MHRGQL5EY" />
     </html>
   )
 }
