@@ -15,9 +15,10 @@ type Props = {
   description: string,
   pubDate: string,
   spotifyEpisodeId: string,
+  applePodcastEpisodeId: string,
 }
 
-export function Player({ title, image, description, pubDate, spotifyEpisodeId }: Props) {
+export function Player({ title, image, description, pubDate, spotifyEpisodeId, applePodcastEpisodeId }: Props) {
   return (
     <>
       <section className='section'>
@@ -39,6 +40,16 @@ export function Player({ title, image, description, pubDate, spotifyEpisodeId }:
         </div>
 
         <Spotify link={`https://open.spotify.com/episode/` + spotifyEpisodeId} wide={true} />
+
+        <div className={styles.listens_on}>
+          <a href={`https://open.spotify.com/episode/` + spotifyEpisodeId} target="_blank" rel="noopener noreferrer">
+              <Image src={'/listen-on/spotify.svg'} alt={'Listen on Spotify'} width={160} height={40} priority={false} />
+          </a>
+
+          <a href={`https://podcasts.apple.com/us/podcast/id1668849655?i=` + applePodcastEpisodeId} target="_blank" rel="noopener noreferrer">
+            <Image src={'/listen-on/apple.svg'} alt={'Listen on Apple Podcasts'} width={160} height={40} priority={false} />
+          </a>
+        </div>
 
         <div className={styles.description} dangerouslySetInnerHTML={{__html: sanitizeHtml(description)}} />
 

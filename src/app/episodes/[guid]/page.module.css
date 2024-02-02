@@ -27,3 +27,10 @@
   margin-bottom: 2rem;
 }
 
+.listens_on {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 330px;
+  margin: 20px auto;
+}
