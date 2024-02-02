@@ -12,6 +12,10 @@
   border-bottom: 1px dotted var(--black-secondary);
 }
 
+.section  a:has(img) {
+  border-bottom: none;
+}
+
 .section  p {
   margin-bottom: 1.2rem;
 }
