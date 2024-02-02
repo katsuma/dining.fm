@@ -21,7 +21,11 @@ async function fetchEpisode({ params }: Props) {
 }
 
 async function fetchSpotifyId(idKey: string) {
-  return kv.get(idKey);
+  return kv.get(`${idKey}-spotify`);
+}
+
+async function fetchApplePodcastId(idKey: string) {
+  return kv.get(`${idKey}-apple`);
 }
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
@@ -53,6 +57,7 @@ export default async function EpisodeDetail({ params }: { params: { guid: string
   }
 
   const spotifyEpisodeId = await fetchSpotifyId(episode.guid);
+  const applePodcastEpisodeId = await fetchApplePodcastId(episode.guid);
 
   return (
     <Player
@@ -61,6 +66,7 @@ export default async function EpisodeDetail({ params }: { params: { guid: string
       description={episode.description}
       pubDate={episode.pubDate}
       spotifyEpisodeId={String(spotifyEpisodeId)}
+      applePodcastEpisodeId={String(applePodcastEpisodeId)}
     />
   )
 }
