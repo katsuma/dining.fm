@@ -43,6 +43,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
     twitter: {
       title: episode.title,
       description: description,
+      card: 'summary_large_image',
     }
   }
 }
