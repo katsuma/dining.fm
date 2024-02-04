@@ -29,6 +29,11 @@ async function fetchApplePodcastId(idKey: string) {
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   const episode = await fetchEpisode({ params });
+
+  if (!episode) {
+    notFound()
+  }
+
   const description = striptags(episode.description).replace(/\s+/g, "、");
 
   return episode && {
@@ -47,7 +52,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
   }
 }
 
-export default async function EpisodeDetail({ params }: { params: { guid: string }}) {
+export default async function EpisodeDetail({ params }: Props) {
   const episode = await fetchEpisode({ params });
 
   if (!episode) {
