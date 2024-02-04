@@ -45,14 +45,6 @@ export default async function Home() {
           <a href="https://podcasts.apple.com/jp/podcast/id1668849655" target="_blank" rel="noopener noreferrer">
             <Image src={'/listen-on/apple.svg'} alt={'Listen on Apple Podcasts'} width={160} height={40} priority={false} />
           </a>
-
-          <a href="https://overcast.fm/itunes1668849655/dining-fm" target="_blank" rel="noopener noreferrer">
-            <Image src={'/listen-on/overcast.svg'} alt={'Listen on Overcast'} width={160} height={40} priority={false} />
-          </a>
-
-          <a href="https://podcasts.google.com/feed/aHR0cHM6Ly9hbmNob3IuZm0vcy9kODk3OTBmNC9wb2RjYXN0L3Jzcw" target="_blank" rel="noopener noreferrer">
-            <Image src={'/listen-on/google.svg'} alt={'Listen on Google Podcasts'} width={160} height={40} priority={false} />
-          </a>
         </div>
 
         <div className={styles.icons}>
