@@ -5,6 +5,8 @@ import Image from 'next/image';
 
 import sanitizeHtml from 'sanitize-html';
 import { Spotify } from 'react-spotify-embed';
+import { IoCalendarOutline } from 'react-icons/io5';
+
 
 import styles from '@/app/episodes/[guid]/page.module.css'
 import { PublishedDate } from '@/utils/PublishedDate';
@@ -23,6 +25,7 @@ export function Player({ title, image, description, pubDate, spotifyEpisodeId, a
     <>
       <section className='section'>
         <h2 className='title'>{title}</h2>
+        <p className={styles.published_on}><IoCalendarOutline /> {PublishedDate.parse(pubDate)}</p>
 
         {
           spotifyEpisodeId != '' &&
@@ -47,8 +50,6 @@ export function Player({ title, image, description, pubDate, spotifyEpisodeId, a
         </div>
 
         <div className={styles.description} dangerouslySetInnerHTML={{__html: sanitizeHtml(description)}} />
-
-        <p className={styles.publishedon}>公開: {PublishedDate.parse(pubDate)}</p>
       </section>
 
       <section>
