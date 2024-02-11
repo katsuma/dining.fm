@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "set-episode": "dotenv -- bash -c 'redis-cli --no-auth-warning --tls -u $KV_URL SET ${npm_config_ep}-${npm_config_service} ${npm_config_id}'",
+    "check-episode": "dotenv -- bash -c 'redis-cli --no-auth-warning --tls -u $KV_URL GET ${npm_config_ep}-${npm_config_service}'"
   },
   "dependencies": {
     "@fontsource/m-plus-rounded-1c": "^5.0.7",
@@ -24,6 +26,7 @@
     "@vercel/kv": "^1.0.1",
     "bufferutil": "^4.0.7",
     "canvas": "^2.11.2",
+    "dotenv-cli": "^7.3.0",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
     "next": "^14.1.0",
