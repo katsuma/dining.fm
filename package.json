@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "set-episode": "dotenv -- bash -c 'redis-cli --no-auth-warning --tls -u $KV_URL SET ${npm_config_ep}-${npm_config_service} ${npm_config_id}'",
+    "check-episode": "dotenv -- bash -c 'redis-cli --no-auth-warning --tls -u $KV_URL GET ${npm_config_ep}-${npm_config_service}'"
   },
   "dependencies": {
     "@fontsource/m-plus-rounded-1c": "^5.0.7",
