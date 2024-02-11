@@ -52,6 +52,15 @@ export function Player({ title, image, description, pubDate, spotifyEpisodeId, a
         <div className={styles.description} dangerouslySetInnerHTML={{__html: sanitizeHtml(description)}} />
       </section>
 
+      <section className='section'>
+        <p className={styles.description}>
+          感想はX(Twitter)のハッシュタグ<a href="https://twitter.com/search?q=%23diningfm&src=typed_query&f=top">#diningfm</a> や
+          <a href="https://twitter.com/diningfm">@diningfm</a>へのリプライ、
+          <a href="https://bit.ly/3Kq3zf2">GoogleForm</a>でのお便りなどからお待ちしています📮
+        </p>
+
+      </section>
+
       <section>
         <p className='link-more'>
           <Link href={'/episodes/page/1'}>エピソード一覧</Link>
