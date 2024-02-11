@@ -20,10 +20,13 @@
   margin: 1rem 0;
 }
 
-.publishedon {
-  font-size: 1.4rem;
+.published_on {
+  font-size: 1.2rem;
   color: var(--black-secondary);
-  margin-bottom: 2rem;
+}
+
+.published_on svg {
+  padding-top: 2px;
 }
 
 .listens_on {

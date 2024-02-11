@@ -1,8 +1,10 @@
 import Image from "next/image";
+import { IoCalendarOutline } from 'react-icons/io5';
 
 import styles from '@/components/EpisodeEntry.module.css';
 import { Episode } from "@/components/types/Episode";
 import { PublishedDate } from "@/utils/PublishedDate";
+
 
 export default function EpisodeEntry(props: Episode) {
   return (
@@ -13,7 +15,7 @@ export default function EpisodeEntry(props: Episode) {
 
       <div className={styles.episode_content}>
         <h3 className={styles.episode_title}>{props.title}</h3>
-        <p className={styles.episode_publishedon}>{PublishedDate.parse(props.pubDate)}</p>
+        <p className={styles.episode_published_on}><IoCalendarOutline /> {PublishedDate.parse(props.pubDate)}</p>
       </div>
     </div>
   );

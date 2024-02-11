@@ -19,7 +19,10 @@
   font-size: 1.6rem;
   margin-bottom: 0;
 }
-.episode_publishedon {
-  font-size: 1.4rem;
+.episode_published_on {
+  font-size: 1.2rem;
   color: var(--black-secondary);
+}
+.episode_published_on svg {
+  padding-top: 2px;
 }

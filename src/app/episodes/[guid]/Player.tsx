@@ -5,6 +5,8 @@ import Image from 'next/image';
 
 import sanitizeHtml from 'sanitize-html';
 import { Spotify } from 'react-spotify-embed';
+import { IoCalendarOutline } from 'react-icons/io5';
+
 
 import styles from '@/app/episodes/[guid]/page.module.css'
 import { PublishedDate } from '@/utils/PublishedDate';
@@ -23,6 +25,7 @@ export function Player({ title, image, description, pubDate, spotifyEpisodeId, a
     <>
       <section className='section'>
         <h2 className='title'>{title}</h2>
+        <p className={styles.published_on}><IoCalendarOutline /> {PublishedDate.parse(pubDate)}</p>
 
         {
           spotifyEpisodeId != '' &&
@@ -47,8 +50,15 @@ export function Player({ title, image, description, pubDate, spotifyEpisodeId, a
         </div>
 
         <div className={styles.description} dangerouslySetInnerHTML={{__html: sanitizeHtml(description)}} />
+      </section>
 
-        <p className={styles.publishedon}>公開: {PublishedDate.parse(pubDate)}</p>
+      <section className='section'>
+        <p className={styles.description}>
+          感想はX(Twitter)のハッシュタグ<a href="https://twitter.com/search?q=%23diningfm&src=typed_query&f=top">#diningfm</a> や
+          <a href="https://twitter.com/diningfm">@diningfm</a>へのリプライ、
+          <a href="https://bit.ly/3Kq3zf2">GoogleForm</a>でのお便りなどからお待ちしています📮
+        </p>
+
       </section>
 
       <section>
