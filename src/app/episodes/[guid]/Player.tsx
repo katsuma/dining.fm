@@ -24,22 +24,12 @@ export function Player({ title, image, description, pubDate, spotifyEpisodeId, a
       <section className='section'>
         <h2 className='title'>{title}</h2>
 
-        <div className={styles['cover-image']}>
-          <Image
-            src={image}
-            alt={title}
-            width={600}
-            height={600}
-            sizes="100vw"
-            style={{
-              width: '100%',
-              height: 'auto',
-            }}
-            priority={true}
-          />
-        </div>
-
-        {spotifyEpisodeId != '' && <Spotify link={`https://open.spotify.com/episode/` + spotifyEpisodeId} wide={true} />}
+        {
+          spotifyEpisodeId != '' &&
+          <div className={styles.player_container}>
+            <Spotify link={`https://open.spotify.com/episode/` + spotifyEpisodeId} width={330} />
+          </div>
+        }
 
         <div className={styles.listens_on}>
           {
