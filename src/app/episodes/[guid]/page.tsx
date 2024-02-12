@@ -48,6 +48,8 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
     twitter: {
       title: episode.title,
       description: description,
+      site: '@diningfm',
+      creator: '@diningfm',
     }
   }
 }
@@ -59,17 +61,44 @@ export default async function EpisodeDetail({ params }: Props) {
     notFound()
   }
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    'author': [
+      {
+        '@type': 'Person',
+        name: 'Ryo Katsuma',
+        url: 'https://katsuma.tv',
+      },
+      {
+        '@type': 'Person',
+        name: 'Yoko Daikoku',
+      }
+    ],
+    dateModified: (new Date(episode.pubDate)).toISOString(),
+    datePublished: (new Date(episode.pubDate)).toISOString(),
+    headline: episode.title,
+    image: episode.image,
+  }
+
   const spotifyEpisodeId = await fetchSpotifyId(episode.guid);
   const applePodcastEpisodeId = await fetchApplePodcastId(episode.guid);
 
   return (
-    <Player
-      title={episode.title}
-      image={episode.image}
-      description={episode.description}
-      pubDate={episode.pubDate}
-      spotifyEpisodeId={String(spotifyEpisodeId)}
-      applePodcastEpisodeId={String(applePodcastEpisodeId)}
-    />
+    <>
+      <Player
+        title={episode.title}
+        description={episode.description}
+        pubDate={episode.pubDate}
+        duration={episode.duration}
+        spotifyEpisodeId={String(spotifyEpisodeId)}
+        applePodcastEpisodeId={String(applePodcastEpisodeId)}
+      />
+
+      <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+    </>
   )
 }
