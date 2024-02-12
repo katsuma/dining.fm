@@ -69,6 +69,7 @@ export default async function EpisodeDetail({ params }: Props) {
       title={episode.title}
       description={episode.description}
       pubDate={episode.pubDate}
+      duration={episode.duration}
       spotifyEpisodeId={String(spotifyEpisodeId)}
       applePodcastEpisodeId={String(applePodcastEpisodeId)}
     />

@@ -6,25 +6,30 @@ import Image from 'next/image';
 import sanitizeHtml from 'sanitize-html';
 import { Spotify } from 'react-spotify-embed';
 import { IoCalendarOutline } from 'react-icons/io5';
-
+import { FaRegClock } from "react-icons/fa";
 
 import styles from '@/app/episodes/[guid]/page.module.css'
 import { PublishedDate } from '@/utils/PublishedDate';
+import { Duration } from '@/utils/Duration';
 
 type Props = {
   title: string,
   description: string,
   pubDate: string,
+  duration: string,
   spotifyEpisodeId: string,
   applePodcastEpisodeId: string,
 }
 
-export function Player({ title, description, pubDate, spotifyEpisodeId, applePodcastEpisodeId }: Props) {
+export function Player({ title, description, pubDate, duration, spotifyEpisodeId, applePodcastEpisodeId }: Props) {
   return (
     <>
       <section className='section'>
         <h2 className='title'>{title}</h2>
-        <p className={styles.published_on}><IoCalendarOutline /> {PublishedDate.parse(pubDate)}</p>
+        <p className={styles.episode_meta}>
+          <span className={styles.published_on}><IoCalendarOutline /> {PublishedDate.parse(pubDate)}</span>
+          <span className={styles.duration}><FaRegClock /> {Duration.parse(duration)}</span>
+        </p>
 
         {
           spotifyEpisodeId != '' &&
