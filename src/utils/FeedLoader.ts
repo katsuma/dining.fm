@@ -3,11 +3,11 @@ import { parseStringPromise } from 'xml2js';
 import { Episode } from '@/components/types/Episode';
 import { EpisodeFeed } from '@/components/types/EpisodeFeed';
 
-export class FeedLoader {
-  private static url = 'https://anchor.fm/s/d89790f4/podcast/rss'
+const URL = 'https://anchor.fm/s/d89790f4/podcast/rss'
 
+export class FeedLoader {
   static async loadAsEpisodes() {
-    const response = await fetch(FeedLoader.url, { next: { revalidate: 3600 }});
+    const response = await fetch(URL, { next: { revalidate: 3600 }});
     const xml = await response.text();
 
     type FeedType = { rss: { channel: { item: EpisodeFeed[] } }};
