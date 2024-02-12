@@ -11,7 +11,7 @@ export class FeedLoader {
     const xml = await response.text();
 
     type FeedType = { rss: { channel: { item: EpisodeFeed[] } }};
-    const feed = await parseStringPromise(xml, { explicitArray: false }) as unknown as FeedType;
+    const feed = await parseStringPromise(xml, { explicitArray: false }) as FeedType;
     const entries = feed.rss.channel.item as EpisodeFeed[];
 
     if (!entries) {
