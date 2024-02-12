@@ -18,15 +18,15 @@ export class FeedLoader {
       throw new Error('Feed items not found');
     }
     return entries.map((entry) => {
-      return new Episode(
-        entry['itunes:episode'],
-        entry.title,
-        entry.description,
-        entry.pubDate,
-        entry['itunes:image'].$.href,
-        entry.enclosure.$.url,
-        entry['itunes:duration'],
-      );
+      return {
+        guid: entry['itunes:episode'],
+        title: entry.title,
+        description: entry.description,
+        pubDate: entry.pubDate,
+        image: entry['itunes:image'].$.href,
+        url: entry.enclosure.$.url,
+        duration: entry['itunes:duration'],
+      } as Episode
     });
   }
 }
