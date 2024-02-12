@@ -48,6 +48,8 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
     twitter: {
       title: episode.title,
       description: description,
+      site: '@diningfm',
+      creator: '@diningfm',
     }
   }
 }
