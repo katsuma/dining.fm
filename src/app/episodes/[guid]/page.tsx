@@ -65,7 +65,6 @@ export default async function EpisodeDetail({ params }: Props) {
   return (
     <Player
       title={episode.title}
-      image={episode.image}
       description={episode.description}
       pubDate={episode.pubDate}
       spotifyEpisodeId={String(spotifyEpisodeId)}

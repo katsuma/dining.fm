@@ -13,14 +13,13 @@ import { PublishedDate } from '@/utils/PublishedDate';
 
 type Props = {
   title: string,
-  image: string,
   description: string,
   pubDate: string,
   spotifyEpisodeId: string,
   applePodcastEpisodeId: string,
 }
 
-export function Player({ title, image, description, pubDate, spotifyEpisodeId, applePodcastEpisodeId }: Props) {
+export function Player({ title, description, pubDate, spotifyEpisodeId, applePodcastEpisodeId }: Props) {
   return (
     <>
       <section className='section'>
