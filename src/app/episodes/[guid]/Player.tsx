@@ -22,6 +22,12 @@ type Props = {
   applePodcastEpisodeId: string,
 }
 
+const removeNavigationLink = function(text: any, tagName: any): string {
+  if (tagName === 'p' && text.indexOf('各プラットフォームのURLはこちらから') !== -1) { return ''; }
+  if (tagName === 'a' && text.indexOf('https://dining.fm/episodes') !== -1) { return ''; }
+  return text;
+}
+
 export function Player({ title, description, pubDate, duration, url, spotifyEpisodeId, applePodcastEpisodeId }: Props) {
   return (
     <>
@@ -58,7 +64,7 @@ export function Player({ title, description, pubDate, duration, url, spotifyEpis
           }
         </div>
 
-        <div className={styles.description} dangerouslySetInnerHTML={{__html: sanitizeHtml(description)}} />
+        <div className={styles.description} dangerouslySetInnerHTML={{__html: sanitizeHtml(description, { textFilter: removeNavigationLink })}} />
       </section>
 
       <section className='section'>
