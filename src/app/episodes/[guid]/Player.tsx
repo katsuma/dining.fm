@@ -17,11 +17,12 @@ type Props = {
   description: string,
   pubDate: string,
   duration: string,
+  url: string,
   spotifyEpisodeId: string,
   applePodcastEpisodeId: string,
 }
 
-export function Player({ title, description, pubDate, duration, spotifyEpisodeId, applePodcastEpisodeId }: Props) {
+export function Player({ title, description, pubDate, duration, url, spotifyEpisodeId, applePodcastEpisodeId }: Props) {
   return (
     <>
       <section className='section'>
@@ -32,21 +33,25 @@ export function Player({ title, description, pubDate, duration, spotifyEpisodeId
         </p>
 
         {
-          spotifyEpisodeId != '' &&
+          spotifyEpisodeId !== null ?
           <div className={styles.player_container}>
             <Spotify link={`https://open.spotify.com/episode/` + spotifyEpisodeId} width={330} />
           </div>
+          :
+          <audio className={styles.audio} controls={true} src={url}>
+            <a href={url}>Download audio</a>
+          </audio>
         }
 
         <div className={styles.listens_on}>
           {
-            spotifyEpisodeId != '' &&
+            spotifyEpisodeId !== null &&
             <a href={`https://open.spotify.com/episode/` + spotifyEpisodeId} target="_blank" rel="noopener noreferrer">
               <Image src={'/listen-on/spotify.svg'} alt={'Listen on Spotify'} width={160} height={40} priority={false} />
             </a>
           }
           {
-            applePodcastEpisodeId != '' &&
+            applePodcastEpisodeId !== null &&
             <a href={`https://podcasts.apple.com/us/podcast/id1668849655?i=` + applePodcastEpisodeId} target="_blank" rel="noopener noreferrer">
               <Image src={'/listen-on/apple.svg'} alt={'Listen on Apple Podcasts'} width={160} height={40} priority={false} />
             </a>
