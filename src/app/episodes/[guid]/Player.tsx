@@ -68,7 +68,7 @@ export function Player({ title, description, pubDate, duration, url, spotifyEpis
       </section>
 
       <section className='section'>
-        <p className={styles.description}>
+        <p className={styles.contact}>
           感想はX(Twitter)のハッシュタグ<a href="https://twitter.com/search?q=%23diningfm&src=typed_query&f=top">#diningfm</a> や
           <a href="https://twitter.com/diningfm">@diningfm</a>へのリプライ、
           <a href="https://bit.ly/3Kq3zf2">GoogleForm</a>でのお便りなどからお待ちしています📮
