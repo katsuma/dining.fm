@@ -22,6 +22,12 @@ type Props = {
   applePodcastEpisodeId: string,
 }
 
+const removeNavigationLink = function(text: any, tagName: any): string {
+  if (tagName === 'p' && text.indexOf('各プラットフォームのURLはこちらから') !== -1) { return ''; }
+  if (tagName === 'a' && text.indexOf('https://dining.fm/episodes') !== -1) { return ''; }
+  return text;
+}
+
 export function Player({ title, description, pubDate, duration, url, spotifyEpisodeId, applePodcastEpisodeId }: Props) {
   return (
     <>
@@ -58,11 +64,11 @@ export function Player({ title, description, pubDate, duration, url, spotifyEpis
           }
         </div>
 
-        <div className={styles.description} dangerouslySetInnerHTML={{__html: sanitizeHtml(description)}} />
+        <div className={styles.description} dangerouslySetInnerHTML={{__html: sanitizeHtml(description, { textFilter: removeNavigationLink })}} />
       </section>
 
       <section className='section'>
-        <p className={styles.description}>
+        <p className={styles.contact}>
           感想はX(Twitter)のハッシュタグ<a href="https://twitter.com/search?q=%23diningfm&src=typed_query&f=top">#diningfm</a> や
           <a href="https://twitter.com/diningfm">@diningfm</a>へのリプライ、
           <a href="https://bit.ly/3Kq3zf2">GoogleForm</a>でのお便りなどからお待ちしています📮
