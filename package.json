@@ -21,6 +21,8 @@
     "@types/node": "20.11.30",
     "@types/react": "18.2.67",
     "@types/react-dom": "18.2.22",
+    "@typescript-eslint/eslint-plugin": "^6.x",
+    "@typescript-eslint/parser": "^6.x",
     "@types/xml2js": "^0.4.14",
     "@vercel/analytics": "^1.2.2",
     "@vercel/kv": "^1.0.1",
