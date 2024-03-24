@@ -1,3 +1,8 @@
 # dining.fm
 
-This is a [Next.js](https://nextjs.org/) project with RSS feed provided by Spotify for Podcasters.
+https://dining.fm/
+
+This project is a website built with [Next.js](https://nextjs.org/) that wraps data via RSS feed.
+
+![](https://raw.githubusercontent.com/katsuma/dining.fm/main/public/icons.svg)
+
