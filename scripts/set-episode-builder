@@ -1,0 +1,37 @@
+#! /usr/bin/env ruby
+
+#
+# This script fetches the episode ID from the publishing service and prints the command to set the episode.
+#
+# Usage:
+# service_name={publishing_service_name} episode_number={target_episode_number} set-episode-builder
+#   publishing_service_name: apple, spotify
+#   target_episode_number: 123, 124, 125, ...
+#
+# Example:
+# service_name=apple episode_number=123 set-episode-builder
+#
+# Output:
+# npm run set-episode --ep=123 --service=apple --id=1234567890
+#
+# You can copy the output and run it in the terminal to set the episode.
+#
+# Example:
+# service_name=apple episode_number=123 set-episode-builder | sh
+
+require_relative 'lib/fetcher'
+require_relative 'lib/service/apple'
+require_relative 'lib/service/spotify'
+
+service_name = ENV.fetch('service_name')
+service = case service_name
+          when 'apple' then Service::Apple
+          when 'spotify' then Service::Spotify
+          else raise "Unknown service: #{service_name}"
+          end
+episode_number = ENV.fetch('episode_number')
+
+fetcher = Fetcher.new(service)
+episode = fetcher.fetch.find { |episode| episode.title.start_with?(episode_number) }
+
+puts "npm run set-episode --ep=#{episode_number} --service=#{service_name} --id=#{episode.id}"
