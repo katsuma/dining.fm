@@ -1,8 +1,8 @@
 require "ferrum"
-require_relative "episode"
+require_relative "service/episode"
 
-class Fetcher
-  attr_reader :service
+class Publishing::EpisodeFetcher
+  private attr_reader :service
 
   def initialize(service)
     @service = service
@@ -12,10 +12,9 @@ class Fetcher
     browser = Ferrum::Browser.new
     browser.goto(service.url)
     episodes = browser.css(service.episode_selector).map do |episode_element|
-      Episode.new(
-        service: service.name,
+      Publishing::Service::Episode.new(
         id: service.id_from_element(episode_element),
-        title: service.title_from_element(episode_element),
+        number: service.number_from_element(episode_element),
       )
     end
     episodes

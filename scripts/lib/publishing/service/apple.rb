@@ -1,7 +1,7 @@
 require "addressable/uri"
 require_relative "base"
 
-class Service::Apple < Service::Base
+class Publishing::Service::Apple < Publishing::Service::Base
   def self.name
     "apple"
   end
@@ -19,7 +19,7 @@ class Service::Apple < Service::Base
     Addressable::URI.parse(link).query_values["i"]
   end
 
-  def self.title_from_element(element)
-    element.text.strip
+  def self.number_from_element(element)
+    element.text.strip.match(/\A[0-9]+/)[0].to_i
   end
 end
