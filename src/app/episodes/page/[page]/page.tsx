@@ -2,35 +2,51 @@ import Link from 'next/link';
 import React from 'react';
 
 import '@/app/layout.css'
+import prisma from '@/utils/prisma';
 import EpisodeEntry from '@/components/EpisodeEntry';
-import { Episode } from '@/components/types/Episode';
-import { FeedLoader } from '@/utils/FeedLoader';
+import { PublishedDate } from '@/utils/PublishedDate';
 
 export default async function Episodes({ params }: { params: { page: number } }) {
-  const episodes = await FeedLoader.loadAsEpisodes() as unknown as Episode[];
-
   const episodeVisibleSize = 20;
   const currentPage = Number(params.page);
-  const maxPage = Math.ceil(episodes.length / episodeVisibleSize);
   const slicedIndex = episodeVisibleSize * (currentPage - 1);
-  const currentEpisodes = episodes.slice(slicedIndex, slicedIndex + episodeVisibleSize);
+
+  const episodes = await prisma.episode.findMany(
+    {
+      orderBy: [{ id: 'desc' }],
+      skip: slicedIndex,
+      take: episodeVisibleSize,
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        publishedAt: true,
+        imageUrl: true,
+        enclosureUrl: true,
+        duration: true,
+      }
+    }
+  );
+
+  const episodeCount = await prisma.episode.count();
+  const maxPage = Math.ceil(episodeCount / episodeVisibleSize);
 
   return (
     <>
       <section className='section'>
         <h2 className='title'>エピソード一覧 ({currentPage}/{maxPage})</h2>
         {
-          currentEpisodes.map((episode) => {
+          episodes.map((episode) => {
             return (
-              <Link href={`/episodes/${episode.guid}`} key={episode.guid}>
+              <Link href={`/episodes/${episode.id}`} key={episode.id}>
                 <EpisodeEntry
-                  key={episode.guid}
+                  key={episode.id}
+                  id={episode.id}
                   title={episode.title}
                   description={episode.description}
-                  pubDate={episode.pubDate}
-                  image={episode.image}
-                  guid={episode.guid}
-                  url={episode.url}
+                  pubDate={PublishedDate.toLocalDate(episode.publishedAt)}
+                  imageUrl={episode.imageUrl}
+                  enclosureUrl={episode.enclosureUrl}
                   duration={episode.duration}
                 />
               </Link>

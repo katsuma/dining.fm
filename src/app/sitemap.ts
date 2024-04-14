@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next"
-import { FeedLoader } from '@/utils/FeedLoader';
-import { Episode } from "@/components/types/Episode";
+import prisma from '@/utils/prisma';
+
 
 const BASE_URL = process.env.BASE_URL || '';
 
@@ -12,10 +12,18 @@ function getStaticPaths(): MetadataRoute.Sitemap {
 };
 
 async function getEpisodePaths(): Promise<MetadataRoute.Sitemap> {
-  const episodes = await FeedLoader.loadAsEpisodes() as unknown as Episode[];
+  const episodes = await prisma.episode.findMany(
+    {
+      orderBy: [{ id: 'desc' }],
+      select: {
+        id: true,
+        publishedAt: true,
+      }
+    }
+  );
   return episodes.map((episode) => ({
-    url: `${BASE_URL}/episodes/${episode.guid}`,
-    lastModified: new Date(episode.pubDate),
+    url: `${BASE_URL}/episodes/${episode.id}`,
+    lastModified: episode.publishedAt,
   }));
 }
 

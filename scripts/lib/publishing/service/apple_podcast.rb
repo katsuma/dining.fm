@@ -1,7 +1,7 @@
 require "addressable/uri"
 require_relative "base"
 
-class Publishing::Service::Apple < Publishing::Service::Base
+class Publishing::Service::ApplePodcast < Publishing::Service::Base
   def self.name
     "apple"
   end

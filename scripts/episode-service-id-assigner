@@ -1,0 +1,21 @@
+#! /usr/bin/env ruby
+
+require_relative 'lib/setup'
+
+require_relative 'lib/publishing'
+require_relative 'lib/publishing/service'
+require_relative 'lib/publishing/service/apple_podcast'
+require_relative 'lib/publishing/service/spotify'
+require_relative 'lib/publishing/episode_fetcher'
+
+episode_number = ENV.fetch('episode_number').to_i
+service_name = ENV.fetch('service_name')
+
+service_klass = Publishing::Service.const_get(service_name.camelize)
+episode_fetcher = Publishing::EpisodeFetcher.new(service_klass)
+episode_service_id = episode_fetcher.fetch.find { |episode| episode.number == episode_number }.id
+
+puts "Episode #{episode_number} on #{service_name} has ID #{episode_service_id}"
+
+episode = Episode.find_by(id: episode_number)
+episode.update!("#{service_name}_id".to_sym => episode_service_id)

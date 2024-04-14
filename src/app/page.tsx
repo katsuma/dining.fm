@@ -3,17 +3,32 @@ import Image from 'next/image';
 import React from 'react';
 
 import '@/app/layout.css'
+import prisma from '@/utils/prisma';
 import styles from '@/app/page.module.css'
-import { Episode } from '@/components/types/Episode';
 import EpisodeEntry from '@/components/EpisodeEntry';
-import { FeedLoader } from '@/utils/FeedLoader';
+import { PublishedDate } from '@/utils/PublishedDate';
 
 export default async function Home() {
-  const episodes = await FeedLoader.loadAsEpisodes() as unknown as Episode[];
-
+  const currentPage = 1;
   const episodeVisibleSize = 5;
-  const currentPage = 0;
-  const currentEpisodes = episodes.slice(0, episodeVisibleSize);
+  const slicedIndex = episodeVisibleSize * (currentPage - 1);
+
+  const episodes = await prisma.episode.findMany(
+    {
+      orderBy: [{ id: 'desc' }],
+      skip: slicedIndex,
+      take: episodeVisibleSize,
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        publishedAt: true,
+        imageUrl: true,
+        enclosureUrl: true,
+        duration: true,
+      }
+    }
+  )
 
   return (
     <>
@@ -55,17 +70,17 @@ export default async function Home() {
       <section className='section'>
         <h2 className='title'>最新エピソード</h2>
         {
-          currentEpisodes.map((episode) => {
+          episodes.map((episode) => {
             return (
-              <Link href={`/episodes/${episode.guid}`} key={episode.guid}>
+              <Link href={`/episodes/${episode.id}`} key={episode.id}>
                 <EpisodeEntry
-                  key={episode.guid}
+                  key={episode.id}
+                  id={episode.id}
                   title={episode.title}
                   description={episode.description}
-                  pubDate={episode.pubDate}
-                  image={episode.image}
-                  guid={episode.guid}
-                  url={episode.url}
+                  pubDate={PublishedDate.toLocalDate(episode.publishedAt)}
+                  imageUrl={episode.imageUrl}
+                  enclosureUrl={episode.enclosureUrl}
                   duration={episode.duration}
                 />
               </Link>
@@ -73,7 +88,7 @@ export default async function Home() {
           })
         }
 
-        <p className='link-more'><Link href={`/episodes/page/${currentPage + 1}`}>エピソードをもっと見る</Link></p>
+        <p className='link-more'><Link href={`/episodes/page/${currentPage}`}>エピソードをもっと見る</Link></p>
       </section>
 
       <section className='section'>

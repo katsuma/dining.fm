@@ -4,11 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "postinstall": "prisma generate",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "set-episode": "dotenv -- bash -c 'redis-cli --no-auth-warning --tls -u $KV_URL SET ${npm_config_ep}-${npm_config_service} ${npm_config_id}'",
-    "check-episode": "dotenv -- bash -c 'redis-cli --no-auth-warning --tls -u $KV_URL GET ${npm_config_ep}-${npm_config_service}'"
+    "lint": "next lint"
   },
   "dependencies": {
     "@fontsource/m-plus-rounded-1c": "^5.0.12",
@@ -16,6 +15,7 @@
     "@mdx-js/react": "^3.0.1",
     "@next/mdx": "^14.1.4",
     "@next/third-parties": "^14.1.4",
+    "@prisma/client": "^5.12.1",
     "@spotify/web-api-ts-sdk": "^1.2.0",
     "@types/mdx": "^2.0.11",
     "@types/node": "20.11.30",
@@ -23,15 +23,14 @@
     "@types/react-dom": "18.2.22",
     "@typescript-eslint/eslint-plugin": "^6.x",
     "@typescript-eslint/parser": "^6.x",
-    "@types/xml2js": "^0.4.14",
     "@vercel/analytics": "^1.2.2",
-    "@vercel/kv": "^1.0.1",
     "bufferutil": "^4.0.8",
     "canvas": "^2.11.2",
     "dotenv-cli": "^7.4.1",
     "eslint": "8.57.0",
     "eslint-config-next": "14.1.4",
     "next": "^14.1.4",
+    "prisma": "^5.12.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^5.0.1",
@@ -39,11 +38,9 @@
     "sanitize-html": "^2.12.1",
     "striptags": "^3.2.0",
     "typescript": "5.4.2",
-    "utf-8-validate": "^6.0.3",
-    "xml2js": "^0.6.2"
+    "utf-8-validate": "^6.0.3"
   },
   "devDependencies": {
-    "@types/sanitize-html": "^2.11.0",
-    "@types/xml2json": "^0.11.6"
+    "@types/sanitize-html": "^2.11.0"
   }
 }

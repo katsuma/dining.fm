@@ -1,30 +1,23 @@
 import { notFound } from 'next/navigation'
 import { Metadata, ResolvingMetadata } from 'next'
-import { kv } from "@vercel/kv";
-
-import '@/app/layout.css'
-import { FeedLoader } from '@/utils/FeedLoader';
-import { Episode } from '@/components/types/Episode';
-import { Player } from '@/app/episodes/[guid]/Player';
-
 import striptags from 'striptags';
 import React from 'react';
 
+import '@/app/layout.css'
+import prisma from '@/utils/prisma';
+import { Player } from '@/app/episodes/[id]/Player';
+import { PublishedDate } from '@/utils/PublishedDate';
+
 type Props = {
-  params: { guid: string }
+  params: { id: string }
 }
 
 async function fetchEpisode({ params }: Props) {
-  const episodes = await FeedLoader.loadAsEpisodes() as Episode[];
-  return episodes.find((episode) => episode.guid === params.guid) as Episode;
-}
-
-async function fetchSpotifyId(idKey: string) {
-  return kv.get(`${idKey}-spotify`);
-}
-
-async function fetchApplePodcastId(idKey: string) {
-  return kv.get(`${idKey}-apple`);
+  return await prisma.episode.findUnique({
+    where: {
+      id: Number(params.id)
+    }
+  });
 }
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
@@ -42,7 +35,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
     openGraph: {
       title: episode.title,
       description: description,
-      images: [episode.image],
+      images: [episode.imageUrl],
       url: `/episodes/${episode.guid}`,
     },
     twitter: {
@@ -75,25 +68,23 @@ export default async function EpisodeDetail({ params }: Props) {
         name: 'Yoko Daikoku',
       }
     ],
-    dateModified: (new Date(episode.pubDate)).toISOString(),
-    datePublished: (new Date(episode.pubDate)).toISOString(),
+    dateModified: episode.publishedAt.toISOString(),
+    datePublished: episode.publishedAt.toISOString(),
     headline: episode.title,
-    image: episode.image,
+    image: episode.imageUrl,
   }
-
-  const spotifyEpisodeId = await fetchSpotifyId(episode.guid);
-  const applePodcastEpisodeId = await fetchApplePodcastId(episode.guid);
 
   return (
     <>
       <Player
+        id={episode.id}
         title={episode.title}
         description={episode.description}
-        pubDate={episode.pubDate}
+        pubDate={PublishedDate.toLocalDate(episode.publishedAt)}
         duration={episode.duration}
-        url={episode.url}
-        spotifyEpisodeId={spotifyEpisodeId as string}
-        applePodcastEpisodeId={applePodcastEpisodeId as string}
+        enclosureUrl={episode.enclosureUrl}
+        spotifyEpisodeId={episode.spotifyId!}
+        applePodcastEpisodeId={episode.applePodcastId!}
       />
 
       <script

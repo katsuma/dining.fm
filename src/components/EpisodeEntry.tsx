@@ -11,11 +11,11 @@ export default function EpisodeEntry(props: Episode) {
   return (
     <div className={styles.episode}>
       <div className={styles.episode_image}>
-        <Image src={props.image} alt={props.title} width={80} height={80} priority={false} />
+        <Image src={props.imageUrl} alt={props.title} width={80} height={80} priority={false} />
       </div>
 
       <div className={styles.episode_content}>
-        <h3 className={styles.episode_title}>{props.title}</h3>
+        <h3 className={styles.episode_title}>{props.id}. {props.title}</h3>
         <p className={styles.episode_meta}>
           <span className={styles.published_on}><IoCalendarOutline /> {PublishedDate.parse(props.pubDate)}</span>
           <span className={styles.duration}><FaRegClock /> {Duration.parse(props.duration)}</span>
