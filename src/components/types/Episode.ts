@@ -1,9 +1,9 @@
 export type Episode = {
-  guid: string;
+  id: number;
   title: string;
   description: string;
   pubDate: string;
-  image: string;
-  url: string;
+  imageUrl: string;
+  enclosureUrl: string;
   duration: string;
 }
