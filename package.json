@@ -6,9 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "set-episode": "dotenv -- bash -c 'redis-cli --no-auth-warning --tls -u $KV_URL SET ${npm_config_ep}-${npm_config_service} ${npm_config_id}'",
-    "check-episode": "dotenv -- bash -c 'redis-cli --no-auth-warning --tls -u $KV_URL GET ${npm_config_ep}-${npm_config_service}'"
+    "lint": "next lint"
   },
   "dependencies": {
     "@fontsource/m-plus-rounded-1c": "^5.0.12",
@@ -22,11 +20,9 @@
     "@types/node": "20.11.30",
     "@types/react": "18.2.67",
     "@types/react-dom": "18.2.22",
-    "@types/xml2js": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "^6.x",
     "@typescript-eslint/parser": "^6.x",
     "@vercel/analytics": "^1.2.2",
-    "@vercel/kv": "^1.0.1",
     "bufferutil": "^4.0.8",
     "canvas": "^2.11.2",
     "dotenv-cli": "^7.4.1",
@@ -41,11 +37,9 @@
     "sanitize-html": "^2.12.1",
     "striptags": "^3.2.0",
     "typescript": "5.4.2",
-    "utf-8-validate": "^6.0.3",
-    "xml2js": "^0.6.2"
+    "utf-8-validate": "^6.0.3"
   },
   "devDependencies": {
-    "@types/sanitize-html": "^2.11.0",
-    "@types/xml2json": "^0.11.6"
+    "@types/sanitize-html": "^2.11.0"
   }
 }
