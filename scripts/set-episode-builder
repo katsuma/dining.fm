@@ -19,19 +19,21 @@
 # Example:
 # service_name=apple episode_number=123 set-episode-builder | sh
 
-require_relative 'lib/fetcher'
-require_relative 'lib/service/apple'
-require_relative 'lib/service/spotify'
+require_relative 'lib/publishing'
+require_relative 'lib/publishing/service'
+require_relative 'lib/publishing/service/apple'
+require_relative 'lib/publishing/service/spotify'
+require_relative 'lib/publishing/episode_fetcher'
 
 service_name = ENV.fetch('service_name')
 service = case service_name
-          when 'apple' then Service::Apple
-          when 'spotify' then Service::Spotify
+          when 'apple' then Publishing::Service::Apple
+          when 'spotify' then Publishing::Service::Spotify
           else raise "Unknown service: #{service_name}"
           end
-episode_number = ENV.fetch('episode_number')
+episode_number = ENV.fetch('episode_number').to_i
 
-fetcher = Fetcher.new(service)
-episode = fetcher.fetch.find { |episode| episode.title.start_with?(episode_number) }
+episode_fetcher = Publishing::EpisodeFetcher.new(service)
+episode_id = episode_fetcher.fetch.find { |episode| episode.number == episode_number }.id
 
-puts "npm run set-episode --ep=#{episode_number} --service=#{service_name} --id=#{episode.id}"
+puts "npm run set-episode --ep=#{episode_number} --service=#{service_name} --id=#{episode_id}"

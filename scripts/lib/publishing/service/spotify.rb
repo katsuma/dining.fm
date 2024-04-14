@@ -1,6 +1,6 @@
 require_relative "base"
 
-class Service::Spotify < Service::Base
+class Publishing::Service::Spotify < Publishing::Service::Base
   def self.name
     "spotify"
   end
@@ -17,7 +17,7 @@ class Service::Spotify < Service::Base
     element.attribute("href").split("/").last
   end
 
-  def self.title_from_element(element)
-    element.css("div")[0]&.text
+  def self.number_from_element(element)
+    element.css("div")[0].text.strip.match(/\A[0-9]+/)[0].to_i
   end
 end
