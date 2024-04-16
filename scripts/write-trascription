@@ -1,0 +1,40 @@
+#! /usr/bin/env ruby
+require 'dotenv'
+require 'logger'
+
+Dotenv.load
+logger = Logger.new(STDOUT)
+
+MP3_DIR = ENV.fetch('MP3_DIR')
+OUT_DIR = ENV.fetch('OUT_DIR')
+APP_DIR = ENV.fetch('APP_DIR')
+MODEL_NAME='large-v2'
+MISSUNDERSTANDING_NAMES = %w(ヤンヤン 深井 樋口).freeze
+
+file_number = ARGV[0].to_i
+file_name = "#{MP3_DIR}/#{file_number}.mp3"
+
+cmd_convert = "ffmpeg -i #{file_name} -acodec pcm_s16le -ac 1 -ar 16000 #{OUT_DIR}/#{file_number}.wav"
+logger.info "Convert mp3 to wav: #{cmd_convert}"
+`#{cmd_convert}`
+
+cmd_transcribe = "#{APP_DIR}/main -m #{APP_DIR}/models/ggml-#{MODEL_NAME}.bin -f #{OUT_DIR}/#{file_number}.wav -l ja -oj true -of #{OUT_DIR}/#{file_number}"
+logger.info "Transcribe wav to json: #{cmd_transcribe}"
+`#{cmd_transcribe}`
+
+cmd_delete = "rm #{OUT_DIR}/#{file_number}.wav"
+logger.info "Delete wav: #{cmd_delete}"
+`#{cmd_delete}`
+
+json_file = "#{OUT_DIR}/#{file_number}.json"
+cmd_textize = "cat #{json_file} | jq '.transcription[].text'"
+logger.info "Textize json: #{cmd_textize}"
+text = `#{cmd_textize}`
+
+text_file = "#{OUT_DIR}/#{file_number}.txt"
+logger.info "Write text to file: #{text_file}"
+transcript = text.gsub(Regexp.union(MISSUNDERSTANDING_NAMES), "\n").split("\n").map { |s| s.gsub("\"", '').strip }
+File.open(text_file, 'w') do |f|
+  f.puts(transcript)
+end
+
