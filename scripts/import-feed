@@ -3,6 +3,5 @@
 require_relative 'lib/setup'
 require_relative 'lib/importer/feed_importer'
 
-episode_number = ENV.fetch('episode_number', nil).to_i
+episode_number = ARGV[0].to_i
 Importer::FeedImporter.import!(episode_number)
-
