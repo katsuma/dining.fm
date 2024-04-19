@@ -1,0 +1,58 @@
+#! /usr/bin/env ruby
+
+require 'aws-sdk-bedrockruntime'
+require 'logger'
+require_relative 'lib/setup'
+require_relative 'lib/models/episode'
+
+logger = Logger.new(STDOUT)
+
+episode_number = ARGV[0].to_i
+episode = Episode.find_by!(id: episode_number)
+transcription = episode.transcription
+
+MODEL_ID = "anthropic.claude-3-haiku-20240307-v1:0".freeze
+
+bedrock_client = Aws::BedrockRuntime::Client.new
+body_data = {
+  "anthropic_version": "bedrock-2023-05-31",
+  "max_tokens": 4000,
+  "temperature": 0.0,
+  "messages": [
+    {
+      "role": "user",
+      "content": <<~EOM
+        以下の文章は、katsumaとdaikokuの２人のPodcastの内容を文字起こししたものです。
+        <document>
+          #{transcription}
+        </document>
+        <instructions>
+          この内容をWebページのdescriptionに活用するために120文字程度の要約した文章を作成してください。
+          なお、要約するときは以下のテンプレートを参考にして、「〜のようです」「〜のようでした」のような伝聞口調は使わず、「〜でした」のような丁寧な断定口調を利用してください。
+        </instructions>
+        <template>
+          katsumaとdaikokuが、〇〇について話しました。〇〇なエピソードでした。
+        </template>
+      EOM
+    }
+  ]
+}
+
+logger.info "Requesting summary for episode #{episode_number}..."
+
+response = bedrock_client.invoke_model({
+    accept: '*/*',
+    content_type: 'application/json',
+    body: body_data.to_json,
+    model_id: MODEL_ID,
+  })
+
+string_io_object = response.body
+data = JSON.parse(string_io_object.string)
+summary = data['content'][0]['text']
+
+logger.info "Summary for episode #{episode_number} received."
+logger.info "Summary: #{summary}"
+
+episode.update!(summary: summary)
+logger.info "Episode #{episode_number} summary updated."
