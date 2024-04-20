@@ -28,10 +28,11 @@ body_data = {
         </document>
         <instructions>
           この内容をWebページのdescriptionに活用するために120文字程度の要約した文章を作成してください。
-          なお、要約するときは以下のテンプレートを参考にして、「〜のようです」「〜のようでした」のような伝聞口調は使わず、「〜でした」のような丁寧な断定口調を利用してください。
+          このとき、以下のテンプレートを参考にして、文末は「〜でした」「〜しました」のような表現を利用してください。
+          決して、「〜していました」の表現は利用しないでください。
         </instructions>
         <template>
-          katsumaとdaikokuが、〇〇について話しました。〇〇なエピソードでした。
+          katsumaとdaikokuが、XXについて話しました。XXをしました。また、〇〇をしました。
         </template>
       EOM
     }
@@ -53,6 +54,10 @@ summary = data['content'][0]['text']
 
 logger.info "Summary for episode #{episode_number} received."
 logger.info "Summary: #{summary}"
+
+# adhoc refinement
+summary = summary.gsub(/していました/, 'しました')
+logger.info "Refined Summary: #{summary}"
 
 episode.update!(summary: summary)
 logger.info "Episode #{episode_number} summary updated."
