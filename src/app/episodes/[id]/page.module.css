@@ -4,12 +4,19 @@
   padding: 20px 0 0;
 }
 
-.contact {
+.summary {
   font-size: 1.6rem;
   margin: 0 0 2rem;
   padding: 2rem;
   background-color: var(--gray-lighter);
   border-radius: var(--border-radius);
+}
+
+.contact {
+  border-top: 3px solid var(--gray-light);
+  font-size: 1.6rem;
+  margin: 0 0 2rem;
+  padding-top: 2rem;
 }
 
 .description {
@@ -45,5 +52,5 @@
   justify-content: space-between;
   flex-wrap: wrap;
   max-width: 330px;
-  margin: 0 auto 20px;
+  margin: 0 auto 3rem;
 }

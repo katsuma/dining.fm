@@ -85,6 +85,7 @@ export default async function EpisodeDetail({ params }: Props) {
         enclosureUrl={episode.enclosureUrl}
         spotifyEpisodeId={episode.spotifyId!}
         applePodcastEpisodeId={episode.applePodcastId!}
+        summary={episode.summary}
       />
 
       <script
