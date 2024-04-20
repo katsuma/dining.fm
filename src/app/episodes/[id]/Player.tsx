@@ -7,6 +7,7 @@ import sanitizeHtml from 'sanitize-html';
 import { Spotify } from 'react-spotify-embed';
 import { IoCalendarOutline } from 'react-icons/io5';
 import { FaRegClock } from "react-icons/fa";
+import { CgNotes } from "react-icons/cg";
 
 import styles from '@/app/episodes/[id]/page.module.css'
 import { PublishedDate } from '@/utils/PublishedDate';
@@ -21,9 +22,10 @@ type Props = {
   enclosureUrl: string,
   spotifyEpisodeId: string,
   applePodcastEpisodeId: string,
+  summary: string | null,
 }
 
-export function Player({ id, title, description, pubDate, duration, enclosureUrl, spotifyEpisodeId, applePodcastEpisodeId }: Props) {
+export function Player({ id, title, description, pubDate, duration, enclosureUrl, spotifyEpisodeId, applePodcastEpisodeId, summary }: Props) {
   return (
     <>
       <section className='section'>
@@ -58,6 +60,14 @@ export function Player({ id, title, description, pubDate, duration, enclosureUrl
             </a>
           }
         </div>
+
+        {
+          summary !== null &&
+          <section className={styles.summary}>
+            <h3><CgNotes /> ざっくりまとめ</h3>
+            <p>{summary}</p>
+          </section>
+        }
 
         <div className={styles.description} dangerouslySetInnerHTML={{__html: sanitizeHtml(description)}} />
       </section>
