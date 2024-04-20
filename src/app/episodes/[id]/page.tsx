@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
     notFound()
   }
 
-  const description = striptags(episode.description).replace(/\s+/g, "、");
+  const description = episode.summary || striptags(episode.description).replace(/\s+/g, "、");
 
   return episode && {
     title: episode.title,
