@@ -1,0 +1,26 @@
+#! /usr/bin/env ruby
+
+require 'pinecone'
+require 'logger'
+require_relative 'lib/setup'
+
+VECTOR_DIR = ENV.fetch("VECTOR_DIR")
+logger = Logger.new(STDOUT)
+
+episode_number = ARGV[0].to_i
+vector_data = open("#{VECTOR_DIR}/#{episode_number}.json") do |f|
+  JSON.load(f)
+end
+
+pinecone_client = Pinecone::Client.new
+index = pinecone_client.index("episodes")
+logger.info "Upserting vector for episode #{episode_number}"
+index.upsert(
+  vectors: [
+    {
+      id: episode_number.to_s,
+      values: vector_data
+    }
+  ]
+)
+logger.info "Done upserting vector for episode #{episode_number}"
