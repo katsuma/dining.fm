@@ -1,0 +1,28 @@
+#! /usr/bin/env ruby
+
+require_relative 'lib/setup'
+require 'openai'
+require 'logger'
+require 'json'
+
+VECTOR_DIR = ENV.fetch("VECTOR_DIR")
+logger = Logger.new(STDOUT)
+
+episode_number = ARGV[0].to_i
+episode = Episode.find_by(id: episode_number)
+
+logger.info("Embedding episode #{episode_number}")
+openai_client = OpenAI::Client.new
+response = openai_client.embeddings(
+  parameters: {
+    model: "text-embedding-ada-002",
+    input: episode.summary,
+  }
+)
+
+logger.info("Writing vector to #{VECTOR_DIR}/#{episode_number}.json")
+vector = response.dig("data", 0, "embedding")
+open("#{VECTOR_DIR}/#{episode_number}.json", "w") do |f|
+  f.puts(vector.to_json)
+end
+logger.info("Finished Writing vector to #{VECTOR_DIR}/#{episode_number}.json")
