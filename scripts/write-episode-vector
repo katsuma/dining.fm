@@ -15,7 +15,7 @@ logger.info("Embedding episode #{episode_number}")
 openai_client = OpenAI::Client.new
 response = openai_client.embeddings(
   parameters: {
-    model: "text-embedding-ada-002",
+    model: "text-embedding-3-small",
     input: episode.summary,
   }
 )
