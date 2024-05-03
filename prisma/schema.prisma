@@ -26,7 +26,6 @@ model Episode {
   spotifyId String? @map(name: "spotify_id") @db.VarChar(64)
   applePodcastId String? @map(name: "apple_podcast_id") @db.VarChar(64)
   youtubeId String? @map(name: "youtube_id") @db.VarChar(64)
-  transcription String? @db.Text
   summary String?
   @@map(name: "episodes")
 }
