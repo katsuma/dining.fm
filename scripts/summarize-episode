@@ -6,12 +6,16 @@ require_relative 'lib/setup'
 require_relative 'lib/models/episode'
 
 logger = Logger.new(STDOUT)
+OUT_DIR = ENV.fetch('OUT_DIR')
+MODEL_ID = "anthropic.claude-3-haiku-20240307-v1:0".freeze
 
 episode_number = ARGV[0].to_i
-episode = Episode.find_by!(id: episode_number)
-transcription = episode.transcription
 
-MODEL_ID = "anthropic.claude-3-haiku-20240307-v1:0".freeze
+transcription_file_name = "#{OUT_DIR}/#{episode_number}.txt"
+transcription = nil
+open(transcription_file_name) do |file|
+  transcription = file.read
+end
 
 bedrock_client = Aws::BedrockRuntime::Client.new
 body_data = {
