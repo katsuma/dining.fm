@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^0.0.9",
     "@fontsource/m-plus-rounded-1c": "^5.0.12",
     "@mdx-js/loader": "^3.0.1",
     "@mdx-js/react": "^3.0.1",
