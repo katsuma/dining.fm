@@ -3,6 +3,7 @@
 import { useChat } from 'ai/react'
 import { FiSmile } from "react-icons/fi";
 import { RiRobot2Line } from "react-icons/ri";
+import ReactMarkdown from "react-markdown";
 
 import '@/app/layout.css'
 import styles from '@/app/search/page.module.css';
@@ -22,7 +23,9 @@ export default function Page() {
               <><FiSmile /><span>あなた</span></>:
               <><RiRobot2Line /><span>AI</span></>
             }
-            {message.content}
+            <ReactMarkdown>{message.content}</ReactMarkdown>
+            {message.role === 'user' ? <FiSmile /> : <RiRobot2Line />}
+            <ReactMarkdown>{message.content}</ReactMarkdown>
           </div>
         ))}
       </div>
@@ -36,7 +39,7 @@ export default function Page() {
           placeholder="例）和菓子に関するエピソードを教えて"
           id="input"
         />
-        <button type="submit" className={styles.button}>送信</button>
+        <button type="submit" className={styles.button}>質問</button>
       </form>
 
     </section>
