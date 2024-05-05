@@ -20,5 +20,9 @@ episode_service_id = episode_fetcher.fetch.find { |episode| episode.number == ep
 
 logger.info "Episode #{episode_number} on #{service_name} has ID #{episode_service_id}"
 
-episode = Episode.find_by!(id: episode_number)
+episode = Episode.find_or_initialize_by(id: episode_number)
+unless episode.persisted?
+  `scripts/import-feed #{episode_number}`
+  episode = Episode.find_by!(id: episode_number)
+end
 episode.update!("#{service_name}_id".to_sym => episode_service_id)
