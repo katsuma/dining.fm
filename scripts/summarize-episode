@@ -31,7 +31,7 @@ body_data = {
           #{transcription}
         </document>
         <instructions>
-          この内容をWebページのdescriptionに活用するために240文字程度の要約した文章を作成してください。
+          この内容をWebページのdescriptionに活用するために480文字程度の要約した文章を作成してください。
           このとき、以下のテンプレートを参考にして、文末は「〜でした」「〜しました」のような表現を利用してください。
           決して、「〜していました」の表現は利用しないでください。
         </instructions>
@@ -63,5 +63,6 @@ logger.info "Summary: #{summary}"
 summary = summary.gsub(/していました/, 'しました')
 logger.info "Refined Summary: #{summary}"
 
+episode = Episode.find_by!(number: episode_number)
 episode.update!(summary: summary)
 logger.info "Episode #{episode_number} summary updated."
