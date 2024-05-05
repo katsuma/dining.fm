@@ -50,6 +50,6 @@
   font-weight: bold;
   padding-left: 0.3rem;
 }
-.message ul {
-  margin: 0 0 0 1.25rem;
+.message ul, .message ol {
+  margin: 0 0 0 2rem;
 }
