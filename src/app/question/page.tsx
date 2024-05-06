@@ -1,12 +1,17 @@
 'use client'
 
-import { useChat } from 'ai/react'
+import { Message, useChat } from 'ai/react'
 import { FiSmile } from "react-icons/fi";
 import { RiRobot2Line } from "react-icons/ri";
 import ReactMarkdown from "react-markdown";
+import { Comment } from "react-loader-spinner";
 
 import '@/app/layout.css'
 import styles from '@/app/question/page.module.css';
+
+const isLastMessageFromAssistant = (messages: Message[]) => {
+  return messages.length > 0 && messages.at(-1)?.role !== "user";
+}
 
 export default function Page() {
   const { messages, isLoading, input, handleInputChange, handleSubmit } = useChat();
@@ -25,6 +30,12 @@ export default function Page() {
             <ReactMarkdown>{message.content}</ReactMarkdown>
           </div>
         ))}
+        {isLoading && !isLastMessageFromAssistant(messages) &&
+          <div className={styles.message}>
+            <RiRobot2Line /><span>AIディレクター</span>
+            <p><Comment height={32} width={32} backgroundColor="#676767" /></p>
+          </div>
+        }
         <form onSubmit={handleSubmit} className={styles.form}>
           <input
             className={styles.input}
