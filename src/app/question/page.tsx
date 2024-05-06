@@ -6,31 +6,25 @@ import { RiRobot2Line } from "react-icons/ri";
 import ReactMarkdown from "react-markdown";
 
 import '@/app/layout.css'
-import styles from '@/app/search/page.module.css';
+import styles from '@/app/question/page.module.css';
 
 export default function Page() {
   const { messages, isLoading, input, handleInputChange, handleSubmit } = useChat();
 
   return (
     <section className='section' suppressHydrationWarning={true}>
-      <h2 className='title'>AIエピソード検索</h2>
+      <h2 className='title'>AIディレクターへの質問</h2>
       <div className={styles.messages}>
         {messages.map((message) => (
           <div key={message.id} className={styles.message}>
              {
                message.role === 'user' ?
                <><FiSmile /><span>あなた</span></>:
-               <><RiRobot2Line /><span>AI</span></>
+               <><RiRobot2Line /><span>AIディレクター</span></>
              }
             <ReactMarkdown>{message.content}</ReactMarkdown>
           </div>
         ))}
-        {isLoading &&
-          <div className={styles.message}>
-            <RiRobot2Line /><span>AI</span>
-            <p>考え中...</p>
-          </div>
-        }
         <form onSubmit={handleSubmit} className={styles.form}>
           <input
             className={styles.input}
