@@ -1,0 +1,55 @@
+.form {
+  display: flex;
+  gap: 10px;
+}
+
+.input {
+  width: 70rem;
+  height: 4rem;
+  padding: 5px;
+  margin: 2rem 0;
+  border: 1px solid var(--gray-light);
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1.6rem;
+  background-color: var(--yellow-light);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--gray);
+}
+
+.button {
+  width: 8rem;
+  padding: 5px;
+  margin: 2rem 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.messages {
+  font-size: 1.6rem;
+}
+
+.message {
+  margin: 0 0 1rem;
+  padding: 5px 5px 15px;
+  color: var(--black-secondary);
+  line-height: 1.5;
+  border-bottom: 3px solid var(--gray-light);
+}
+
+.message svg {
+  font-size: 2rem;
+  padding-top: 0.4rem;
+}
+
+.message span {
+  font-weight: bold;
+  padding-left: 0.3rem;
+}
+.message ul, .message ol {
+  margin: 0 0 0 2rem;
+}

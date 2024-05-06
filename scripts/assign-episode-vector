@@ -11,6 +11,7 @@ episode_number = ARGV[0].to_i
 vector_data = open("#{VECTOR_DIR}/#{episode_number}.json") do |f|
   JSON.load(f)
 end
+episode = Episode.find_by!(id: episode_number)
 
 pinecone_client = Pinecone::Client.new
 index = pinecone_client.index("episodes")
@@ -19,7 +20,10 @@ index.upsert(
   vectors: [
     {
       id: episode_number.to_s,
-      values: vector_data
+      values: vector_data,
+      metadata: {
+        text: episode.summary,
+      },
     }
   ]
 )

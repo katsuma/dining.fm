@@ -56,7 +56,7 @@ export default function RootLayout({
       */}
       <body>
         <Header />
-        <main className='main'>
+        <main className='main' suppressHydrationWarning={true}>
           {children}
         </main>
         <Footer />
