@@ -1,7 +1,5 @@
-import { Message, StreamingTextResponse, createStreamDataTransformer } from 'ai';
-
+import { Message, StreamingTextResponse } from 'ai';
 import { Pinecone } from "@pinecone-database/pinecone";
-
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { BytesOutputParser } from "@langchain/core/output_parsers";
 import { PromptTemplate } from "@langchain/core/prompts";
@@ -10,30 +8,7 @@ import { ChatOpenAI } from "@langchain/openai";
 import { PineconeStore } from "@langchain/pinecone";
 import { formatDocumentsAsString } from "langchain/util/document";
 
-export const LangChainStreamCustom = (
-  stream: any,
-  { onCompletion }: { onCompletion: (completion: string) => Promise<void> }
-): ReadableStream => {
-  let completion = ''
-  const transformStream = new TransformStream({
-    async transform(chunk, controller) {
-      completion += new TextDecoder('utf-8').decode(chunk)
-      controller.enqueue(chunk)
-    },
-    async flush(controller) {
-      await onCompletion(completion)
-        .then(() => {
-          controller.terminate()
-        })
-        .catch((e: any) => {
-          console.error('Error', e)
-          controller.terminate()
-        })
-    }
-  })
-  stream.pipeThrough(transformStream)
-  return transformStream.readable.pipeThrough(createStreamDataTransformer())
-}
+import { LangChainStreamCustom } from './LangChainCustom';
 
 const formatMessage = (message: Message) => {
   return `${message.role}: ${message.content}`;
