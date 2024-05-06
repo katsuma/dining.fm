@@ -7,12 +7,7 @@ import { RunnablePassthrough, RunnableSequence } from "@langchain/core/runnables
 import { ChatOpenAI } from "@langchain/openai";
 import { PineconeStore } from "@langchain/pinecone";
 import { formatDocumentsAsString } from "langchain/util/document";
-
 import { LangChainStreamCustom } from './LangChainCustom';
-
-const formatMessage = (message: Message) => {
-  return `${message.role}: ${message.content}`;
-};
 
 export const dynamic = 'force-dynamic';
 
