@@ -18,21 +18,21 @@ export default function Page() {
 
   return (
     <section className='section' suppressHydrationWarning={true}>
-      <h2 className='title'>AIディレクターへの質問</h2>
+      <h2 className='title'>ロボットADへの質問</h2>
       <div className={styles.messages}>
         {messages.map((message) => (
           <div key={message.id} className={styles.message}>
              {
                message.role === 'user' ?
                <><FiSmile /><span>あなた</span></>:
-               <><RiRobot2Line /><span>AIディレクター</span></>
+               <><RiRobot2Line /><span>ロボットAD</span></>
              }
             <ReactMarkdown>{message.content}</ReactMarkdown>
           </div>
         ))}
         {isLoading && !isLastMessageFromAssistant(messages) &&
           <div className={styles.message}>
-            <RiRobot2Line /><span>AIディレクター</span>
+            <RiRobot2Line /><span>ロボットAD</span>
             <p><Comment height={32} width={32} backgroundColor="#676767" /></p>
           </div>
         }
@@ -45,6 +45,8 @@ export default function Page() {
           />
           <button type="submit" className={styles.button}>質問</button>
         </form>
+
+        <p>※ロボットADは見習いなのでたまにポンコツな回答もしますが、ご容赦ください。</p>
       </div>
     </section>
   );

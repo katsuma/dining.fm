@@ -8,6 +8,7 @@ function getStaticPaths(): MetadataRoute.Sitemap {
   return [
     { url: `${BASE_URL}/`, lastModified: new Date(), changeFrequency: 'weekly' },
     { url: `${BASE_URL}/podcasting-guide`, lastModified: new Date() },
+    { url: `${BASE_URL}/question`, lastModified: new Date() },
   ];
 };
 
