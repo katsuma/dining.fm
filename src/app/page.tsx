@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
+import { FaMicrophone } from "react-icons/fa";
+import { LiaRobotSolid } from "react-icons/lia";
 
 import '@/app/layout.css'
 import prisma from '@/utils/prisma';
@@ -94,7 +96,13 @@ export default async function Home() {
       <section className='section'>
         <h2 className='title'>ポッドキャストの収録・編集環境</h2>
         <p className={styles.description}>マイクやオーディオインターフェースなどの収録環境や、DAWやプラグインなど編集環境についてまとめてみました。</p>
-        <p className='link-more'><Link href='/podcasting-guide'>ポッドキャストの収録・編集環境を見る</Link></p>
+        <p className='link-more'><Link href='/podcasting-guide'><FaMicrophone />ポッドキャストの収録・編集環境を見る</Link></p>
+      </section>
+
+      <section className='section'>
+        <h2 className='title'>ロボットADへの質問</h2>
+        <p className={styles.description}>ロボットADが番組でこれまで話したエピソードをもとに質問に答えます。ADは見習いなので、たまにポンコツな回答もしますがご容赦ください。</p>
+        <p className='link-more'><Link href='/question'><LiaRobotSolid />ロボットADへ質問してみる</Link></p>
       </section>
     </>
   )
