@@ -10,6 +10,8 @@ import styles from '@/app/page.module.css'
 import EpisodeEntry from '@/components/EpisodeEntry';
 import { PublishedDate } from '@/utils/PublishedDate';
 
+export const revalidate = 3600;
+
 export default async function Home() {
   const currentPage = 1;
   const episodeVisibleSize = 5;
@@ -35,41 +37,6 @@ export default async function Home() {
   return (
     <>
       <section className='section'>
-        <h2 className='title'>番組紹介</h2>
-
-        <p className={styles.description}>
-          dining.fmは、ギャルソン好きの夫katsumaと、お菓子好きの妻daikokuの東京2人暮らし夫婦が、ゆるゆると話す雑談Podcast。
-        </p>
-
-        <p className={styles.description}>
-          ファッション、スイーツ、ホテルなどを中心に、我が家のダイニングテーブルから家庭内で話題のトピックをお届けします🏠
-        </p>
-
-        <p className={styles.description}>
-          感想はX(Twitter)のハッシュタグ<a href="https://twitter.com/search?q=%23diningfm&src=typed_query&f=top">#diningfm</a> や
-          <a href="https://twitter.com/diningfm">@diningfm</a>へのリプライ、
-          <a href="https://bit.ly/3Kq3zf2">GoogleForm</a>でのお便りなどからお待ちしています📮
-        </p>
-
-      </section>
-
-      <section className={styles.section}>
-        <div className={styles.listens_on}>
-          <a href="https://open.spotify.com/show/3wSB2J20uqON5nPhCmMia5" target="_blank" rel="noopener noreferrer">
-            <Image src={'/listen-on/spotify.svg'} alt={'Listen on Spotify'} width={160} height={40} priority={false} />
-          </a>
-
-          <a href="https://podcasts.apple.com/jp/podcast/id1668849655" target="_blank" rel="noopener noreferrer">
-            <Image src={'/listen-on/apple.svg'} alt={'Listen on Apple Podcasts'} width={160} height={40} priority={false} />
-          </a>
-        </div>
-
-        <div className={styles.icons}>
-          <Image src={'/icons.svg'} alt={'dining.fm'} width={260} height={100} priority={true} />
-        </div>
-      </section>
-
-      <section className='section'>
         <h2 className='title'>最新エピソード</h2>
         {
           episodes.map((episode) => {
@@ -89,7 +56,6 @@ export default async function Home() {
             )
           })
         }
-
         <p className='link-more'><Link href={`/episodes/page/${currentPage}`}>エピソードをもっと見る</Link></p>
       </section>
 
@@ -103,6 +69,40 @@ export default async function Home() {
         <h2 className='title'>ロボットADへの質問</h2>
         <p className={styles.description}>ロボットADが番組でこれまで話したエピソードをもとに質問に答えます。ADは見習いなので、たまにポンコツな回答もしますがご容赦ください。</p>
         <p className='link-more'><Link href='/question'><LiaRobotSolid />ロボットADへ質問してみる</Link></p>
+      </section>
+
+      <section className='section'>
+        <h2 className='title'>番組紹介</h2>
+
+        <p className={styles.description}>
+          dining.fmは、ギャルソン好きの夫katsumaと、お菓子好きの妻daikokuの東京2人暮らし夫婦が、ゆるゆると話す雑談Podcast。
+        </p>
+
+        <p className={styles.description}>
+          ファッション、スイーツ、ホテルなどを中心に、我が家のダイニングテーブルから家庭内で話題のトピックをお届けします🏠
+        </p>
+
+        <p className={styles.description}>
+          感想はX(Twitter)のハッシュタグ<a href="https://twitter.com/search?q=%23diningfm&src=typed_query&f=top">#diningfm</a> や
+          <a href="https://twitter.com/diningfm">@diningfm</a>へのリプライ、
+          <a href="https://bit.ly/3Kq3zf2">GoogleForm</a>でのお便りなどからお待ちしています📮
+        </p>
+      </section>
+
+      <section className={styles.section}>
+        <div className={styles.listens_on}>
+          <a href="https://open.spotify.com/show/3wSB2J20uqON5nPhCmMia5" target="_blank" rel="noopener noreferrer">
+            <Image src={'/listen-on/spotify.svg'} alt={'Listen on Spotify'} width={160} height={40} priority={false} />
+          </a>
+
+          <a href="https://podcasts.apple.com/jp/podcast/id1668849655" target="_blank" rel="noopener noreferrer">
+            <Image src={'/listen-on/apple.svg'} alt={'Listen on Apple Podcasts'} width={160} height={40} priority={false} />
+          </a>
+        </div>
+
+        <div className={styles.icons}>
+          <Image src={'/icons.svg'} alt={'dining.fm'} width={260} height={100} priority={true} />
+        </div>
       </section>
     </>
   )
