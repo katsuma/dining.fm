@@ -1,4 +1,4 @@
-import { Message, StreamingTextResponse } from 'ai';
+import { StreamingTextResponse } from 'ai';
 import { Pinecone } from "@pinecone-database/pinecone";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { BytesOutputParser } from "@langchain/core/output_parsers";
