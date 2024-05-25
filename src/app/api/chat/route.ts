@@ -1,4 +1,4 @@
-import { Message, StreamingTextResponse } from 'ai';
+import { StreamingTextResponse } from 'ai';
 import { Pinecone } from "@pinecone-database/pinecone";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { BytesOutputParser } from "@langchain/core/output_parsers";
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
   const currentMessageContent = messages[messages.length - 1].content;
 
   const outputParser = new BytesOutputParser();
-  const model = new ChatOpenAI({ model: 'gpt-3.5-turbo', streaming: true });
+  const model = new ChatOpenAI({ model: 'gpt-4o', streaming: true });
 
   const vectorStore = await PineconeStore.fromExistingIndex(
     new OpenAIEmbeddings(embeddingModel), { pineconeIndex }
