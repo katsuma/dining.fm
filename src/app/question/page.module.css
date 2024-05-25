@@ -53,3 +53,10 @@
 .message ul, .message ol {
   margin: 0 0 0 2rem;
 }
+
+.message li {
+  margin-bottom: 1rem;
+}
+.message li p {
+  margin-bottom: 0;
+}
