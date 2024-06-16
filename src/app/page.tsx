@@ -61,14 +61,20 @@ export default async function Home() {
 
       <section className='section'>
         <h2 className='title'>ポッドキャストの収録・編集環境</h2>
+        <Link href='/podcasting-guide'>
+          <Image src={'/podcasting-guide/banner.jpg'} alt={'ポッドキャストの収録・編集環境'} width={1200} height={340} priority={true} className={styles.banner} />
+        </Link>
         <p className={styles.description}>マイクやオーディオインターフェースなどの収録環境や、DAWやプラグインなど編集環境についてまとめてみました。</p>
-        <p className='link-more'><Link href='/podcasting-guide'><FaMicrophone />ポッドキャストの収録・編集環境を見る</Link></p>
+        <p className={styles['screen-reader-only']}><Link href='/podcasting-guide'><FaMicrophone />ポッドキャストの収録・編集環境を見る</Link></p>
       </section>
 
       <section className='section'>
         <h2 className='title'>ロボットADへの質問</h2>
+        <Link href='/question'>
+          <Image src={'/question/banner.jpg'} alt={'ロボットADへの質問'} width={1200} height={340} priority={true} className={styles.banner} />
+        </Link>
         <p className={styles.description}>ロボットADが番組でこれまで話したエピソードをもとに質問に答えます。ADは見習いなので、たまにポンコツな回答もしますがご容赦ください。</p>
-        <p className='link-more'><Link href='/question'><LiaRobotSolid />ロボットADへ質問してみる</Link></p>
+        <p className={styles['screen-reader-only']}><Link href='/question'><LiaRobotSolid />ロボットADへ質問してみる</Link></p>
       </section>
 
       <section className='section'>
