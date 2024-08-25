@@ -11,7 +11,7 @@ class Publishing::Service::ApplePodcast < Publishing::Service::Base
   end
 
   def self.episode_selector
-    "ol.tracks li a"
+    "div.shelf-content ol li a"
   end
 
   def self.id_from_element(element)
@@ -20,6 +20,6 @@ class Publishing::Service::ApplePodcast < Publishing::Service::Base
   end
 
   def self.number_from_element(element)
-    element.text.strip.match(/\A[0-9]+/)[0].to_i
+    element.css("span[data-testid='episode-lockup-title']")[0].text.strip.match(/\A[0-9]+/)[0].to_i
   end
 end
