@@ -1,0 +1,28 @@
+#! /usr/bin/env ruby
+
+require 'id3tag'
+require_relative 'lib/setup'
+require 'dotenv'
+require 'logger'
+
+Dotenv.load
+logger = Logger.new(STDOUT)
+MP3_DIR = ENV.fetch('MP3_DIR')
+
+episode_number = ARGV[0].to_i
+mp3_file_name = "#{MP3_DIR}/#{episode_number}.mp3"
+
+tag = ID3Tag.read(File.open(mp3_file_name))
+chapters = tag.get_frames(:CHAP)
+chapter_contents = chapters.map do |chapter|
+  start_time = chapter.start_time / 1000
+  start_time_min = start_time / 60
+  start_time_sec = start_time - start_time_min * 60
+  formatted_start_time = "#{start_time_min.to_s.rjust(2, '0')}:#{start_time_sec.to_s.rjust(2, '0')}"
+
+  title = chapter.subframes.map { |sub_frame| sub_frame.content }.join
+
+  "#{formatted_start_time} #{title}"
+end
+
+logger.info "\n" + chapter_contents.join("\n")
