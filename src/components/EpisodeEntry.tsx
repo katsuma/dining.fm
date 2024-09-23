@@ -16,10 +16,17 @@ export default function EpisodeEntry(props: Episode) {
 
       <div className={styles.episode_content}>
         <h3 className={styles.episode_title}>{props.id}. {props.title}</h3>
-        <p className={styles.episode_meta}>
-          <span className={styles.published_on}><IoCalendarOutline /> {PublishedDate.parse(props.pubDate)}</span>
-          <span className={styles.duration}><FaRegClock /> {Duration.parse(props.duration)}</span>
-        </p>
+        <div className={styles.episode_meta}>
+          <p>
+            <span className={styles.meta_icon}><IoCalendarOutline /></span>
+            <span>{PublishedDate.parse(props.pubDate)}
+            </span>
+          </p>
+          <p>
+            <span className={styles.meta_icon}><FaRegClock /></span>
+            <span>{Duration.parse(props.duration)}</span>
+          </p>
+        </div>
       </div>
     </div>
   );

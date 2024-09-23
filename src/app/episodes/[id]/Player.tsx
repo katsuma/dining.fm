@@ -30,10 +30,16 @@ export function Player({ id, title, description, pubDate, duration, enclosureUrl
     <>
       <section className='section'>
         <h2 className='title'>{id}. {title}</h2>
-        <p className={styles.episode_meta}>
-          <span className={styles.published_on}><IoCalendarOutline /> {PublishedDate.parse(pubDate)}</span>
-          <span className={styles.duration}><FaRegClock /> {Duration.parse(duration)}</span>
-        </p>
+        <div className={styles.episode_meta}>
+          <p>
+            <span className={styles.meta_icon}><IoCalendarOutline /></span>
+            <span className={styles.meta_text}>{PublishedDate.parse(pubDate)}</span>
+          </p>
+          <p>
+            <span className={styles.meta_icon}><FaRegClock /></span>
+            <span className={styles.meta_text}>{Duration.parse(duration)}</span>
+          </p>
+        </div>
 
         {
           spotifyEpisodeId !== null ?

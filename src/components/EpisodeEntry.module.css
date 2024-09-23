@@ -25,6 +25,16 @@
   display: flex;
   gap: 0 10px;
 }
-.episode_meta svg {
-  padding-top: 2px;
+.meta_icon {
+  vertical-align: middle;
 }
+.meta_icon svg {
+  padding-top: 0.65rem;
+}
+.meta_text {
+  padding-top: 0.2rem;
+}
+.episode_meta span {
+  font-size: 1.2rem;
+}
+
