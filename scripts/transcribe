@@ -8,7 +8,7 @@ logger = Logger.new(STDOUT)
 MP3_DIR = ENV.fetch('MP3_DIR')
 OUT_DIR = ENV.fetch('OUT_DIR')
 APP_DIR = ENV.fetch('APP_DIR')
-MODEL_NAME='large-v2'
+MODEL_NAME='large-v3-turbo'
 MISSUNDERSTANDING_NAMES = %w(ヤンヤン 深井 樋口).freeze
 
 file_number = ARGV[0].to_i
