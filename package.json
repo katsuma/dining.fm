@@ -10,7 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^0.0.9",
+    "@ai-sdk/openai": "^1.0.8",
     "@fontsource/m-plus-rounded-1c": "^5.0.12",
     "@langchain/openai": "^0.0.33",
     "@langchain/pinecone": "^0.0.6",
