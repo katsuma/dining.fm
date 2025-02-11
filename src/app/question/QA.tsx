@@ -1,6 +1,7 @@
 'use client'
 
-import { Message, useChat } from 'ai/react'
+import { useChat } from '@ai-sdk/react'
+import { Message } from 'ai/react'
 import { FiSmile } from "react-icons/fi";
 import { RiRobot2Line } from "react-icons/ri";
 import ReactMarkdown from "react-markdown";
