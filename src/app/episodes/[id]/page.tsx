@@ -9,19 +9,21 @@ import { Player } from '@/app/episodes/[id]/Player';
 import { PublishedDate } from '@/utils/PublishedDate';
 
 type Props = {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
-async function fetchEpisode({ params }: Props) {
+async function fetchEpisode(episodeId: number) {
   return await prisma.episode.findUnique({
     where: {
-      id: Number(params.id)
+      id: episodeId
     }
   });
 }
 
-export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
-  const episode = await fetchEpisode({ params });
+export async function generateMetadata(props: Props, parent: ResolvingMetadata): Promise<Metadata> {
+  const params = await props.params;
+  const episodeId = await params.id;
+  const episode = await fetchEpisode(Number(episodeId));
 
   if (!episode) {
     notFound()
@@ -47,8 +49,10 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
   }
 }
 
-export default async function EpisodeDetail({ params }: Props) {
-  const episode = await fetchEpisode({ params });
+export default async function EpisodeDetail(props: Props) {
+  const params = await props.params;
+  const episodeId = await params.id;
+  const episode = await fetchEpisode(Number(episodeId));
 
   if (!episode) {
     notFound()
