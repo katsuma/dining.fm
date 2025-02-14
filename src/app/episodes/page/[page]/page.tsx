@@ -6,7 +6,8 @@ import prisma from '@/utils/prisma';
 import EpisodeEntry from '@/components/EpisodeEntry';
 import { PublishedDate } from '@/utils/PublishedDate';
 
-export default async function Episodes({ params }: { params: { page: number } }) {
+export default async function Episodes(props: { params: Promise<{ page: number }> }) {
+  const params = await props.params;
   const episodeVisibleSize = 20;
   const currentPage = Number(params.page);
   const slicedIndex = episodeVisibleSize * (currentPage - 1);
