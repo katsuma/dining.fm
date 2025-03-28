@@ -1,5 +1,9 @@
 import { Link, type LoaderFunction, useLoaderData } from 'react-router-dom';
-import prisma from '../../src/utils/prisma';
+import { IoCalendarOutline } from 'react-icons/io5';
+import { FaRegClock } from "react-icons/fa";
+
+import { Duration } from "@/utils/Duration";
+import prisma from '@/utils/prisma';
 
 export const loader: LoaderFunction = async () => {
   const episodes = await prisma.episode.findMany({
@@ -22,53 +26,64 @@ const Home = () => {
   const { episodes } = useLoaderData();
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container">
       <section className="my-8">
-        <h2 className="text-2xl font-bold mb-4">最新エピソード</h2>
+        <h2 className="title">最新エピソード</h2>
         {episodes.map((episode: any) => (
-          <Link to={`/episodes/${episode.id}`} key={episode.id} className="block mb-4">
-            <div className="p-4 border rounded shadow">
-              <h3 className="text-xl font-semibold">{episode.title}</h3>
-              <p className="text-gray-600">{episode.description}</p>
-              <p className="text-sm text-gray-500">公開日: {new Date(episode.publishedAt).toLocaleDateString()}</p>
+          <Link to={`/episodes/${episode.id}`} key={episode.id} className="flex items-start py-3 episode-link">
+            <img src={episode.imageUrl} alt={episode.title} className="w-[80px] h-[80px] rounded-[0.8rem] mr-4" />
+            <div className="flex flex-col justify-between">
+              <h3 className="episode-title">{episode.id}. {episode.title}</h3>
+              <div className="flex space-x-4 episode-meta">
+                <p className="text-gray-500 mb-1">
+                  <IoCalendarOutline className="inline-block mr-1" />
+                  {new Date(episode.publishedAt).toLocaleDateString()}
+                </p>
+                <p className="text-gray-500">
+                  <FaRegClock className="inline-block mr-1" />
+                  {Duration.parse(episode.duration)}
+                </p>
+              </div>
             </div>
           </Link>
         ))}
-        <p className="text-blue-500 mt-4"><Link to="/episodes/page/1">エピソードをもっと見る</Link></p>
+        <p className="flex justify-around mx-auto mt-6 mb-16 text-xl">
+          <Link to="/episodes/page/1">エピソードをもっと見る</Link>
+        </p>
       </section>
 
       <section className="my-8">
-        <h2 className="text-2xl font-bold mb-4">ポッドキャストの収録・編集環境</h2>
+        <h2 className="title">ポッドキャストの収録・編集環境</h2>
         <Link to="/podcasting-guide">
           <img src="/podcasting-guide/banner.jpg" alt="ポッドキャストの収録・編集環境" className="w-full rounded" />
         </Link>
-        <p className="text-gray-600 mt-2">マイクやオーディオインターフェースなどの収録環境や、DAWやプラグインなど編集環境についてまとめてみました。</p>
+        <p className="mt-2 text-xl">マイクやオーディオインターフェースなどの収録環境や、DAWやプラグインなど編集環境についてまとめてみました。</p>
       </section>
 
       <section className="my-8">
-        <h2 className="text-2xl font-bold mb-4">ロボットADへの質問</h2>
-        <Link to="/question">
-          <img src="/question/banner.jpg" alt="ロボットADへの質問" className="w-full rounded" />
-        </Link>
-        <p className="text-gray-600 mt-2">ロボットADが番組でこれまで話したエピソードをもとに質問に答えます。</p>
+        <h2 className="title">番組紹介</h2>
+        <p className="text-xl leading-[2.4rem] mb-4">dining.fmは、ギャルソン好きの夫katsumaと、お菓子好きの妻daikokuの東京2人暮らし夫婦が、ゆるゆると話す雑談Podcast。</p>
+        <p className="text-xl leading-[2.4rem] mb-4">ファッション、スイーツ、ホテルなどを中心に、我が家のダイニングテーブルから家庭内で話題のトピックをお届けします🏠</p>
+        <p className="text-xl leading-[2.4rem] mb-4">感想はX(Twitter)のハッシュタグ <a href="https://twitter.com/search?q=%23diningfm&src=typed_query&f=top">#diningfm</a> や <a href="https://twitter.com/diningfm">@diningfm</a> へのリプライ、<a href="https://bit.ly/3Kq3zf2">GoogleForm</a> でのお便りなどからお待ちしています📮</p>
       </section>
 
-      <section className="my-8">
-        <h2 className="text-2xl font-bold mb-4">番組紹介</h2>
-        <p className="text-gray-600">dining.fmは、ギャルソン好きの夫katsumaと、お菓子好きの妻daikokuの東京2人暮らし夫婦が、ゆるゆると話す雑談Podcast。</p>
-        <p className="text-gray-600">感想はX(Twitter)のハッシュタグ <a href="https://twitter.com/search?q=%23diningfm&src=typed_query&f=top" className="text-blue-500">#diningfm</a> や <a href="https://twitter.com/diningfm" className="text-blue-500">@diningfm</a> へのリプライ、<a href="https://bit.ly/3Kq3zf2" className="text-blue-500">GoogleForm</a> でのお便りなどからお待ちしています。</p>
-      </section>
-
-      <section className="my-8">
-        <div className="flex space-x-4">
+      <section className="my-16 text-center">
+        <div className="flex justify-center space-x-4">
           <a href="https://open.spotify.com/show/3wSB2J20uqON5nPhCmMia5" target="_blank" rel="noopener noreferrer">
-            <img src="/listen-on/spotify.svg" alt="Listen on Spotify" className="h-10" />
+            <img src="/listen-on/spotify.svg" alt="Listen on Spotify" height={10} />
           </a>
           <a href="https://podcasts.apple.com/jp/podcast/id1668849655" target="_blank" rel="noopener noreferrer">
-            <img src="/listen-on/apple.svg" alt="Listen on Apple Podcasts" className="h-10" />
+            <img src="/listen-on/apple.svg" alt="Listen on Apple Podcasts" height={10} />
           </a>
         </div>
       </section>
+
+      <section className="text-center my-16">
+        <div className="flex justify-center space-x-4">
+          <img src={'/icons.svg'} alt={'dining.fm'} width={260} height={100} />
+        </div>
+      </section>
+
     </div>
   );
 };
