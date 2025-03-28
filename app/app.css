@@ -43,6 +43,6 @@ a.episode-link {
 }
 
 footer a {
-  @apply text-decoration-none border-b-0;
+  @apply border-b-0;
 }
 

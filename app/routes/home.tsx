@@ -4,6 +4,8 @@ import { FaRegClock } from "react-icons/fa";
 
 import { Duration } from "@/utils/Duration";
 import prisma from '@/utils/prisma';
+import { type Episode } from '@prisma/client';
+import { EpisodeListItem } from '@/components/EpisodeListItem';
 
 export const loader: LoaderFunction = async () => {
   const episodes = await prisma.episode.findMany({
@@ -29,23 +31,8 @@ const Home = () => {
     <div className="container">
       <section className="my-8">
         <h2 className="title">最新エピソード</h2>
-        {episodes.map((episode: any) => (
-          <Link to={`/episodes/${episode.id}`} key={episode.id} className="flex items-start py-3 episode-link">
-            <img src={episode.imageUrl} alt={episode.title} className="w-[80px] h-[80px] rounded-[0.8rem] mr-4" />
-            <div className="flex flex-col justify-between">
-              <h3 className="episode-title">{episode.id}. {episode.title}</h3>
-              <div className="flex space-x-4 episode-meta">
-                <p className="text-gray-500 mb-1">
-                  <IoCalendarOutline className="inline-block mr-1" />
-                  {new Date(episode.publishedAt).toLocaleDateString()}
-                </p>
-                <p className="text-gray-500">
-                  <FaRegClock className="inline-block mr-1" />
-                  {Duration.parse(episode.duration)}
-                </p>
-              </div>
-            </div>
-          </Link>
+        {episodes.map((episode: Episode) => (
+          <EpisodeListItem episode={episode} key={episode.id} />
         ))}
         <p className="flex justify-around mx-auto mt-6 mb-16 text-xl">
           <Link to="/episodes/page/1">エピソードをもっと見る</Link>
