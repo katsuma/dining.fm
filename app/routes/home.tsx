@@ -1,10 +1,7 @@
 import { Link, type LoaderFunction, useLoaderData } from 'react-router-dom';
-import { IoCalendarOutline } from 'react-icons/io5';
-import { FaRegClock } from "react-icons/fa";
-
-import { Duration } from "@/utils/Duration";
-import prisma from '@/utils/prisma';
 import { type Episode } from '@prisma/client';
+
+import prisma from '@/utils/prisma';
 import { EpisodeListItem } from '@/components/EpisodeListItem';
 
 export const loader: LoaderFunction = async () => {
@@ -35,7 +32,9 @@ const Home = () => {
           <EpisodeListItem episode={episode} key={episode.id} />
         ))}
         <p className="flex justify-around mx-auto mt-6 mb-16 text-xl">
-          <Link to="/episodes/page/1">エピソードをもっと見る</Link>
+          <Link
+            to={`/episodes/page/1`}
+          >エピソードをもっと見る</Link>
         </p>
       </section>
 
