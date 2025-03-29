@@ -1,8 +1,8 @@
 const Footer = () => {
   return (
     <footer className="p-5 text-gray-800 text-sm bg-gray-200">
-      <div className="flex justify-around w-[50rem] mx-auto">
-        <div className="w-1/2">
+      <div className="flex justify-around w-[32rem] md:mx-auto px-8 md:px-0">
+        <div className="w-1/2 px-8">
           <p className="font-bold mb-4 text-xl">購読</p>
           <ul className="list-none p-0 m-0">
             <li className="text-xl leading-8"><a href="https://open.spotify.com/show/3wSB2J20uqON5nPhCmMia5">Spotify</a></li>
@@ -13,7 +13,7 @@ const Footer = () => {
           </ul>
         </div>
 
-        <div className="w-1/2">
+        <div className="w-1/2 px-8">
           <p className="font-bold mb-4 text-xl">SNS</p>
           <ul className="list-none p-0 m-0">
             <li className="text-xl leading-8"><a href="https://x.com/diningfm">X</a></li>

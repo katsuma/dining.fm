@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
-    <header className="flex w-[50rem] mx-auto my-8">
-      <h1 className="py-4">
+    <header className="lg:flex w-auto md:w-[50rem] mx-8 md:mx-auto my-8">
+      <h1 className="">
         <Link to={'/'}>
           <img src="/logo.svg" alt="dining.fm" width={176} height={60} />
         </Link>
