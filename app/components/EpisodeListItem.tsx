@@ -11,11 +11,11 @@ export const EpisodeListItem = ({ episode }: { episode: Episode }) => (
       <div className="flex space-x-4 episode-meta">
         <p className="text-gray-500 mb-1">
           <IoCalendarOutline className="inline-block mr-1" />
-          {new Date(episode.publishedAt).toLocaleDateString()}
+          <span className="align-middle">{new Date(episode.publishedAt).toLocaleDateString()}</span>
         </p>
         <p className="text-gray-500">
           <FaRegClock className="inline-block mr-1" />
-          {Duration.parse(String(episode.duration))}
+          <span className="align-middle">{Duration.parse(String(episode.duration))}</span>
         </p>
       </div>
     </div>
