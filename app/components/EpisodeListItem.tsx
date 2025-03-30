@@ -3,6 +3,7 @@ import { IoCalendarOutline } from 'react-icons/io5';
 import { FaRegClock } from "react-icons/fa";
 import { Duration } from "@/utils/Duration";
 import { type Episode } from "@prisma/client";
+import { PublishedDate } from '@/utils/PublishedDate';
 
 export const EpisodeListItem = ({ episode }: { episode: Episode }) => (
   <Link to={`/episodes/${episode.id}`} className="block border-b-0">
@@ -13,7 +14,7 @@ export const EpisodeListItem = ({ episode }: { episode: Episode }) => (
         <div className="flex space-x-4 episode-meta">
           <p className="text-gray-500 mb-1">
             <IoCalendarOutline className="inline-block mr-1" />
-            <span className="align-middle">{new Date(episode.publishedAt).toLocaleDateString()}</span>
+            <span className="align-middle">{PublishedDate.toLocalDate(episode.publishedAt)}</span>
           </p>
           <p className="text-gray-500">
             <FaRegClock className="inline-block mr-1" />
