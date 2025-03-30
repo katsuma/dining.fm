@@ -1,5 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
+import { MDXProvider } from '@mdx-js/react';
+import { components } from '@/components/mdx-components';
 
 import {
   isRouteErrorResponse,
@@ -34,7 +36,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <MDXProvider components={components}>
+          {children}
+        </MDXProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
