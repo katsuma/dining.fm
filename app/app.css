@@ -22,7 +22,8 @@ body {
   @apply bg-white text-gray-900 max-w-[100vw] text-[12px] overflow-x-hidden;
 }
 
-a {
+p a,
+li a {
   @apply no-underline border-b-1 border-dotted;
 }
 
