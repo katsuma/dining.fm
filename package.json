@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@fontsource/m-plus-rounded-1c": "^5.2.5",
+    "@mdx-js/react": "^3.1.0",
     "@mdx-js/rollup": "^3.1.0",
     "@prisma/client": "^6.5.0",
     "@react-router/node": "^7.4.0",
