@@ -48,6 +48,26 @@ export function meta({data}: Route.MetaArgs) {
 function EpisodeDetail() {
   const { episode } = useLoaderData();
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    'author': [
+      {
+        '@type': 'Person',
+        name: 'Ryo Katsuma',
+        url: 'https://katsuma.tv',
+      },
+      {
+        '@type': 'Person',
+        name: 'Yoko Daikoku',
+      }
+    ],
+    dateModified: episode.publishedAt.toISOString(),
+    datePublished: episode.publishedAt.toISOString(),
+    headline: episode.title,
+    image: episode.imageUrl,
+  }
+
   return (
     <div className="container">
       <section className="my-8">
@@ -78,6 +98,11 @@ function EpisodeDetail() {
           <Link to={'/episodes/page/1'}>エピソード一覧</Link>
         </p>
       </section>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
     </div>
   );
 }
