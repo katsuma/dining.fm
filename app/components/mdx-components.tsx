@@ -17,15 +17,15 @@ function Heading3(props: React.ComponentProps<"h1">) {
 }
 
 function P(props: React.ComponentProps<"p">) {
-  return <p {...props} className="text-xl leading-[2.4rem] mb-4" />
+  return <p {...props} className="text-xl leading-[2.2rem] mb-6" />
 }
 
 function UnorderedList(props: React.ComponentProps<"ul">) {
-  return <ul {...props} className="list-disc list-inside ml-2" />
+  return <ul {...props} className="ml-6" />
 }
 
 function List(props: React.ComponentProps<"li">) {
-  return <li {...props} className="text-xl leading-[1.2rem] mb-4" />
+  return <li {...props} className="text-xl" />
 }
 
 function Image(props: React.ComponentProps<"img">) {

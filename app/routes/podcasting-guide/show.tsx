@@ -1,6 +1,7 @@
 import type { Route } from "./+types/show";
 import Guide from "./components/Guide.mdx";
 import { buildMeta, defaultHost, defaultTitle } from "@/utils/meta";
+import styles from "./components/Guide.module.css";
 
 export function meta({}:Route.MetaArgs) {
   const title = `ポッドキャストの収録・編集環境 | ${defaultTitle}`;
@@ -25,6 +26,10 @@ export function meta({}:Route.MetaArgs) {
 }
 
 function PodcastingGuide() {
-  return (<Guide />);
+  return (
+    <div className={styles['podcasting-guide']}>
+      <Guide />
+    </div>
+  );
 }
 export default PodcastingGuide;

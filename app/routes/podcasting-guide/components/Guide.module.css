@@ -1,0 +1,17 @@
+.podcasting-guide {
+  ul {
+    list-style-type: circle;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+
+    li {
+      margin-bottom: 0.6rem;
+
+      ul {
+        list-style-type: square;
+        margin-top: 0.6rem;
+        margin-bottom: 1.6rem;
+      }
+    }
+  }
+}
