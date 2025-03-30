@@ -4,6 +4,7 @@ import { Link, useLoaderData } from 'react-router-dom';
 import { type Episode } from '@prisma/client';
 
 import prisma from '@/utils/prisma';
+import { defaultTitle, defaultHost, buildMeta } from '@/utils/meta';
 import { EpisodeListItem } from "@/components/EpisodeListItem";
 
 const episodeVisibleSize = 20;
@@ -30,6 +31,25 @@ export async function loader({ params }: Route.LoaderArgs) {
   );
   const episodeCount = await prisma.episode.count();
   return { currentPage, episodes, episodeCount };
+}
+
+export function meta({data}: Route.MetaArgs) {
+  if (!data) {
+    return buildMeta([]);
+  }
+
+  const maxPage = Math.ceil(data.episodeCount / episodeVisibleSize);
+  const title = `最新エピソード (${data.currentPage}/${maxPage}) | ${defaultTitle}`;
+
+  return buildMeta([
+    { title },
+
+    { property: "og:url", content: `${defaultHost}/episodes/page/${data.currentPage}` },
+    { property: "og:title", content: title },
+
+    { property: "twitter:url", content: `${defaultHost}/episodes/page/${data.currentPage}` },
+    { property: "twitter:title", content: title },
+  ]);
 }
 
 function EpisodesPage() {

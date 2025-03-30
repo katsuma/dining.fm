@@ -5,6 +5,7 @@ import { IoCalendarOutline } from 'react-icons/io5';
 import { FaRegClock } from "react-icons/fa";
 
 import { Duration } from '@/utils/Duration';
+import { defaultTitle, defaultHost, buildMeta } from '@/utils/meta';
 import prisma from '@/utils/prisma';
 import { PublishedDate } from '@/utils/PublishedDate';
 import { EpisodePlayer } from "./components/EpisodePlayer";
@@ -17,6 +18,32 @@ export async function loader({ params }: Route.LoaderArgs) {
   });
   return { episode };
 }
+
+export function meta({data}: Route.MetaArgs) {
+  if (!data || data.episode === null) {
+    return buildMeta([]);
+  }
+
+  const title = `${data.episode.title} | ${defaultTitle}`;
+  const description = data.episode.summary || defaultTitle;
+  const url = `${defaultHost}/episodes/${data.episode.id}`;
+  const imageUrl = data.episode.imageUrl || `${defaultHost}/opengraph-image.png`;
+
+  return buildMeta([
+    { title },
+
+    { property: "og:url", content: url },
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:image", content: data.episode.imageUrl || `${defaultHost}/opengraph-image.png` },
+
+    { property: "twitter:url", content: url },
+    { property: "twitter:title", content: title },
+    { property: "twitter:description", content: description },
+    { property: "twitter:image", content: imageUrl },
+  ]);
+}
+
 
 function EpisodeDetail() {
   const { episode } = useLoaderData();

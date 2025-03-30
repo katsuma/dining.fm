@@ -1,7 +1,9 @@
 import { Link, type LoaderFunction, useLoaderData } from 'react-router-dom';
 import { type Episode } from '@prisma/client';
+import type { Route } from "./+types/home";
 
 import prisma from '@/utils/prisma';
+import { buildMeta } from '@/utils/meta';
 import { EpisodeListItem } from '@/components/EpisodeListItem';
 
 export const loader: LoaderFunction = async () => {
@@ -20,6 +22,10 @@ export const loader: LoaderFunction = async () => {
   });
   return { episodes };
 };
+
+export function meta({}: Route.MetaArgs) {
+  return buildMeta([]);
+}
 
 const Home = () => {
   const { episodes } = useLoaderData();
