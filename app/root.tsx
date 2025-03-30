@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import ReactGA from "react-ga4";
 import { Outlet } from 'react-router-dom';
 import { MDXProvider } from '@mdx-js/react';
 import { components } from '@/components/mdx-components';
@@ -27,6 +28,10 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 export function Layout({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    ReactGA.initialize("G-3MHRGQL5EY");
+  }, []);
+
   return (
     <html lang="ja">
       <head>

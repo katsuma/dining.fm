@@ -21,7 +21,6 @@ export function meta({}:Route.MetaArgs) {
     { property: "twitter:description", content: description },
     { property: "twitter:image", content: imageUrl },
   ]);
-  console.log(metas);
   return metas;
 }
 
