@@ -1,0 +1,30 @@
+/* EpisodePlayer.module.css */
+@import "tailwindcss";
+
+.summary {
+  @apply text-[1.6rem] mb-8 text-black p-6 bg-gray-100 rounded-[0.8rem];
+
+  h3 {
+    @apply text-xl font-semibold mb-2 flex;
+  }
+
+  p {
+    @apply mb-4 text-xl leading-8;
+  }
+}
+
+.episode-description {
+  @apply text-[1.3rem] mb-4 text-black;
+
+  p {
+    @apply mb-4;
+  }
+
+  ul {
+    @apply list-disc pl-4 ml-3;
+
+    li {
+      @apply mb-2;
+    }
+  }
+}

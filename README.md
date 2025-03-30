@@ -2,7 +2,38 @@
 
 https://dining.fm/
 
-This project is a website built with [Next.js](https://nextjs.org/) and [Prisma](https://www.prisma.io/).
+## Getting Started
 
-![](https://raw.githubusercontent.com/katsuma/dining.fm/main/public/icons.svg)
+### Installation
 
+Install the dependencies:
+
+```bash
+npm install
+```
+
+### Development
+
+Start the development server with HMR:
+
+```bash
+npm run dev
+```
+
+Your application will be available at `http://localhost:5173`.
+
+## Building for Production
+
+Create a production build:
+
+```bash
+npm run build
+```
+
+## Styling
+
+This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+
+---
+
+Built with ❤️ using React Router.
