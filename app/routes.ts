@@ -1,6 +1,7 @@
 import { type RouteConfig, index, layout, route } from "@react-router/dev/routes";
 
 export default [
+  route("sitemap.xml", "routes/sitemap.tsx"),
   layout("layout.tsx", [
     index("routes/home.tsx"),
     route("episodes/page/:page", "routes/episodes/page.tsx"),
