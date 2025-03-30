@@ -43,22 +43,6 @@ a.episode-link {
   @apply text-[1.2rem];
 }
 
-.episode-description {
-  @apply text-[1.2rem] mb-4;
-
-  p {
-    @apply mb-4;
-  }
-
-  ul {
-    @apply list-disc pl-4;
-
-    li {
-      @apply mb-2;
-    }
-  }
-}
-
 footer a {
   @apply border-b-0;
 }

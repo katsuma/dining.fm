@@ -21,7 +21,7 @@
   }
 
   ul {
-    @apply list-disc pl-4;
+    @apply list-disc pl-4 ml-3;
 
     li {
       @apply mb-2;
