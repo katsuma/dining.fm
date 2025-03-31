@@ -24,7 +24,7 @@ export function meta({data}: Route.MetaArgs) {
     return buildMeta([]);
   }
 
-  const title = `${data.episode.title} | ${defaultTitle}`;
+  const title = `${data.episode.id}. ${data.episode.title} | ${defaultTitle}`;
   const description = data.episode.summary || defaultTitle;
   const url = `${defaultHost}/episodes/${data.episode.id}`;
   const imageUrl = data.episode.imageUrl || `${defaultHost}/opengraph-image.png`;
