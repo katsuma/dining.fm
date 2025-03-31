@@ -5,7 +5,7 @@ import { IoCalendarOutline } from 'react-icons/io5';
 import { FaRegClock } from "react-icons/fa";
 
 import { Duration } from '@/utils/Duration';
-import { defaultTitle, defaultHost, buildMeta } from '@/utils/meta';
+import { defaultTitle, defaultDescription, defaultHost, buildMeta } from '@/utils/meta';
 import prisma from '@/utils/prisma';
 import { PublishedDate } from '@/utils/PublishedDate';
 import { EpisodePlayer } from "./components/EpisodePlayer";
@@ -25,7 +25,7 @@ export function meta({data}: Route.MetaArgs) {
   }
 
   const title = `${data.episode.id}. ${data.episode.title} | ${defaultTitle}`;
-  const description = data.episode.summary || defaultTitle;
+  const description = data.episode.summary || defaultDescription;
   const url = `${defaultHost}/episodes/${data.episode.id}`;
   const imageUrl = data.episode.imageUrl || `${defaultHost}/opengraph-image.png`;
 
