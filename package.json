@@ -31,7 +31,7 @@
     "sanitize-html": "^2.15.0"
   },
   "devDependencies": {
-    "@react-router/dev": "^7.4.0",
+    "@react-router/dev": "^7.5.1",
     "@tailwindcss/vite": "^4.0.0",
     "@types/node": "^20",
     "@types/react": "^19.0.1",
