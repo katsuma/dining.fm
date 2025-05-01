@@ -60,14 +60,14 @@ export default function App() {
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   let message = "エラーが発生しました";
-  let details = "";
+  let details = "指定されたページは表示できません";
   let stack: string | undefined;
+  const isProduction = import.meta.env.NODE_ENV === 'production';
 
   if (isRouteErrorResponse(error)) {
     message = error.status === 404 ? "ページが見つかりません" : "エラーが発生しました";
-    details = error.statusText || error.data || details;
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = "指定されたページは表示できません";
+    details = error.data || "指定されたページは表示できません";
+  } else if (!isProduction && error && error instanceof Error) {
     stack = error.stack;
   }
 
@@ -75,8 +75,12 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     <div className="container">
       <section className="my-8">
         <h2 className="title">{message}</h2>
-        <p className="text-xl mb-16">{details}</p>
-        {stack && (
+
+        {!isProduction && details && (
+          <p className="text-xl mb-16">{details}</p>
+        )}
+
+        {!isProduction && stack && (
           <pre className="w-full p-4 overflow-x-auto">
             <code>{stack}</code>
           </pre>
