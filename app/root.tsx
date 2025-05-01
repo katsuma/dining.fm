@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import ReactGA from "react-ga4";
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { MDXProvider } from '@mdx-js/react';
 import { components } from '@/components/mdx-components';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 import {
   isRouteErrorResponse,
@@ -57,30 +59,50 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
+  let message = "エラーが発生しました";
+  let details = "指定されたページは表示できません";
   let stack: string | undefined;
+  const isProduction = import.meta.env.NODE_ENV === 'production';
 
   if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
-    details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details;
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message;
+    message = error.status === 404 ? "ページが見つかりません" : "エラーが発生しました";
+    details = error.data || "指定されたページは表示できません";
+  } else if (!isProduction && error && error instanceof Error) {
     stack = error.stack;
   }
 
+  const ErrorContent = () => (
+    <div className="container">
+      <section className="my-8">
+        <h2 className="title">{message}</h2>
+
+        {!isProduction && details && (
+          <p className="text-xl mb-16">{details}</p>
+        )}
+
+        {!isProduction && stack && (
+          <pre className="w-full p-4 overflow-x-auto">
+            <code>{stack}</code>
+          </pre>
+        )}
+      </section>
+      <section className="text-center my-16">
+        <p className="text-xl leading-[2.4rem] mb-4">
+          <Link to={'/'}>トップページへ戻る</Link>
+        </p>
+      </section>
+    </div>
+  );
+
   return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
-          <code>{stack}</code>
-        </pre>
-      )}
-    </main>
+    <Layout>
+      <div className="min-h-screen">
+        <Header />
+        <main className="w-auto md:w-[50rem] mx-8 md:mx-auto">
+          <ErrorContent />
+        </main>
+        <Footer />
+      </div>
+    </Layout>
   );
 }
