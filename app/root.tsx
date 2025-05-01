@@ -64,7 +64,6 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   let stack: string | undefined;
 
   if (isRouteErrorResponse(error)) {
-    console.error(error);
     message = error.status === 404 ? "ページが見つかりません" : "エラーが発生しました";
     details = error.statusText || error.data || details;
   } else if (import.meta.env.DEV && error && error instanceof Error) {
