@@ -11,11 +11,20 @@ import { PublishedDate } from '@/utils/PublishedDate';
 import { EpisodePlayer } from "./components/EpisodePlayer";
 
 export async function loader({ params }: Route.LoaderArgs) {
+  const episodeId = Number(params.id);
+  if (isNaN(episodeId)) {
+    throw new Response("指定したエピソードは見つかりませんでした", { status: 404 });
+  }
+
   const episode = await prisma.episode.findUnique({
     where: {
-      id: Number(params.id)
+      id: episodeId
     }
   });
+
+  if (!episode) {
+    throw new Response("指定したエピソードは見つかりませんでした", { status: 404 });
+  }
   return { episode };
 }
 
