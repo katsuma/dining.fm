@@ -1,0 +1,73 @@
+# .clinerules
+
+## PROJECT_DESCRIPTION
+
+dining.fm is a website for distributing Podcast episodes. It is built using React Router and Prism.
+
+## TECH_STACK
+
+-   **Frontend:**
+    -   React
+    -   React Router
+    -   TypeScript
+    -   Vite
+    -   Tailwind CSS
+    -   MDX (for content writing)
+    -   Prism (for syntax highlighting)
+-   **Backend/Data:**
+    -   Prisma (ORM)
+-   **Package Manager:**
+    -   npm
+
+## MAIN_FEATURES
+
+-   List display of Podcast episodes
+-   Detailed display and playback function for Podcast episodes
+-   Provision of Podcasting Guide (content by MDX)
+-   Automatic sitemap generation
+-   Responsive design (by Tailwind CSS)
+
+## PROJECT_STRUCTURE
+
+```
+.
+├── app/                      # Main application code for the frontend
+│   ├── components/           # Common UI components
+│   ├── hooks/                # Custom React hooks
+│   ├── routes/               # Routing and components for each page
+│   │   ├── episodes/         # Episode related pages
+│   │   └── podcasting-guide/ # Podcasting Guide related pages
+│   ├── types/                # TypeScript type definitions
+│   └── utils/                # Utility functions
+├── prisma/                   # Prisma ORM related files
+│   └── schema.prisma         # Database schema definition
+├── public/                   # Static assets (images, fonts, etc.)
+├── scripts/                  # Various development and operation scripts
+├── package.json              # Project dependency and script definitions
+├── tsconfig.json             # TypeScript compiler settings
+├── vite.config.ts            # Vite build tool settings
+└── tailwind.config.js        # Tailwind CSS settings
+```
+
+## DEVELOPMENT_WORKFLOW
+
+1.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+2.  **Start development server (with HMR):**
+    ```bash
+    npm run dev
+    ```
+    The application will be available at `http://localhost:5173`.
+3.  **Type check:**
+    ```bash
+    npm run typecheck
+    ```
+4.  **Build for production:**
+    ```bash
+    npm run build
+    ```
+5.  **Start the built application:**
+    ```bash
+    npm run start
