@@ -18,6 +18,6 @@ class Publishing::Service::Spotify < Publishing::Service::Base
   end
 
   def self.number_from_element(element)
-    element.css("span")[0].text.strip.match(/\A[0-9]+/)[0].to_i
+    element.text.strip.match(/\A[0-9]+/)[0].to_i
   end
 end
