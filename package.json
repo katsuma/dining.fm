@@ -17,7 +17,7 @@
     "@react-router/node": "^7.5.2",
     "@react-router/serve": "^7.5.2",
     "@types/react-router-dom": "^5.3.3",
-    "@types/sanitize-html": "^2.15.0",
+    "@types/sanitize-html": "^2.16.0",
     "dompurify": "^3.2.4",
     "esbuild": "^0.25.2",
     "isbot": "^5.1.17",
