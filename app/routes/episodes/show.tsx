@@ -1,9 +1,10 @@
 import type { Route } from "./+types/show";
 
-import { Link, useLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import { IoCalendarOutline } from 'react-icons/io5';
 import { FaRegClock } from "react-icons/fa";
 
+import { LinkButton } from "@/components/LinkButton";
 import { Duration } from '@/utils/Duration';
 import { defaultTitle, defaultDescription, defaultHost, buildMeta } from '@/utils/meta';
 import prisma from '@/utils/prisma';
@@ -106,9 +107,9 @@ function EpisodeDetail() {
       </section>
 
       <section className="text-center my-16">
-        <p className="text-xl leading-[2.4rem] mb-4">
-          <Link to={'/episodes/page/1'}>エピソード一覧</Link>
-        </p>
+        <div className="text-xl leading-[2.4rem] mb-4">
+          <LinkButton to={'/episodes/page/1'}>エピソード一覧 »</LinkButton>
+        </div>
       </section>
 
       <script

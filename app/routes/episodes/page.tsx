@@ -1,6 +1,6 @@
 // provides type safety/inference
 import type { Route } from "./+types/page";
-import { Link, useLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import { type Episode } from '@prisma/client';
 
 import prisma from '@/utils/prisma';
