@@ -5,6 +5,7 @@ import type { Route } from "./+types/home";
 import prisma from '@/utils/prisma';
 import { buildMeta } from '@/utils/meta';
 import { EpisodeListItem } from '@/components/EpisodeListItem';
+import { LinkButton } from "@/components/LinkButton";
 
 export const loader: LoaderFunction = async () => {
   const episodes = await prisma.episode.findMany({
@@ -37,11 +38,9 @@ const Home = () => {
         {episodes.map((episode: Episode) => (
           <EpisodeListItem episode={episode} key={episode.id} />
         ))}
-        <p className="flex justify-around mx-auto mt-6 mb-16 text-xl">
-          <Link
-            to={`/episodes/page/1`}
-          >エピソードをもっと見る</Link>
-        </p>
+        <div className="flex justify-around mx-auto mt-6 mb-16 text-xl">
+          <LinkButton to="/episodes/page/1">エピソードをもっと見る</LinkButton>
+        </div>
       </section>
 
       <section className="my-8">
