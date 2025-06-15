@@ -11,7 +11,7 @@ type Props = {
 };
 
 export function LinkButton({ to, children, className, external }: Props) {
-  const baseClass = cn("text-lg py-6 px-8 border-gray-300", className);
+  const baseClass = cn("text-lg py-6 px-8 border border-gray-300", className);
   if (external) {
     return (
       <Button asChild variant="outline" className={baseClass}>
