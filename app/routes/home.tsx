@@ -5,6 +5,7 @@ import type { Route } from "./+types/home";
 import prisma from '@/utils/prisma';
 import { buildMeta } from '@/utils/meta';
 import { EpisodeListItem } from '@/components/EpisodeListItem';
+import { LinkButton } from "@/components/LinkButton";
 
 export const loader: LoaderFunction = async () => {
   const episodes = await prisma.episode.findMany({
@@ -37,11 +38,9 @@ const Home = () => {
         {episodes.map((episode: Episode) => (
           <EpisodeListItem episode={episode} key={episode.id} />
         ))}
-        <p className="flex justify-around mx-auto mt-6 mb-16 text-xl">
-          <Link
-            to={`/episodes/page/1`}
-          >エピソードをもっと見る</Link>
-        </p>
+        <div className="flex justify-around mx-auto mt-6 mb-16 text-xl">
+          <LinkButton to="/episodes/page/1">エピソードをもっと見る »</LinkButton>
+        </div>
       </section>
 
       <section className="my-8">
@@ -60,13 +59,19 @@ const Home = () => {
       </section>
 
       <section className="my-16 text-center">
-        <div className="flex justify-center space-x-4">
+        <div className="grid grid-cols-2 gap-4 md:flex md:justify-center md:space-x-4 md:mx-auto">
+
           <a href="https://open.spotify.com/show/3wSB2J20uqON5nPhCmMia5" target="_blank" rel="noopener noreferrer">
-            <img src="/listen-on/spotify.svg" alt="Listen on Spotify" height={10} />
+            <img src="/listen-on/spotify.svg" alt="Listen on Spotify" height={40} />
           </a>
           <a href="https://podcasts.apple.com/jp/podcast/id1668849655" target="_blank" rel="noopener noreferrer">
-            <img src="/listen-on/apple.svg" alt="Listen on Apple Podcasts" height={10} />
+            <img src="/listen-on/apple.svg" alt="Listen on Apple Podcasts" height={40} />
           </a>
+
+          <a href={`https://www.youtube.com/@diningfm`} target="_blank" rel="noopener noreferrer">
+            <img src={'/listen-on/youtube.svg'} alt={'Listen on YouTube'} height={40}/>
+          </a>
+
         </div>
       </section>
 

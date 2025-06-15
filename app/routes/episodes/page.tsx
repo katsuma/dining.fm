@@ -1,11 +1,12 @@
 // provides type safety/inference
 import type { Route } from "./+types/page";
-import { Link, useLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import { type Episode } from '@prisma/client';
 
 import prisma from '@/utils/prisma';
 import { defaultTitle, defaultHost, buildMeta } from '@/utils/meta';
 import { EpisodeListItem } from "@/components/EpisodeListItem";
+import { LinkButton } from "@/components/LinkButton";
 
 const episodeVisibleSize = 20;
 
@@ -69,16 +70,16 @@ function EpisodesPage() {
         <div className="flex justify-center space-x-4">
           {
             (currentPage - 1 > 0) && (
-              <p className="text-xl">
-                <Link to={`/episodes/page/${currentPage - 1}`}>« 前へ</Link>
-              </p>
+              <div className="text-xl">
+                <LinkButton to={`/episodes/page/${currentPage - 1}`}>« 前へ</LinkButton>
+              </div>
             )
           }
           {
             (currentPage + 1 <= maxPage) && (
-              <p className="text-xl">
-                <Link to={`/episodes/page/${currentPage + 1}`}>次へ »</Link>
-              </p>
+              <div className="text-xl">
+                <LinkButton to={`/episodes/page/${currentPage + 1}`}>次へ »</LinkButton>
+              </div>
             )
           }
         </div>
