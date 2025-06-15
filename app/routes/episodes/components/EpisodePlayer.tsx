@@ -32,19 +32,25 @@ export function EpisodePlayer({ episode }:{ episode: Episode }) {
     }
 
     <section className="my-16 text-center">
-      <div className="flex justify-center space-x-4">
-      {
-        episode.spotifyId !== null &&
-        <a href={`https://open.spotify.com/episode/${episode.spotifyId}`} target="_blank" rel="noopener noreferrer">
-          <img src={'/listen-on/spotify.svg'} alt={'Listen on Spotify'} width={160} height={40} />
-        </a>
-      }
-      {
-        episode.applePodcastId !== null &&
-        <a href={`https://podcasts.apple.com/us/podcast/id1668849655?i=${episode.applePodcastId}`} target="_blank" rel="noopener noreferrer">
-          <img src={'/listen-on/apple.svg'} alt={'Listen on Apple Podcasts'} width={160} height={40} />
-        </a>
-      }
+      <div className="grid grid-cols-2 gap-4 md:flex md:justify-center md:space-x-4 md:mx-auto">
+        {
+          episode.spotifyId !== null &&
+          <a href={`https://open.spotify.com/episode/${episode.spotifyId}`} target="_blank" rel="noopener noreferrer">
+            <img src={'/listen-on/spotify.svg'} alt={'Listen on Spotify'} width={160} height={40}/>
+          </a>
+        }
+        {
+          episode.applePodcastId !== null &&
+          <a href={`https://podcasts.apple.com/us/podcast/id1668849655?i=${episode.applePodcastId}`} target="_blank" rel="noopener noreferrer">
+            <img src={'/listen-on/apple.svg'} alt={'Listen on Apple Podcasts'} width={160} height={40}/>
+          </a>
+        }
+        {
+          episode.youtubeId !== null &&
+          <a href={`https://www.youtube.com/watch?v=${episode.youtubeId}`} target="_blank" rel="noopener noreferrer">
+            <img src={'/listen-on/youtube.svg'} alt={'Listen on YouTube'} width={160} height={40}/>
+          </a>
+        }
       </div>
     </section>
 
