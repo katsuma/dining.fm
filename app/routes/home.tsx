@@ -62,10 +62,10 @@ const Home = () => {
         <div className="grid grid-cols-2 gap-4 md:flex md:justify-center md:space-x-4 md:mx-auto">
 
           <a href="https://open.spotify.com/show/3wSB2J20uqON5nPhCmMia5" target="_blank" rel="noopener noreferrer">
-            <img src="/listen-on/spotify.svg" alt="Listen on Spotify" height={10} />
+            <img src="/listen-on/spotify.svg" alt="Listen on Spotify" height={40} />
           </a>
           <a href="https://podcasts.apple.com/jp/podcast/id1668849655" target="_blank" rel="noopener noreferrer">
-            <img src="/listen-on/apple.svg" alt="Listen on Apple Podcasts" height={10} />
+            <img src="/listen-on/apple.svg" alt="Listen on Apple Podcasts" height={40} />
           </a>
 
           <a href={`https://www.youtube.com/@diningfm`} target="_blank" rel="noopener noreferrer">
