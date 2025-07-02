@@ -13,7 +13,7 @@
     "@fontsource/m-plus-rounded-1c": "^5.2.8",
     "@mdx-js/react": "^3.1.0",
     "@mdx-js/rollup": "^3.1.0",
-    "@prisma/client": "^6.5.0",
+    "@prisma/client": "^6.10.1",
     "@radix-ui/react-slot": "^1.2.3",
     "@react-router/node": "^7.6.2",
     "@react-router/serve": "^7.6.2",
