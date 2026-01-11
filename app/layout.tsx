@@ -10,7 +10,7 @@ const Layout = () => {
   return (
     <div className="min-h-screen">
       <Header />
-      <main className="w-auto md:w-[50rem] mx-8 md:mx-auto">
+      <main className="w-auto md:w-200 mx-8 md:mx-auto">
         <Outlet />
       </main>
       <Footer />
