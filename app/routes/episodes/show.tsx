@@ -1,6 +1,6 @@
 import type { Route } from "./+types/show";
 
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import { IoCalendarOutline } from 'react-icons/io5';
 import { FaRegClock } from "react-icons/fa";
 
@@ -102,7 +102,7 @@ function EpisodeDetail() {
         <p className="text-xl leading-[2.4rem] mb-4">
           感想はX(Twitter)のハッシュタグ<a href="https://twitter.com/search?q=%23diningfm&src=typed_query&f=top">#diningfm</a> や
           <a href="https://twitter.com/diningfm">@diningfm</a>へのリプライ、
-          <a href="https://bit.ly/3Kq3zf2">GoogleForm</a>でのお便りなどからお待ちしています📮
+          <Link to="/letter">GoogleForm</Link>でのお便りなどからお待ちしています📮
         </p>
       </section>
 
