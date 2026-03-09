@@ -53,9 +53,17 @@ const Home = () => {
 
       <section className="my-8">
         <h2 className="title">番組紹介</h2>
-        <p className="text-xl leading-[2.4rem] mb-4">dining.fmは、ギャルソン好きの夫katsumaと、お菓子好きの妻daikokuの東京2人暮らし夫婦が、ゆるゆると話す雑談Podcast。</p>
-        <p className="text-xl leading-[2.4rem] mb-4">ファッション、スイーツ、ホテルなどを中心に、我が家のダイニングテーブルから家庭内で話題のトピックをお届けします🏠</p>
-        <p className="text-xl leading-[2.4rem] mb-4">感想はX(Twitter)のハッシュタグ <a href="https://twitter.com/search?q=%23diningfm&src=typed_query&f=top">#diningfm</a> や <a href="https://twitter.com/diningfm">@diningfm</a> へのリプライ、<a href="https://bit.ly/3Kq3zf2">GoogleForm</a> でのお便りなどからお待ちしています📮</p>
+        <p className="text-xl leading-[2.4rem] mb-4">
+          dining.fmは、ギャルソン好きの夫katsumaと、お菓子好きの妻daikokuの東京2人暮らし夫婦が、ゆるゆると話す雑談Podcast。
+        </p>
+        <p className="text-xl leading-[2.4rem] mb-4">
+          ファッション、スイーツ、ホテルなどを中心に、我が家のダイニングテーブルから家庭内で話題のトピックをお届けします🏠
+        </p>
+        <p className="text-xl leading-[2.4rem] mb-4">
+          感想はX(Twitter)のハッシュタグ <a href="https://twitter.com/search?q=%23diningfm&src=typed_query&f=top">#diningfm</a> や
+          <a href="https://twitter.com/diningfm">@diningfm</a> へのリプライ、
+          <Link to="/letter">GoogleForm</Link> でのお便りなどからお待ちしています📮
+        </p>
       </section>
 
       <section className="my-16 text-center">
