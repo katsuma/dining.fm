@@ -7,8 +7,9 @@
 
 :root {
   --font-*: initial;
-  --font-sans: "M PLUS Rounded 1c", "Inter", ui-sans-serif, system-ui, sans-serif,
+  --font-sans: "Zen Maru Gothic", "M PLUS Rounded 1c", "Inter", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-numeric-value: "M PLUS Rounded 1c", sans-serif;
   --black-primary: #373737;
   --black-secondary: #676767;
   --gray: #676767;
@@ -17,6 +18,14 @@
   --yellow: #FDDF19;
   --yellow-light: #FFFEFA;
   --blue: #0E81B4;
+  --orange: #ff8368;
+  --green: #48a57b;
+  --yellow-green: #efff95;
+  --episode-hover-bg: #f4faec;
+  --text-link: #2e2c2a;
+  --card-radius: 18px;
+  --card-shadow: 4px 4px 0px 0px black;
+  --button-radius: 24px;
   --border-radius: 1rem;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -54,39 +63,23 @@
 
 html,
 body {
-  @apply bg-white text-gray-900 max-w-[100vw] text-[12px] overflow-x-hidden;
-}
-
-p a,
-li a {
-  @apply no-underline border-b-1 border-dotted;
-}
-
-h2.title {
-  @apply mb-4 pb-0.5 border-b-4 text-[1.6rem] font-bold border-[var(--yellow)] inline-block;
-}
-
-h3.episode-title {
-  @apply mb-1 text-[1.35rem] font-semibold;
-}
-
-a.episode-link {
-  @apply border-none;
-}
-
-.episode-meta p {
-  @apply text-[1.2rem];
-}
-
-footer a {
-  @apply border-b-0;
+  @apply bg-yellow-light text-gray-900 max-w-[100vw] text-base font-medium overflow-x-hidden;
 }
 
 @theme inline {
+  --font-numeric: var(--font-numeric-value);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --color-orange: var(--orange);
+  --color-green: var(--green);
+  --color-yellow-light: var(--yellow-light);
+  --color-yellow-green: var(--yellow-green);
+  --color-episode-hover-bg: var(--episode-hover-bg);
+  --color-text-link: var(--text-link);
+  --color-black-primary: var(--black-primary);
+  --color-black-secondary: var(--black-secondary);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -159,6 +152,6 @@ footer a {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-yellow-light text-foreground;
   }
 }

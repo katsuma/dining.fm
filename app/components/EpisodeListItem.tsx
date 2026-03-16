@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
-import { IoCalendarOutline } from 'react-icons/io5';
-import { FaRegClock } from "react-icons/fa";
+import { Calendar, Clock } from 'lucide-react';
 import { Duration } from "@/utils/Duration";
 import { type Episode } from "@prisma/client";
 import { PublishedDate } from '@/utils/PublishedDate';
@@ -13,11 +12,11 @@ export const EpisodeListItem = ({ episode }: { episode: Episode }) => (
         <h3 className="episode-title">{episode.id}. {episode.title}</h3>
         <div className="flex space-x-4 episode-meta">
           <p className="text-gray-500 mb-1">
-            <IoCalendarOutline className="inline-block mr-1" />
+            <Calendar className="inline-block mr-1 size-4" />
             <span className="align-middle">{PublishedDate.toLocalDate(episode.publishedAt)}</span>
           </p>
           <p className="text-gray-500">
-            <FaRegClock className="inline-block mr-1" />
+            <Clock className="inline-block mr-1 size-4" />
             <span className="align-middle">{Duration.parse(String(episode.duration))}</span>
           </p>
         </div>

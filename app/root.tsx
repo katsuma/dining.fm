@@ -26,7 +26,7 @@ export const links: Route.LinksFunction = () => [
   },
   {
     rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap",
   },
 ];
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -96,9 +96,9 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   return (
     <Layout>
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-white md:max-w-[780px] md:mx-auto md:shadow-[0_0_30px_rgba(0,0,0,0.06)]">
         <Header />
-        <main className="w-auto md:w-200 mx-8 md:mx-auto">
+        <main className="w-auto md:w-150 mx-8 md:mx-auto">
           <ErrorContent />
         </main>
         <Footer />
