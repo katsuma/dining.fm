@@ -49,7 +49,7 @@ const Home = () => {
       {/* 番組紹介 */}
       <section className="relative mb-10">
         <LabelBadge text="番組紹介" />
-        <div className="bg-white border-2 border-black rounded-(--card-radius) shadow-(--card-shadow) p-6 pt-8">
+        <div className="bg-white border-2 border-black rounded-(--card-radius) shadow-(--card-shadow) p-6">
           <Paragraph>
             <span className="font-bold">dining.fm</span>
             は、ギャルソン好きの夫katsumaと、お菓子好きの妻daikokuの東京２人暮らし夫婦が、ゆるゆると話す雑談Podcast。
