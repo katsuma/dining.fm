@@ -16,7 +16,7 @@
   --gray-light: #D9D9D9;
   --gray-lighter: #F6F6F6;
   --yellow: #FDDF19;
-  --yellow-light: #FFFEFA;
+  --yellow-light: #FDFBF8;
   --blue: #0E81B4;
   --orange: #ff8368;
   --green: #48a57b;
@@ -74,6 +74,7 @@ body {
   --radius-xl: calc(var(--radius) + 4px);
   --color-orange: var(--orange);
   --color-green: var(--green);
+  --color-yellow: var(--yellow);
   --color-yellow-light: var(--yellow-light);
   --color-yellow-green: var(--yellow-green);
   --color-episode-hover-bg: var(--episode-hover-bg);

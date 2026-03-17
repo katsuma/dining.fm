@@ -8,7 +8,7 @@ const Layout = () => {
   usePageTracking();
 
   return (
-    <div className="min-h-screen bg-white md:max-w-[580px] md:mx-auto md:shadow-[0_0_30px_rgba(0,0,0,0.06)]">
+    <div className="min-h-screen bg-yellow-light md:max-w-[580px] md:mx-auto md:shadow-[0_0_30px_rgba(0,0,0,0.06)]">
       <Header />
       <main className="w-auto md:w-130 mx-8 md:mx-auto">
         <Outlet />

@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import { CirclePlay } from "lucide-react";
 import { type Episode } from "@prisma/client";
 import { PublishedDate } from "@/utils/PublishedDate";
+import { IoCalendarOutline } from "react-icons/io5";
+import { FaRegClock } from "react-icons/fa";
+import { Duration } from "@/utils/Duration";
 
 export const EpisodeCard = ({ episode }: { episode: Episode }) => (
   <Link to={`/episodes/${episode.id}`} className="block border-b-0 no-underline">
@@ -17,14 +20,21 @@ export const EpisodeCard = ({ episode }: { episode: Episode }) => (
         </div>
       </div>
       <div className="flex flex-col justify-between min-w-0">
-        <p className="text-[14px] font-bold text-black-primary tracking-[-0.45px] leading-normal mb-1">
+        <p className="text-[16px] font-bold text-black-primary tracking-[-0.45px] leading-normal mb-1">
           <span className="font-numeric text-[15px] font-bold">{episode.id}.</span>
           {" "}
           {episode.title}
         </p>
-        <p className="font-numeric text-[14px] font-bold text-black-secondary tracking-[-0.42px] leading-normal">
-          {PublishedDate.toLocalDate(episode.publishedAt)}
-        </p>
+        <div className="flex items-center space-x-4">
+          <p className="flex items-center gap-1 font-numeric text-[14px] text-black tracking-[-0.42px]">
+          <IoCalendarOutline className="size-4" />
+            {PublishedDate.parse(episode.publishedAt.toISOString())}
+          </p>
+          <p className="flex items-center gap-1 font-numeric text-[14px] text-black tracking-[-0.42px]">
+            <FaRegClock className="size-4" />
+            {Duration.parse(episode.duration)}
+          </p>
+        </div>
       </div>
     </div>
   </Link>

@@ -48,9 +48,7 @@ const Home = () => {
 
       {/* 番組紹介 */}
       <section className="relative mb-10">
-        <div className="absolute -top-3 left-2 z-10">
-          <LabelBadge text="番組紹介" />
-        </div>
+        <LabelBadge text="番組紹介" />
         <div className="bg-white border-2 border-black rounded-(--card-radius) shadow-(--card-shadow) p-6 pt-8">
           <Paragraph>
             <span className="font-bold">dining.fm</span>

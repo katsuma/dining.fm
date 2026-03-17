@@ -53,8 +53,8 @@ const SNS_LINKS = [
 const Footer = () => {
   return (
     <footer className="mt-8">
-      <div className="w-auto md:w-120 mx-8 md:mx-auto">
-        <div className="grid grid-cols-2 gap-8">
+      <div className="w-auto">
+        <div className="md:w-120 mx-8 md:mx-auto grid grid-cols-2 gap-8">
           <div>
             <Heading title="購読" dotClassName="bg-green" />
             <ul className="list-none p-0 m-0 space-y-3">
@@ -93,11 +93,11 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="py-8 border-t border-gray-300 mt-8">
+        <div className="py-8 border-t-2 border-black mt-8 bg-white">
           <div className="flex justify-center">
             <img src="/logo.svg" alt="dining.fm" width={140} height={34} />
           </div>
-          <p className="text-center text-sm text-black-secondary py-8">Copyright (c) dining.fm</p>
+          <p className="text-center text-sm text-black-secondary pt-8">Copyright (c) dining.fm</p>
         </div>
       </div>
     </footer>
