@@ -1,4 +1,39 @@
 .podcasting-guide {
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.66px;
+    color: var(--black-primary);
+    line-height: 1.375;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  h2::after {
+    content: '';
+    display: block;
+    margin-top: 0.5rem;
+    height: 5px;
+    border-radius: 9999px;
+    background-color: var(--yellow);
+    border: 1px solid black;
+  }
+
+  h3 {
+    width: fit-content;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-top: 2rem;
+    border-bottom: 2px solid var(--yellow);
+  }
+
+
+  p {
+    margin-bottom: 1rem;
+    font-size: 1.0rem;
+    font-weight: 400;
+  }
+
   ul {
     list-style-type: circle;
     margin-top: 1rem;
@@ -6,6 +41,8 @@
 
     li {
       margin-bottom: 0.6rem;
+      font-size: 1.0rem;
+      font-weight: 400;
 
       ul {
         list-style-type: square;
@@ -13,5 +50,10 @@
         margin-bottom: 1.6rem;
       }
     }
+  }
+
+  a {
+    color: var(--orange);
+    text-decoration: underline;
   }
 }
