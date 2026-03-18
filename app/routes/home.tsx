@@ -9,11 +9,12 @@ import { LinkButton } from "@/components/LinkButton";
 import { Heading } from "@/components/Heading";
 import { LabelBadge } from "@/components/LabelBadge";
 import { Paragraph } from "@/components/Paragraph";
+import { ArticleCard } from "@/components/ArticleCard";
 
 export const loader: LoaderFunction = async () => {
   const episodes = await prisma.episode.findMany({
     orderBy: [{ id: "desc" }],
-    take: 5,
+    take: 3,
     select: {
       id: true,
       title: true,
@@ -51,12 +52,24 @@ const Home = () => {
         </div>
       </section>
 
+      <section className="mb-8">
+        <Heading title="読みもの" dotClassName="bg-green" />
+        <div className="flex flex-col gap-3">
+          <ArticleCard
+            thumbnailUrl="/podcasting-guide/mic.jpg"
+            title="収録・編集環境"
+            linkUrl="/podcasting-guide"
+            description="マイクやオーディオインターフェースなど収録環境や、編集環境についてのまとめです。"
+          />
+        </div>
+      </section>
+
       {/* Hero */}
-      <section className="flex justify-center mt-4 mb-8">
+      <section className="flex justify-center mt-16 mb-4">
         <img
           src="/speakers.png"
           alt="dining.fm"
-          className="w-[280px] h-[200px] object-cover"
+          className="w-[336px] h-[240px] object-cover"
         />
       </section>
 
