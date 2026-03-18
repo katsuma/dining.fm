@@ -37,6 +37,20 @@ const Home = () => {
 
   return (
     <div className="container">
+
+      {/* 最新エピソード */}
+      <section className="mb-8">
+        <Heading title="最新エピソード" dotClassName="bg-orange" />
+        <div className="flex flex-col gap-3">
+          {episodes.map((episode: Episode) => (
+            <EpisodeCard episode={episode} key={episode.id} />
+          ))}
+        </div>
+        <div className="flex justify-center mt-6">
+          <LinkButton to="/episodes/page/1">すべて見る</LinkButton>
+        </div>
+      </section>
+
       {/* Hero */}
       <section className="flex justify-center mt-4 mb-8">
         <img
@@ -52,28 +66,14 @@ const Home = () => {
         <div className="bg-white border-2 border-black rounded-(--card-radius) shadow-(--card-shadow) p-6">
           <Paragraph>
             <span className="font-bold">dining.fm</span>
-            は、ギャルソン好きの夫katsumaと、お菓子好きの妻daikokuの東京２人暮らし夫婦が、ゆるゆると話す雑談Podcast。
+            は、ギャルソン好きの夫<span className="font-bold">katsuma</span>と、
+            お菓子好きの妻<span className="font-bold">daikoku</span>の東京２人暮らし夫婦が、ゆるゆると話す雑談Podcast。
           </Paragraph>
           <Paragraph>
             ファッション、スイーツ、ホテルなどを中心に、我が家のダイニングテーブルから家庭内で話題のトピックをお届けします🏠
           </Paragraph>
         </div>
       </section>
-
-      {/* 最新エピソード */}
-      <section className="mb-8">
-        <Heading title="最新エピソード" dotClassName="bg-orange" />
-        <div className="flex flex-col gap-3">
-          {episodes.map((episode: Episode) => (
-            <EpisodeCard episode={episode} key={episode.id} />
-          ))}
-        </div>
-        <div className="flex justify-center mt-6">
-          <LinkButton to="/episodes/page/1">すべて見る</LinkButton>
-        </div>
-      </section>
-
-
     </div>
   );
 };
