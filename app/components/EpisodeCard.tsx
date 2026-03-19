@@ -28,7 +28,7 @@ export const EpisodeCard = ({ episode }: { episode: Episode }) => (
         <div className="flex items-center space-x-4">
           <p className="flex items-center gap-1 font-numeric font-normal text-[14px] text-black tracking-[-0.42px]">
           <IoCalendarOutline className="size-4" />
-            {PublishedDate.parse(episode.publishedAt.toISOString())}
+            {PublishedDate.parse(new Date(episode.publishedAt).toISOString())}
           </p>
           <p className="flex items-center gap-1 font-numeric font-normal text-[14px] text-black tracking-[-0.42px]">
             <FaRegClock className="size-4" />
