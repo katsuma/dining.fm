@@ -93,7 +93,7 @@ function EpisodeDetail() {
         <h2 className="text-[22px] font-bold tracking-[-0.66px] text-black-primary leading-snug mb-2">
           <span className="font-numeric">{episode.id}.</span> {episode.title}
         </h2>
-        <div className="h-[5px] rounded-full bg-yellow border border-black mb-4" />
+        <div className="h-[5px] rounded-full bg-orange border border-black mb-4" />
         <div className="flex items-center space-x-4">
           <p className="flex items-center gap-1 font-numeric text-[14px] text-black tracking-[-0.42px]">
             <IoCalendarOutline className="size-4" />
