@@ -54,7 +54,7 @@ const Footer = () => {
   return (
     <footer className="mt-8">
       <div className="w-auto">
-        <div className="md:w-120 mx-8 md:mx-auto grid grid-cols-2 gap-8">
+        <div className="md:w-130 mx-8 md:mx-auto grid grid-cols-2 gap-8">
           <div>
             <Heading title="購読" dotClassName="bg-green" />
             <ul className="list-none p-0 m-0 space-y-3">
