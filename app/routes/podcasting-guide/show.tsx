@@ -31,10 +31,16 @@ export function meta({}:Route.MetaArgs) {
 function ShareButton() {
   const handleShare = async () => {
     if (navigator.share) {
-      await navigator.share({
-        title: pageTitle,
-        url: pageUrl,
-      });
+      try {
+        await navigator.share({
+          title: pageTitle,
+          url: pageUrl,
+        });
+      } catch (error) {
+        if (error instanceof Error && error.name !== 'AbortError') {
+          console.error('Share failed:', error);
+        }
+      }
     }
   };
 
