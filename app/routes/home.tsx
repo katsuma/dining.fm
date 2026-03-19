@@ -53,7 +53,7 @@ const Home = () => {
       </section>
 
       <section className="mb-8">
-        <Heading title="読みもの" dotClassName="bg-green" />
+        <Heading title="読みもの" dotClassName="bg-yellow" />
         <div className="flex flex-col gap-3">
           <ArticleCard
             thumbnailUrl="/podcasting-guide/mic.jpg"
