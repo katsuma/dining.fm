@@ -34,7 +34,7 @@ const SUBSCRIBE_LINKS = [
 
 const SNS_LINKS = [
   {
-    name: "X (@diningfm)",
+    name: "X",
     href: "https://x.com/diningfm",
     icon: SiX,
   },

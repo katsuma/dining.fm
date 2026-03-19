@@ -10,11 +10,12 @@ import { Heading } from "@/components/Heading";
 import { LabelBadge } from "@/components/LabelBadge";
 import { Paragraph } from "@/components/Paragraph";
 import { ArticleCard } from "@/components/ArticleCard";
+import { ExternalLink, Link2 } from "lucide-react";
 
 export const loader: LoaderFunction = async () => {
   const episodes = await prisma.episode.findMany({
     orderBy: [{ id: "desc" }],
-    take: 3,
+    take: 5,
     select: {
       id: true,
       title: true,
@@ -32,13 +33,23 @@ export function meta({}: Route.MetaArgs) {
   return buildMeta([]);
 }
 
+const announcements: { publishedAt: string; title: string, linkUrl?: string }[] = [
+  {
+    publishedAt: "2026/3/20 12:00",
+    title: "サイトデザインをリニューアルしました",
+  },
+  {
+    publishedAt: "2026/02/16 12:00",
+    title: "Podcast Weekend 2026への出店が決定しました",
+    linkUrl: "https://podcastexpo.jp/booth/pcwe-029/",
+  },
+];
 
 const Home = () => {
   const { episodes } = useLoaderData();
 
   return (
     <div className="container">
-
       {/* 最新エピソード */}
       <section className="mb-8">
         <Heading title="最新エピソード" dotClassName="bg-orange" />
@@ -61,6 +72,46 @@ const Home = () => {
             linkUrl="/podcasting-guide"
             description="マイクやオーディオインターフェースなど収録環境や、編集環境についてのまとめです。"
           />
+        </div>
+      </section>
+
+      <section className="mb-8">
+        <Heading title="お知らせ" dotClassName="bg-light-green" />
+        <div className="bg-white border-2 border-black rounded-(--card-radius) shadow-(--card-shadow) py-2 px-4">
+          <ul className="flex flex-col">
+            {announcements.map((item, index) => (
+              <li
+                key={`${item.publishedAt}-${item.title}`}
+                className={`py-3 ${
+                  index < announcements.length - 1
+                    ? "border-b border-dashed border-gray-300"
+                    : ""
+                }`}
+              >
+                <p className="font-numeric text-[14px] text-black-secondary tracking-[-0.42px]">
+                  {item.publishedAt}
+                </p>
+                {item.linkUrl && (
+                  <p className="mt-1 text-[15px] font-bold tracking-[-0.45px] text-black-primary">
+                    <a href={item.linkUrl} target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-orange">
+                      {item.title}
+                      {item.linkUrl.startsWith("http") && (
+                        <ExternalLink className="size-4 inline-block ml-1" />
+                      )}
+                      {!item.linkUrl.startsWith("http") && (
+                        <Link2 className="size-4 inline-block ml-1" />
+                      )}
+                    </a>
+                  </p>
+                )}
+                {!item.linkUrl && (
+                  <p className="mt-1 text-[15px] font-bold tracking-[-0.45px] text-black-primary">
+                    {item.title}
+                  </p>
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
