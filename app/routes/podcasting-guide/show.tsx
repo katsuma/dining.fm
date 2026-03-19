@@ -10,7 +10,7 @@ const pageUrl = `${defaultHost}/podcasting-guide`;
 export function meta({}:Route.MetaArgs) {
   const title = `${pageTitle} | ${defaultTitle}`;
   const description = "2024年1月時点でのdining.fmのマイクやオーディオインターフェースなどの収録環境や、DAWやプラグインなど編集環境についてのまとめです。";
-  const imageUrl = `${defaultHost}//podcasting-guide/opengraph-image.jpg`;
+  const imageUrl = `${defaultHost}/podcasting-guide/opengraph-image.jpg`;
 
   const metas = buildMeta([
     { title: title },
