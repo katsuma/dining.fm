@@ -99,7 +99,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     <Layout>
       <div className="min-h-screen bg-white md:max-w-[780px] md:mx-auto md:shadow-[0_0_30px_rgba(0,0,0,0.06)]">
         <Header />
-        <main className="w-auto md:w-150 mx-8 md:mx-auto">
+        <main className="w-auto md:w-130 mx-8 md:mx-auto">
           <ErrorContent />
         </main>
         <Footer />
