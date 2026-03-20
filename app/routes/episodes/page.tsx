@@ -5,7 +5,8 @@ import { type Episode } from '@prisma/client';
 
 import prisma from '@/utils/prisma';
 import { defaultTitle, defaultHost, buildMeta } from '@/utils/meta';
-import { EpisodeListItem } from "@/components/EpisodeListItem";
+import { EpisodeCard } from "@/components/EpisodeCard";
+import { Heading } from "@/components/Heading";
 import { LinkButton } from "@/components/LinkButton";
 
 const episodeVisibleSize = 20;
@@ -60,29 +61,25 @@ function EpisodesPage() {
 
   return (
     <div className="container">
-      <section className="my-8">
-        <h2 className="title">最新エピソード ({currentPage}/{maxPage})</h2>
-        {episodes.map((episode: Episode) => (
-          <EpisodeListItem episode={episode} key={episode.id} />
-        ))}
-      </section>
-      <section className="text-center mt-6 mb-16">
-        <div className="flex justify-center space-x-4">
-          {
-            (currentPage - 1 > 0) && (
-              <div className="text-xl">
-                <LinkButton to={`/episodes/page/${currentPage - 1}`}>« 前へ</LinkButton>
-              </div>
-            )
-          }
-          {
-            (currentPage + 1 <= maxPage) && (
-              <div className="text-xl">
-                <LinkButton to={`/episodes/page/${currentPage + 1}`}>次へ »</LinkButton>
-              </div>
-            )
-          }
+      <section className="mb-8">
+        <Heading title={`最新エピソード (${currentPage}/${maxPage})`} dotClassName="bg-orange" />
+        <div className="flex flex-col gap-3">
+          {episodes.map((episode: Episode) => (
+            <EpisodeCard episode={episode} key={episode.id} />
+          ))}
         </div>
+      </section>
+      <section className="flex justify-center space-x-4 mt-6 mb-10">
+        {
+          (currentPage - 1 > 0) && (
+            <LinkButton to={`/episodes/page/${currentPage - 1}`}>« 前へ</LinkButton>
+          )
+        }
+        {
+          (currentPage + 1 <= maxPage) && (
+            <LinkButton to={`/episodes/page/${currentPage + 1}`}>次へ »</LinkButton>
+          )
+        }
       </section>
     </div>
   );

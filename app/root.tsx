@@ -16,6 +16,9 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { LinkButton } from './components/LinkButton';
+import { Heading } from './components/Heading';
+import { Paragraph } from './components/Paragraph';
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -26,7 +29,7 @@ export const links: Route.LinksFunction = () => [
   },
   {
     rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap",
   },
 ];
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -74,10 +77,10 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   const ErrorContent = () => (
     <div className="container">
       <section className="my-8">
-        <h2 className="title">{message}</h2>
+        <Heading title={message} dotClassName="bg-orange" />
 
         {!isProduction && details && (
-          <p className="text-xl mb-16">{details}</p>
+          <Paragraph>{details}</Paragraph>
         )}
 
         {!isProduction && stack && (
@@ -87,18 +90,16 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
         )}
       </section>
       <section className="text-center my-16">
-        <p className="text-xl leading-[2.4rem] mb-4">
-          <Link to={'/'}>トップページへ戻る</Link>
-        </p>
+        <LinkButton to="/">トップページへ戻る</LinkButton>
       </section>
     </div>
   );
 
   return (
     <Layout>
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-white md:max-w-[780px] md:mx-auto md:shadow-[0_0_30px_rgba(0,0,0,0.06)]">
         <Header />
-        <main className="w-auto md:w-200 mx-8 md:mx-auto">
+        <main className="w-auto md:w-130 mx-8 md:mx-auto">
           <ErrorContent />
         </main>
         <Footer />

@@ -1,29 +1,16 @@
-import { useState, useEffect } from 'react';
-import { CgNotes } from "react-icons/cg";
-import DOMPurify from 'dompurify';
-
 import type { Episode } from '@prisma/client';
-import styles from './EpisodePlayer.module.css';
 
 export function EpisodePlayer({ episode }:{ episode: Episode }) {
-  const [sanitizedDescription, setSanitizedDescription] = useState('');
-
-  useEffect(() => {
-    if (episode.description) {
-      setSanitizedDescription(DOMPurify.sanitize(episode.description));
-    }
-  }, [episode.description]);
-
   return(<>
     {
       episode.spotifyId !== null ?
       <iframe
         src={`https://open.spotify.com/embed/episode/${episode.spotifyId}`}
         width="330"
-        height="80"
+        height="70"
         allow="encrypted-media"
         title="Spotify Player"
-        className="w-full h-52 my-8"
+        className="w-full h-46"
       ></iframe>
       :
       <audio className="w-full my-8" controls={true} src={episode.enclosureUrl}>
@@ -31,8 +18,8 @@ export function EpisodePlayer({ episode }:{ episode: Episode }) {
       </audio>
     }
 
-    <section className="my-16 text-center">
-      <div className="grid grid-cols-2 gap-4 md:flex md:justify-center md:space-x-4 md:mx-auto">
+    <section className="mb-8 text-center">
+      <div className="grid grid-cols-2 gap-2 md:flex md:justify-center md:space-x-4 md:mx-auto">
         {
           episode.spotifyId !== null &&
           <a href={`https://open.spotify.com/episode/${episode.spotifyId}`} target="_blank" rel="noopener noreferrer">
@@ -53,21 +40,5 @@ export function EpisodePlayer({ episode }:{ episode: Episode }) {
         }
       </div>
     </section>
-
-    {
-      episode.summary !== null &&
-      <section className={styles.summary}>
-        <h3>
-          <CgNotes className="inline-block pt-1 mr-1" />
-          <span className="align-middle">ざっくりまとめ</span>
-        </h3>
-        <p>{episode.summary}</p>
-      </section>
-    }
-
-    <div
-      className={styles['episode-description']}
-      dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
-    />
   </>);
 }

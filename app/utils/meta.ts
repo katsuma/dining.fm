@@ -5,7 +5,7 @@ interface MetaTag {
   content?: string;
 }
 
-export const defaultTitle = "dining.fm - 東京の夫婦のある日の食卓";
+export const defaultTitle = "dining.fm";
 export const defaultDescription = "dining.fmは、ギャルソン好きの夫katsumaと、お菓子好きの妻daikokuの東京2人暮らし夫婦が、ゆるゆると話す雑談Podcast。TVや映画などのコンテンツの感想を中心に、ファッション、スイーツ、ホテルなどを中心に、我が家のダイニングテーブルから家庭内で話題のトピックをお届けします🏠"
 ;
 export const defaultHost = process.env.NODE_ENV == "development" ? "http://localhost:5173" :  "https://dining.fm";
