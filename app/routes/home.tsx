@@ -29,11 +29,15 @@ export const loader: LoaderFunction = async () => {
   return { episodes };
 };
 
-export function meta({}: Route.MetaArgs) {
+export function meta(_: Route.MetaArgs) {
   return buildMeta([]);
 }
 
-const announcements: { publishedAt: string; title: string, linkUrl?: string }[] = [
+const announcements: {
+  publishedAt: string;
+  title: string;
+  linkUrl?: string;
+}[] = [
   {
     publishedAt: "2026/3/20 12:00",
     title: "サイトデザインをリニューアルしました",
@@ -93,7 +97,12 @@ const Home = () => {
                 </p>
                 {item.linkUrl && (
                   <p className="mt-1 text-[15px] font-bold tracking-[-0.45px] text-black-primary">
-                    <a href={item.linkUrl} target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-orange">
+                    <a
+                      href={item.linkUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:underline hover:text-orange"
+                    >
                       {item.title}
                       {item.linkUrl.startsWith("http") && (
                         <ExternalLink className="size-4 inline-block ml-1" />
@@ -131,7 +140,8 @@ const Home = () => {
           <Paragraph>
             <span className="font-bold">dining.fm</span>
             は、ギャルソン好きの夫<span className="font-bold">katsuma</span>と、
-            お菓子好きの妻<span className="font-bold">daikoku</span>の東京２人暮らし夫婦が、ゆるゆると話す雑談Podcast。
+            お菓子好きの妻<span className="font-bold">daikoku</span>
+            の東京２人暮らし夫婦が、ゆるゆると話す雑談Podcast。
           </Paragraph>
           <Paragraph>
             ファッション、スイーツ、ホテルなどを中心に、我が家のダイニングテーブルから家庭内で話題のトピックをお届けします🏠

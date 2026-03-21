@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import ReactGA from "react-ga4";
-import { Link, Outlet } from 'react-router-dom';
-import { MDXProvider } from '@mdx-js/react';
-import { components } from '@/components/mdx-components';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { Outlet } from "react-router-dom";
+import { MDXProvider } from "@mdx-js/react";
+import { components } from "@/components/mdx-components";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 import {
   isRouteErrorResponse,
@@ -16,9 +16,9 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import { LinkButton } from './components/LinkButton';
-import { Heading } from './components/Heading';
-import { Paragraph } from './components/Paragraph';
+import { LinkButton } from "./components/LinkButton";
+import { Heading } from "./components/Heading";
+import { Paragraph } from "./components/Paragraph";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -46,9 +46,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <MDXProvider components={components}>
-          {children}
-        </MDXProvider>
+        <MDXProvider components={components}>{children}</MDXProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -56,32 +54,27 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-
 export default function App() {
   return <Outlet />;
 }
 
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "エラーが発生しました";
-  let details = "指定されたページは表示できません";
-  let stack: string | undefined;
-  const isProduction = import.meta.env.NODE_ENV === 'production';
-
-  if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "ページが見つかりません" : "エラーが発生しました";
-    details = error.data || "指定されたページは表示できません";
-  } else if (!isProduction && error && error instanceof Error) {
-    stack = error.stack;
-  }
-
-  const ErrorContent = () => (
+function ErrorContent({
+  message,
+  details,
+  stack,
+  isProduction,
+}: {
+  message: string;
+  details: string;
+  stack?: string;
+  isProduction: boolean;
+}) {
+  return (
     <div className="container">
       <section className="my-8">
         <Heading title={message} dotClassName="bg-orange" />
 
-        {!isProduction && details && (
-          <Paragraph>{details}</Paragraph>
-        )}
+        {!isProduction && details && <Paragraph>{details}</Paragraph>}
 
         {!isProduction && stack && (
           <pre className="w-full p-4 overflow-x-auto">
@@ -94,13 +87,33 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
       </section>
     </div>
   );
+}
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  let message = "エラーが発生しました";
+  let details = "指定されたページは表示できません";
+  let stack: string | undefined;
+  const isProduction = import.meta.env.NODE_ENV === "production";
+
+  if (isRouteErrorResponse(error)) {
+    message =
+      error.status === 404 ? "ページが見つかりません" : "エラーが発生しました";
+    details = error.data || "指定されたページは表示できません";
+  } else if (!isProduction && error && error instanceof Error) {
+    stack = error.stack;
+  }
 
   return (
     <Layout>
       <div className="min-h-screen bg-white md:max-w-[780px] md:mx-auto md:shadow-[0_0_30px_rgba(0,0,0,0.06)]">
         <Header />
         <main className="w-auto md:w-130 mx-8 md:mx-auto">
-          <ErrorContent />
+          <ErrorContent
+            message={message}
+            details={details}
+            stack={stack}
+            isProduction={isProduction}
+          />
         </main>
         <Footer />
       </div>
