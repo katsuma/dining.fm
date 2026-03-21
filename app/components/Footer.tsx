@@ -97,7 +97,9 @@ const Footer = () => {
           <div className="flex justify-center">
             <img src="/logo.svg" alt="dining.fm" width={140} height={34} />
           </div>
-          <p className="text-center text-sm text-black-secondary pt-8">Copyright (c) dining.fm</p>
+          <p className="text-center text-sm text-black-secondary pt-8">
+            Copyright (c) dining.fm
+          </p>
         </div>
       </div>
     </footer>

@@ -4,7 +4,10 @@ import { defaultHost } from "@/utils/meta";
 export async function loader() {
   const staticPaths = [
     { url: `${defaultHost}/`, lastModified: new Date().toISOString() },
-    { url: `${defaultHost}/podcasting-guide`, lastModified: new Date().toISOString() },
+    {
+      url: `${defaultHost}/podcasting-guide`,
+      lastModified: new Date().toISOString(),
+    },
   ];
 
   const episodes = await prisma.episode.findMany({

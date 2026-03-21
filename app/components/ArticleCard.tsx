@@ -7,12 +7,21 @@ type ArticleCardProps = {
   description: string;
 };
 
-export const ArticleCard = ({ thumbnailUrl, title, linkUrl, description }: ArticleCardProps) => {
+export const ArticleCard = ({
+  thumbnailUrl,
+  title,
+  linkUrl,
+  description,
+}: ArticleCardProps) => {
   return (
     <Link to={linkUrl} className="block border-b-0 no-underline">
       <div className="group flex items-start gap-4 bg-white border-2 border-black rounded-(--card-radius) p-4 transition-all duration-200 hover:bg-episode-hover-bg hover:shadow-(--card-shadow) hover:mt-[-5px] hover:mb-[5px]">
         <div className="relative shrink-0">
-          <img src={thumbnailUrl} alt={title} className="size-[76px] rounded-[10px] object-cover border-2 border-black" />
+          <img
+            src={thumbnailUrl}
+            alt={title}
+            className="size-[76px] rounded-[10px] object-cover border-2 border-black"
+          />
         </div>
         <div>
           <p className="text-[16px] font-bold text-black-primary tracking-[-0.45px] leading-normal mb-1">
