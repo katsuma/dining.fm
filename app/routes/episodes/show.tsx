@@ -1,11 +1,9 @@
 import type { Route } from "./+types/show";
 
-import { useMemo } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import { IoCalendarOutline } from "react-icons/io5";
 import { FaRegClock } from "react-icons/fa";
-import DOMPurify from "dompurify";
-import type { Episode } from "@prisma/client";
+import sanitizeHtml from "sanitize-html";
 
 import { LinkButton } from "@/components/LinkButton";
 import { LabelBadge } from "@/components/LabelBadge";
@@ -40,7 +38,12 @@ export async function loader({ params }: Route.LoaderArgs) {
   if (!episode) {
     throw new Response(NOT_FOUND_MESSAGE, { status: 404 });
   }
-  return { episode };
+
+  const sanitizedDescription = episode.description
+    ? sanitizeHtml(episode.description)
+    : "";
+
+  return { episode, sanitizedDescription };
 }
 
 export function meta({ data }: Route.MetaArgs) {
@@ -73,7 +76,7 @@ export function meta({ data }: Route.MetaArgs) {
 }
 
 function EpisodeDetail() {
-  const { episode } = useLoaderData();
+  const { episode, sanitizedDescription } = useLoaderData();
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -119,7 +122,7 @@ function EpisodeDetail() {
       <section className="relative mb-10">
         <LabelBadge text="EP" />
         <div className="bg-white border-2 border-black rounded-(--card-radius) shadow-(--card-shadow) p-6 pt-8">
-          <EpisodeDescription episode={episode} />
+          <EpisodeDescription sanitizedDescription={sanitizedDescription} />
           <hr className="border-t border-gray-300 border-dashed my-6" />
           <Paragraph>
             感想はX(Twitter)のハッシュタグ
@@ -145,12 +148,11 @@ function EpisodeDetail() {
     </div>
   );
 }
-function EpisodeDescription({ episode }: { episode: Episode }) {
-  const sanitizedDescription = useMemo(
-    () => (episode.description ? DOMPurify.sanitize(episode.description) : ""),
-    [episode.description]
-  );
-
+function EpisodeDescription({
+  sanitizedDescription,
+}: {
+  sanitizedDescription: string;
+}) {
   return (
     <div
       className={`${proseStyles} break-all [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-4 [&_ul]:ml-3 [&_ul_li]:mb-2`}
