@@ -7,7 +7,11 @@
     "postinstall": "prisma generate",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "typecheck": "react-router typegen && tsc",
+    "lint": "eslint app/",
+    "lint:fix": "eslint app/ --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@fontsource/m-plus-rounded-1c": "^5.2.8",
@@ -38,16 +42,22 @@
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@react-router/dev": "^7.12.0",
     "@tailwindcss/vite": "^4.1.11",
     "@types/node": "^25.0.6",
     "@types/pg": "^8.11.0",
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
+    "eslint": "^10.1.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "prettier": "^3.8.1",
     "react-router-devtools": "^5.0.6",
     "tailwindcss": "^4.1.11",
     "tw-animate-css": "^1.3.6",
     "typescript": "^5.9.2",
+    "typescript-eslint": "^8.57.1",
     "vite": "^7.3.1",
     "vite-plugin-devtools-json": "^0.4.1",
     "vite-tsconfig-paths": "^6.0.4"
