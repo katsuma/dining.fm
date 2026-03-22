@@ -20,7 +20,10 @@ const defaultMeta: MetaTag[] = [
   { property: "og:title", content: defaultTitle },
   { property: "og:type", content: "website" },
   { property: "og:url", content: defaultHost },
-  { property: "og:image", content: `${defaultHost}/opengraph-image.png` },
+  {
+    property: "og:image",
+    content: `${defaultHost}/opengraph-image.png?v=202603`,
+  },
   { property: "og:site_name", content: defaultTitle },
   { property: "og:locale", content: "ja_JP" },
   { property: "og:description", content: defaultDescription },
