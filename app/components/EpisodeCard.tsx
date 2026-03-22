@@ -7,7 +7,10 @@ import { FaRegClock } from "react-icons/fa";
 import { Duration } from "@/utils/Duration";
 
 export const EpisodeCard = ({ episode }: { episode: Episode }) => (
-  <Link to={`/episodes/${episode.id}`} className="block border-b-0 no-underline">
+  <Link
+    to={`/episodes/${episode.id}`}
+    className="block border-b-0 no-underline"
+  >
     <div className="group flex items-start gap-4 bg-white border-2 border-black rounded-(--card-radius) p-4 transition-all duration-200 hover:bg-episode-hover-bg hover:shadow-(--card-shadow) hover:mt-[-5px] hover:mb-[5px]">
       <div className="relative shrink-0">
         <img
@@ -21,13 +24,14 @@ export const EpisodeCard = ({ episode }: { episode: Episode }) => (
       </div>
       <div className="flex flex-col justify-between min-w-0">
         <p className="text-[16px] font-bold text-black-primary tracking-[-0.45px] leading-normal mb-1">
-          <span className="font-numeric text-[15px] font-bold">{episode.id}.</span>
-          {" "}
+          <span className="font-numeric text-[15px] font-bold">
+            {episode.id}.
+          </span>{" "}
           {episode.title}
         </p>
         <div className="flex items-center space-x-4">
           <p className="flex items-center gap-1 font-numeric font-normal text-[14px] text-black tracking-[-0.42px]">
-          <IoCalendarOutline className="size-4" />
+            <IoCalendarOutline className="size-4" />
             {PublishedDate.parse(new Date(episode.publishedAt).toISOString())}
           </p>
           <p className="flex items-center gap-1 font-numeric font-normal text-[14px] text-black tracking-[-0.42px]">

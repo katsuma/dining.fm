@@ -7,9 +7,10 @@ import styles from "./components/Guide.module.css";
 const pageTitle = "ポッドキャストの収録・編集環境";
 const pageUrl = `${defaultHost}/podcasting-guide`;
 
-export function meta({}:Route.MetaArgs) {
+export function meta(_: Route.MetaArgs) {
   const title = `${pageTitle} | ${defaultTitle}`;
-  const description = "2024年1月時点でのdining.fmのマイクやオーディオインターフェースなどの収録環境や、DAWやプラグインなど編集環境についてのまとめです。";
+  const description =
+    "2024年1月時点でのdining.fmのマイクやオーディオインターフェースなどの収録環境や、DAWやプラグインなど編集環境についてのまとめです。";
   const imageUrl = `${defaultHost}/podcasting-guide/opengraph-image.jpg`;
 
   const metas = buildMeta([
@@ -37,8 +38,8 @@ function ShareButton() {
           url: pageUrl,
         });
       } catch (error) {
-        if (error instanceof Error && error.name !== 'AbortError') {
-          console.error('Share failed:', error);
+        if (error instanceof Error && error.name !== "AbortError") {
+          console.error("Share failed:", error);
         }
       }
     }
@@ -57,7 +58,7 @@ function ShareButton() {
 
 function PodcastingGuide() {
   return (
-    <div className={styles['podcasting-guide']}>
+    <div className={styles["podcasting-guide"]}>
       <Guide />
       <div className="flex justify-center my-12">
         <ShareButton />

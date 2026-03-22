@@ -1,19 +1,22 @@
 import type { Route } from "./+types/show";
 
-import { useState, useEffect } from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
-import { IoCalendarOutline } from 'react-icons/io5';
+import { Link, useLoaderData } from "react-router-dom";
+import { IoCalendarOutline } from "react-icons/io5";
 import { FaRegClock } from "react-icons/fa";
-import DOMPurify from 'dompurify';
-import type { Episode } from '@prisma/client';
+import sanitizeHtml from "sanitize-html";
 
 import { LinkButton } from "@/components/LinkButton";
 import { LabelBadge } from "@/components/LabelBadge";
 import { proseStyles } from "@/components/Paragraph";
-import { Duration } from '@/utils/Duration';
-import { defaultTitle, defaultDescription, defaultHost, buildMeta } from '@/utils/meta';
-import prisma from '@/utils/prisma';
-import { PublishedDate } from '@/utils/PublishedDate';
+import { Duration } from "@/utils/Duration";
+import {
+  defaultTitle,
+  defaultDescription,
+  defaultHost,
+  buildMeta,
+} from "@/utils/meta";
+import prisma from "@/utils/prisma";
+import { PublishedDate } from "@/utils/PublishedDate";
 import { EpisodePlayer } from "./components/EpisodePlayer";
 import { Paragraph } from "@/components/Paragraph";
 
@@ -28,17 +31,22 @@ export async function loader({ params }: Route.LoaderArgs) {
 
   const episode = await prisma.episode.findUnique({
     where: {
-      id: episodeId
-    }
+      id: episodeId,
+    },
   });
 
   if (!episode) {
     throw new Response(NOT_FOUND_MESSAGE, { status: 404 });
   }
-  return { episode };
+
+  const sanitizedDescription = episode.description
+    ? sanitizeHtml(episode.description)
+    : "";
+
+  return { episode, sanitizedDescription };
 }
 
-export function meta({data}: Route.MetaArgs) {
+export function meta({ data }: Route.MetaArgs) {
   if (!data || data.episode === null) {
     return buildMeta([]);
   }
@@ -46,7 +54,8 @@ export function meta({data}: Route.MetaArgs) {
   const title = `${data.episode.id}. ${data.episode.title} | ${defaultTitle}`;
   const description = data.episode.summary || defaultDescription;
   const url = `${defaultHost}/episodes/${data.episode.id}`;
-  const imageUrl = data.episode.imageUrl || `${defaultHost}/opengraph-image.png`;
+  const imageUrl =
+    data.episode.imageUrl || `${defaultHost}/opengraph-image.png`;
 
   return buildMeta([
     { title },
@@ -54,7 +63,10 @@ export function meta({data}: Route.MetaArgs) {
     { property: "og:url", content: url },
     { property: "og:title", content: title },
     { property: "og:description", content: description },
-    { property: "og:image", content: data.episode.imageUrl || `${defaultHost}/opengraph-image.png` },
+    {
+      property: "og:image",
+      content: data.episode.imageUrl || `${defaultHost}/opengraph-image.png`,
+    },
 
     { property: "twitter:url", content: url },
     { property: "twitter:title", content: title },
@@ -63,29 +75,28 @@ export function meta({data}: Route.MetaArgs) {
   ]);
 }
 
-
 function EpisodeDetail() {
-  const { episode } = useLoaderData();
+  const { episode, sanitizedDescription } = useLoaderData();
 
   const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    'author': [
+    "@context": "https://schema.org",
+    "@type": "Article",
+    author: [
       {
-        '@type': 'Person',
-        name: 'Ryo Katsuma',
-        url: 'https://katsuma.tv',
+        "@type": "Person",
+        name: "Ryo Katsuma",
+        url: "https://katsuma.tv",
       },
       {
-        '@type': 'Person',
-        name: 'Yoko Daikoku',
-      }
+        "@type": "Person",
+        name: "Yoko Daikoku",
+      },
     ],
     dateModified: episode.publishedAt.toISOString(),
     datePublished: episode.publishedAt.toISOString(),
     headline: episode.title,
     image: episode.imageUrl,
-  }
+  };
 
   return (
     <div className="container">
@@ -109,20 +120,25 @@ function EpisodeDetail() {
       <EpisodePlayer episode={episode} />
 
       <section className="relative mb-10">
-          <LabelBadge text="EP" />
+        <LabelBadge text="EP" />
         <div className="bg-white border-2 border-black rounded-(--card-radius) shadow-(--card-shadow) p-6 pt-8">
-          <EpisodeDescription episode={episode} />
+          <EpisodeDescription sanitizedDescription={sanitizedDescription} />
           <hr className="border-t border-gray-300 border-dashed my-6" />
           <Paragraph>
-            感想はX(Twitter)のハッシュタグ<Link to="https://twitter.com/search?q=%23diningfm&src=typed_query&f=top">#diningfm</Link> や
-            <Link to="https://twitter.com/diningfm">@diningfm</Link> へのリプライ、
-            <Link to="/letter">GoogleForm</Link>でのお便りなどからお待ちしています📮
+            感想はX(Twitter)のハッシュタグ
+            <Link to="https://twitter.com/search?q=%23diningfm&src=typed_query&f=top">
+              #diningfm
+            </Link>{" "}
+            や<Link to="https://twitter.com/diningfm">@diningfm</Link>{" "}
+            へのリプライ、
+            <Link to="/letter">GoogleForm</Link>
+            でのお便りなどからお待ちしています📮
           </Paragraph>
         </div>
       </section>
 
       <section className="flex justify-center my-10">
-        <LinkButton to={'/episodes/page/1'}>一覧へ戻る</LinkButton>
+        <LinkButton to={"/episodes/page/1"}>一覧へ戻る</LinkButton>
       </section>
 
       <script
@@ -132,15 +148,11 @@ function EpisodeDetail() {
     </div>
   );
 }
-function EpisodeDescription({ episode }: { episode: Episode }) {
-  const [sanitizedDescription, setSanitizedDescription] = useState('');
-
-  useEffect(() => {
-    if (episode.description) {
-      setSanitizedDescription(DOMPurify.sanitize(episode.description));
-    }
-  }, [episode.description]);
-
+function EpisodeDescription({
+  sanitizedDescription,
+}: {
+  sanitizedDescription: string;
+}) {
   return (
     <div
       className={`${proseStyles} break-all [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-4 [&_ul]:ml-3 [&_ul_li]:mb-2`}
