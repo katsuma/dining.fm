@@ -7,7 +7,6 @@ import {
 
 export default [
   route("sitemap.xml", "routes/sitemap.tsx"),
-  route("robots.txt", "routes/robots.tsx"),
   route("letter", "routes/letter.tsx"),
   layout("layout.tsx", [
     index("routes/home.tsx"),
