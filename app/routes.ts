@@ -8,6 +8,7 @@ import {
 export default [
   route("sitemap.xml", "routes/sitemap.tsx"),
   route("letter", "routes/letter.tsx"),
+  route("store", "routes/store.tsx"),
   layout("layout.tsx", [
     index("routes/home.tsx"),
     route("episodes/page/:page", "routes/episodes/page.tsx"),
