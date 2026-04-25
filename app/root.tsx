@@ -31,6 +31,12 @@ export const links: Route.LinksFunction = () => [
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap",
   },
+  {
+    rel: "alternate",
+    type: "application/rss+xml",
+    title: "dining.fm",
+    href: "/feed",
+  },
 ];
 export function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
