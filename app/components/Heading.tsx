@@ -8,7 +8,7 @@ export const Heading = ({ title, dotClassName = "bg-green" }: Props) => (
     <span
       className={`inline-block size-[10px] rounded-full shrink-0 border-2 border-black ${dotClassName}`}
     />
-    <h2 className="text-[18px] font-bold tracking-[-0.54px] text-black">
+    <h2 className="font-heading text-[18px] font-bold tracking-[-0.54px] text-black">
       {title}
     </h2>
   </div>

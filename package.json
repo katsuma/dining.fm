@@ -14,6 +14,7 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@fontsource/m-plus-1p": "^5.2.9",
     "@fontsource/m-plus-rounded-1c": "^5.2.8",
     "@mdx-js/react": "^3.1.0",
     "@mdx-js/rollup": "^3.1.0",
