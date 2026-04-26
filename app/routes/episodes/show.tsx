@@ -155,7 +155,7 @@ function EpisodeDescription({
 }) {
   return (
     <div
-      className={`${proseStyles} break-all [&_p]:mb-4 [&_p:empty]:hidden [&_p:has(>br:only-child)]:hidden [&_ul]:list-disc [&_ul]:pl-4 [&_ul]:ml-3 [&_ul_li]:mb-2`}
+      className={`${proseStyles} break-all [&_p]:mb-4 [&_p:empty]:hidden [&_p:has(>br:only-child)]:hidden [&_p:has(+ul)]:mb-0 [&_ul]:list-disc [&_ul]:pl-4 [&_ul]:ml-3 [&_ul_li]:mb-2`}
       dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
     />
   );
