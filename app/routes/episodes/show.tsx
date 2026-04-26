@@ -101,7 +101,7 @@ function EpisodeDetail() {
   return (
     <div className="container">
       <section className="mb-8">
-        <h2 className="text-[22px] font-bold tracking-[-0.66px] text-black-primary leading-snug mb-2">
+        <h2 className="font-heading text-[22px] font-bold tracking-[-0.66px] text-black-primary leading-snug mb-2">
           <span className="font-numeric">{episode.id}.</span> {episode.title}
         </h2>
         <div className="h-[5px] rounded-full bg-orange border border-black mb-4" />

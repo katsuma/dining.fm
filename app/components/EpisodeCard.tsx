@@ -23,7 +23,7 @@ export const EpisodeCard = ({ episode }: { episode: Episode }) => (
         </div>
       </div>
       <div className="flex flex-col justify-between min-w-0">
-        <p className="text-[16px] font-bold text-black-primary tracking-[-0.45px] leading-normal mb-1">
+        <p className="font-heading text-[16px] font-bold text-black-primary tracking-[-0.45px] leading-normal mb-1">
           <span className="font-numeric text-[15px] font-bold">
             {episode.id}.
           </span>{" "}
