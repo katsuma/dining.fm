@@ -9,11 +9,11 @@ const Anchor = forwardRef<HTMLAnchorElement, ComponentProps<"a">>(
 Anchor.displayName = "Anchor";
 
 function Heading2(props: React.ComponentProps<"h1">) {
-  return <h2 {...props} className="title" />;
+  return <h2 {...props} className="font-heading title" />;
 }
 
 function Heading3(props: React.ComponentProps<"h1">) {
-  return <h3 {...props} className="mb-2 text-[1.4rem] font-semibold" />;
+  return <h3 {...props} className="font-heading mb-2 text-[1.4rem] font-semibold" />;
 }
 
 function P(props: React.ComponentProps<"p">) {

@@ -1,14 +1,17 @@
 @import "tailwindcss";
 @import "@fontsource/m-plus-rounded-1c/400.css";
 @import "@fontsource/m-plus-rounded-1c/800.css";
+@import "@fontsource/m-plus-1p/400.css";
+@import "@fontsource/m-plus-1p/700.css";
 @import "tw-animate-css";
 
 :root {
   --font-*: initial;
   --font-sans:
-    "Zen Maru Gothic", "M PLUS Rounded 1c", "Inter", ui-sans-serif, system-ui,
+    "M PLUS 1p", "Inter", ui-sans-serif, system-ui,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     "Noto Color Emoji";
+  --font-heading-value: "Zen Maru Gothic", "M PLUS Rounded 1c", sans-serif;
   --font-numeric-value: "M PLUS Rounded 1c", sans-serif;
   --black-primary: #373737;
   --black-secondary: #676767;
@@ -33,6 +36,7 @@ body {
 }
 
 @theme inline {
+  --font-heading: var(--font-heading-value);
   --font-numeric: var(--font-numeric-value);
   --color-orange: var(--orange);
   --color-green: var(--green);
