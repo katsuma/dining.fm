@@ -1,10 +1,15 @@
 import type { Route } from "./+types/show";
 
 import { Link, useLoaderData } from "react-router-dom";
+import { type Episode } from "@prisma/client";
 
 import { LabelBadge } from "@/components/LabelBadge";
 import { proseStyles, Paragraph } from "@/components/Paragraph";
-import { defaultTitle, defaultDescription, defaultHost, buildMeta } from "@/utils/meta";
+import { defaultTitle, defaultHost, buildMeta } from "@/utils/meta";
+import { EpisodeCard } from "@/components/EpisodeCard";
+import { Heading } from "@/components/Heading";
+import { LinkButton } from "@/components/LinkButton";
+import prisma from "@/utils/prisma";
 
 type SpContent = {
   title: string;
@@ -24,14 +29,28 @@ const SP_CONTENT: Record<string, SpContent> = {
 
 const NOT_FOUND_MESSAGE = "指定したコンテンツは見つかりませんでした";
 
-export function loader({ params }: Route.LoaderArgs) {
+export async function loader({ params }: Route.LoaderArgs) {
   const content = SP_CONTENT[params.id];
 
   if (!content) {
     throw new Response(NOT_FOUND_MESSAGE, { status: 404 });
   }
 
-  return { id: params.id, content };
+  const latestEpisodes = await prisma.episode.findMany({
+    orderBy: [{ id: "desc" }],
+    take: 5,
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      publishedAt: true,
+      imageUrl: true,
+      enclosureUrl: true,
+      duration: true,
+    },
+  });
+
+  return { id: params.id, content, latestEpisodes };
 }
 
 export function meta({ data }: Route.MetaArgs) {
@@ -59,7 +78,7 @@ export function meta({ data }: Route.MetaArgs) {
 }
 
 function SpShow() {
-  const { content } = useLoaderData();
+  const { content, latestEpisodes } = useLoaderData();
 
   return (
     <div className="container">
@@ -91,6 +110,18 @@ function SpShow() {
             <Link to="/letter">GoogleForm</Link>
             でのお便りなどからお待ちしています📮
           </Paragraph>
+        </div>
+      </section>
+
+      <section className="mb-8">
+        <Heading title="最新エピソード" dotClassName="bg-orange" />
+        <div className="flex flex-col gap-3">
+          {latestEpisodes.map((episode: Episode) => (
+            <EpisodeCard episode={episode} key={episode.id} />
+          ))}
+        </div>
+        <div className="flex justify-center mt-6">
+          <LinkButton to="/episodes/page/1">すべて見る</LinkButton>
         </div>
       </section>
     </div>
