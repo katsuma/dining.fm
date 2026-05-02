@@ -1,7 +1,6 @@
 import type { Route } from "./+types/show";
 
 import { Link, useLoaderData } from "react-router-dom";
-import { type Episode } from "@prisma/client";
 
 import { LabelBadge } from "@/components/LabelBadge";
 import { proseStyles, Paragraph } from "@/components/Paragraph";
@@ -10,20 +9,22 @@ import { EpisodeCard } from "@/components/EpisodeCard";
 import { Heading } from "@/components/Heading";
 import { LinkButton } from "@/components/LinkButton";
 import prisma from "@/utils/prisma";
+import type { Episode } from "@prisma/client";
 
 type SpContent = {
   title: string;
   description: string;
   mp3Url: string;
+  relatedEpisodeIds: number[];
 };
 
 const SP_CONTENT: Record<string, SpContent> = {
   pcwe2026: {
     title: "Podcast Weekend 2026 スペシャルエピソード",
     description:
-      "※このエピソードはPodcast Weekend 2026 来場者の方向けのスペシャルエピソードです。通常回では語られないkatsuma, daikokuのプロフィールや、これまでの中からおすすめエピソードを紹介します。",
-    mp3Url:
-      "https://diningfm.s3.us-east-1.amazonaws.com/public/sp/pcwe2026.mp3",
+      "※このエピソードはPodcast Weekend 2026 来場者の方向けのスペシャルエピソードです。\n通常回では語られないkatsuma, daikokuのプロフィールや、番組紹介を含む過去のエピソードの中からおすすめエピソードを紹介します。",
+    mp3Url: "/sp/pcwe2026.mp3",
+    relatedEpisodeIds: [174, 141, 145, 120, 28, 163, 173],
   },
 };
 
@@ -36,9 +37,8 @@ export async function loader({ params }: Route.LoaderArgs) {
     throw new Response(NOT_FOUND_MESSAGE, { status: 404 });
   }
 
-  const latestEpisodes = await prisma.episode.findMany({
-    orderBy: [{ id: "desc" }],
-    take: 5,
+  const episodesUnordered = await prisma.episode.findMany({
+    where: { id: { in: content.relatedEpisodeIds } },
     select: {
       id: true,
       title: true,
@@ -50,7 +50,12 @@ export async function loader({ params }: Route.LoaderArgs) {
     },
   });
 
-  return { id: params.id, content, latestEpisodes };
+  const episodeMap = new Map(episodesUnordered.map((e) => [e.id, e]));
+  const relatedEpisodes = content.relatedEpisodeIds
+    .map((id) => episodeMap.get(id))
+    .filter((e) => e !== undefined);
+
+  return { id: params.id, content, relatedEpisodes };
 }
 
 export function meta({ data }: Route.MetaArgs) {
@@ -64,6 +69,7 @@ export function meta({ data }: Route.MetaArgs) {
 
   return buildMeta([
     { title },
+    { name: "robots", content: "noindex" },
 
     { property: "og:url", content: url },
     { property: "og:title", content: title },
@@ -73,12 +79,15 @@ export function meta({ data }: Route.MetaArgs) {
     { property: "twitter:url", content: url },
     { property: "twitter:title", content: title },
     { property: "twitter:description", content: description },
-    { property: "twitter:image", content: `${defaultHost}/opengraph-image.png` },
+    {
+      property: "twitter:image",
+      content: `${defaultHost}/opengraph-image.png`,
+    },
   ]);
 }
 
 function SpShow() {
-  const { content, latestEpisodes } = useLoaderData();
+  const { content, relatedEpisodes } = useLoaderData();
 
   return (
     <div className="container">
@@ -114,14 +123,16 @@ function SpShow() {
       </section>
 
       <section className="mb-8">
-        <Heading title="最新エピソード" dotClassName="bg-orange" />
+        <Heading title="関連エピソード" dotClassName="bg-orange" />
         <div className="flex flex-col gap-3">
-          {latestEpisodes.map((episode: Episode) => (
+          {relatedEpisodes.map((episode: Episode) => (
             <EpisodeCard episode={episode} key={episode.id} />
           ))}
         </div>
         <div className="flex justify-center mt-6">
-          <LinkButton to="/episodes/page/1">すべて見る</LinkButton>
+          <LinkButton to="/episodes/page/1">
+            すべてのエピソードを見る
+          </LinkButton>
         </div>
       </section>
     </div>
