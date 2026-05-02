@@ -9,7 +9,6 @@ import { EpisodeCard } from "@/components/EpisodeCard";
 import { Heading } from "@/components/Heading";
 import { LinkButton } from "@/components/LinkButton";
 import prisma from "@/utils/prisma";
-import type { Episode } from "@prisma/client";
 
 type SpContent = {
   title: string;
@@ -39,15 +38,6 @@ export async function loader({ params }: Route.LoaderArgs) {
 
   const episodesUnordered = await prisma.episode.findMany({
     where: { id: { in: content.relatedEpisodeIds } },
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      publishedAt: true,
-      imageUrl: true,
-      enclosureUrl: true,
-      duration: true,
-    },
   });
 
   const episodeMap = new Map(episodesUnordered.map((e) => [e.id, e]));
@@ -87,7 +77,7 @@ export function meta({ data }: Route.MetaArgs) {
 }
 
 function SpShow() {
-  const { content, relatedEpisodes } = useLoaderData();
+  const { content, relatedEpisodes } = useLoaderData<typeof loader>();
 
   return (
     <div className="container">
@@ -125,7 +115,7 @@ function SpShow() {
       <section className="mb-8">
         <Heading title="関連エピソード" dotClassName="bg-orange" />
         <div className="flex flex-col gap-3">
-          {relatedEpisodes.map((episode: Episode) => (
+          {relatedEpisodes.map((episode) => (
             <EpisodeCard episode={episode} key={episode.id} />
           ))}
         </div>
