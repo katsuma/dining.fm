@@ -9,6 +9,9 @@ export default [
   route("sitemap.xml", "routes/sitemap.tsx"),
   route("letter", "routes/letter.tsx"),
   route("store", "routes/store.tsx"),
+  route("spotify", "routes/spotify.tsx"),
+  route("youtube", "routes/youtube.tsx"),
+  route("applepodcasts", "routes/applepodcasts.tsx"),
   route("feed", "routes/feed.tsx"),
   layout("layout.tsx", [
     index("routes/home.tsx"),
