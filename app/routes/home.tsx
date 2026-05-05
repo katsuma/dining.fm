@@ -1,4 +1,4 @@
-import { type LoaderFunction, useLoaderData } from "react-router-dom";
+import { Link, type LoaderFunction, useLoaderData } from "react-router-dom";
 import { type Episode } from "@prisma/client";
 import type { Route } from "./+types/home";
 
@@ -15,7 +15,7 @@ import { ExternalLink, Link2 } from "lucide-react";
 export const loader: LoaderFunction = async () => {
   const episodes = await prisma.episode.findMany({
     orderBy: [{ id: "desc" }],
-    take: 5,
+    take: 3,
     select: {
       id: true,
       title: true,
@@ -64,6 +64,37 @@ const Home = () => {
         </div>
         <div className="flex justify-center mt-6">
           <LinkButton to="/episodes/page/1">すべて見る</LinkButton>
+        </div>
+      </section>
+
+      <section className="mb-8 text-center">
+        <div className="grid grid-cols-2 gap-2 md:flex md:justify-center md:space-x-4 md:mx-auto">
+          <Link to="/spotify" target="_blank" rel="noopener noreferrer">
+            <img
+              src={"/listen-on/spotify.svg"}
+              alt={"Listen on Spotify"}
+              width={160}
+              height={40}
+            />
+          </Link>
+
+          <Link to="/applepodcasts" target="_blank" rel="noopener noreferrer">
+            <img
+              src={"/listen-on/apple.svg"}
+              alt={"Listen on Apple Podcasts"}
+              width={160}
+              height={40}
+            />
+          </Link>
+
+          <Link to="/youtube" target="_blank" rel="noopener noreferrer">
+            <img
+              src={"/listen-on/youtube.svg"}
+              alt={"Listen on YouTube"}
+              width={160}
+              height={40}
+            />
+          </Link>
         </div>
       </section>
 
