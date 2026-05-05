@@ -26,6 +26,7 @@ model Episode {
   applePodcastId  String?  @map("apple_podcast_id") @db.VarChar(64)
   youtubeId       String?  @map("youtube_id") @db.VarChar(64)
   summary         String?
+  embedding       Unsupported("vector(1536)")?
 
   @@map("episodes")
   @@schema("diningfm")
