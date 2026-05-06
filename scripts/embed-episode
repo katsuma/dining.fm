@@ -1,0 +1,98 @@
+#!/usr/bin/env ruby
+
+require 'dotenv'
+require 'openai'
+require 'json'
+require 'logger'
+require_relative 'lib/setup'
+require_relative 'lib/models/episode'
+
+Dotenv.load
+logger = Logger.new($stdout)
+
+OUT_DIR = ENV.fetch('OUT_DIR')
+
+episode_number = ARGV[0]&.to_i
+unless episode_number && episode_number > 0
+  puts "Usage: #{$0} <episode_number> [--dry-run]"
+  puts "  e.g. #{$0} 170"
+  exit 1
+end
+
+dry_run = ARGV.include?('--dry-run')
+
+episode = Episode.select(:id, :number, :summary).find_by!(number: episode_number)
+
+# Prefer embedding_text from Gemini JSON output (keyword-rich), fall back to summary
+gemini_json_path = "#{OUT_DIR}/#{episode_number}_gemini.json"
+embedding_input = if File.exist?(gemini_json_path)
+  gemini_data = JSON.parse(File.read(gemini_json_path))
+  text = gemini_data['embedding_text'].to_s.strip
+  if text.empty?
+    logger.warn "embedding_text is empty in #{gemini_json_path}, falling back to summary"
+    episode.summary
+  else
+    logger.info "Using embedding_text from #{gemini_json_path}"
+    text
+  end
+else
+  logger.info "No Gemini JSON found, using summary from DB"
+  episode.summary
+end
+
+unless embedding_input && !embedding_input.strip.empty?
+  logger.error "No text available for episode #{episode_number} (no summary or embedding_text)"
+  exit 1
+end
+
+logger.info "Input text length: #{embedding_input.length} chars"
+
+# Generate embedding via OpenAI (with retry for rate limiting)
+logger.info "Requesting embedding for episode #{episode_number}..."
+openai_client = OpenAI::Client.new
+vector = nil
+retries = 0
+max_retries = 5
+
+begin
+  response = openai_client.embeddings(
+    parameters: {
+      model: 'text-embedding-3-small',
+      input: embedding_input,
+    }
+  )
+  vector = response.dig('data', 0, 'embedding')
+rescue Faraday::TooManyRequestsError => e
+  retries += 1
+  if retries <= max_retries
+    wait = 2 ** retries
+    logger.warn "Rate limited (429), retrying in #{wait}s... (attempt #{retries}/#{max_retries})"
+    sleep wait
+    retry
+  else
+    logger.error "Rate limit exceeded after #{max_retries} retries: #{e.message}"
+    exit 1
+  end
+end
+
+unless vector && vector.length == 1536
+  logger.error "Unexpected embedding response: #{response}"
+  exit 1
+end
+
+logger.info "Got embedding vector (#{vector.length} dims)"
+
+if dry_run
+  logger.info "[DRY RUN] Skipping DB update"
+else
+  # Update embedding column via raw SQL (Prisma Unsupported type)
+  vector_literal = "[#{vector.join(',')}]"
+  ActiveRecord::Base.connection.execute(
+    ActiveRecord::Base.sanitize_sql_array(
+      ["UPDATE diningfm.episodes SET embedding = ? WHERE number = ?", vector_literal, episode_number]
+    )
+  )
+  logger.info "Episode #{episode_number} embedding updated in DB"
+end
+
+logger.info "Done!"

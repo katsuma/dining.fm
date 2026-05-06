@@ -1,0 +1,296 @@
+#!/usr/bin/env ruby
+
+require 'dotenv'
+require 'httparty'
+require 'json'
+require 'logger'
+require 'base64'
+require_relative 'lib/setup'
+require_relative 'lib/models/episode'
+
+Dotenv.load
+logger = Logger.new($stdout)
+
+GEMINI_API_KEY = ENV.fetch('GEMINI_API_KEY')
+MP3_DIR = ENV.fetch('MP3_DIR')
+OUT_DIR = ENV.fetch('OUT_DIR')
+MODEL = 'gemini-2.5-flash'.freeze
+GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com'.freeze
+
+KNOWN_TERMS = <<~TERMS
+  dining.fm, katsuma (Ryo Katsuma), daikoku (Yoko Daikoku),
+  COMME des GARÇONS, sacai, kolor, ギャルソン, マルジェラ,
+  Netflix, サロショ, Mama Rag, KGLMC, 高輪ゲートウェイ, NEWoMan, timelesz, 丹青会
+TERMS
+
+SYSTEM_PROMPT = <<~PROMPT
+  あなたは日本語ポッドキャストの書き起こし・要約の専門家です。
+  以下の音声はkatsumaとdaikokuの2人が出演するポッドキャスト「dining.fm」のエピソードです。
+  katsumaは男性、daikokuは女性です。
+PROMPT
+
+def build_user_prompt(existing_description)
+  <<~PROMPT
+    この音声を処理して、以下のJSON形式で出力してください。JSON以外のテキストは出力しないでください。
+
+    ```json
+    {
+      "summary": "要約テキスト",
+      "topics": ["トピック1", "トピック2", ...],
+      "embedding_text": "embedding用テキスト",
+      "transcript": "話者分離つきの書き起こし全文（フィラー除去済み）"
+    }
+    ```
+
+    重要: 必ずこのフィールド順で出力してください。summaryから先に生成してください。
+
+    各フィールドの仕様:
+
+    ### transcript
+    - 話者を「katsuma:」「daikoku:」で分離すること
+    - フィラー（えー、あのー、うーん、なんか、えーと、まあ、こう、その等）は除去すること
+    - ただし文意に必要な場合は残すこと
+    - 略称や通称には正式名称を括弧で補足すること（例: 「ギャルソン」→「ギャルソン（COMME des GARÇONS）」）
+    - 以下はこの番組でよく登場する固有名詞です。音声認識の参考にしてください:
+      #{KNOWN_TERMS}
+
+    ### topics
+    - エピソードで議論された主要トピックを5〜15個のリストで抽出
+    - 具体的なブランド名、作品名、人名、店名、技術用語などの固有名詞を必ず含めること
+    - 一般的すぎるトピック（「日常」「雑談」等）は避け、具体的に記述すること
+
+    ### summary
+    - 500-1000文字程度でエピソードの内容を要約
+    - katsumaとdaikokuが主語の文章で記述すること
+    - 特徴的なキーワードや固有名詞を落とさないこと
+    - 文末は「〜でした」「〜しました」の表現を使うこと。「〜していました」は使わないこと
+    - テンプレート: 「katsumaとdaikokuが、XXについて話しました。...」
+    - 以下の既存descriptionに含まれる固有名詞（ブランド名・人名・作品名・店名等）は必ず正確に反映すること:
+      <existing_description>
+      #{existing_description}
+      </existing_description>
+
+    ### embedding_text
+    - ベクトル検索（関連エピソード検索）に使うキーワードリスト
+    - 名詞・固有名詞のみをスペース区切りで列挙すること。文章にしないこと
+    - 構成: メインテーマの固有名詞を3回繰り返した後、サブトピックの固有名詞を1回列挙すること
+    - 例: 「平場の月 伊川遥 50代 孤独 ヒューマンドラマ 平場の月 伊川遥 50代 孤独 ヒューマンドラマ 平場の月 伊川遥 50代 孤独 ヒューマンドラマ 金沢 芝舟小出 セドリックグロレ」
+    - 含めるもの: 作品名・ブランド名・人名・店名・地名・商品名・技術用語など固有名詞
+    - 除外するもの: 「dining.fm」「ポッドキャスト」「podcast」「katsuma」「daikoku」などの番組固有ワード、「話しました」「紹介」などの動詞・形式語
+  PROMPT
+end
+
+episode_number = ARGV[0]&.to_i
+unless episode_number && episode_number > 0
+  puts "Usage: #{$0} <episode_number>"
+  puts "  e.g. #{$0} 170"
+  exit 1
+end
+
+dry_run = ARGV.include?('--dry-run')
+
+mp3_path = "#{MP3_DIR}/#{episode_number}.mp3"
+unless File.exist?(mp3_path)
+  logger.error "MP3 file not found: #{mp3_path}"
+  exit 1
+end
+
+# Fetch episode from DB to use existing description as reference
+# Select only needed columns to avoid loading the large embedding vector
+episode = Episode.select(:id, :number, :description, :summary).find_by!(number: episode_number)
+existing_description = episode.description.to_s.strip
+logger.info "Existing description length: #{existing_description.length} chars"
+
+file_size_mb = File.size(mp3_path) / (1024.0 * 1024)
+logger.info "Processing episode #{episode_number} (#{file_size_mb.round(1)} MB)"
+
+# Step 1: Upload MP3 to Gemini File API
+logger.info "Uploading MP3 to Gemini File API..."
+
+upload_url = "#{GEMINI_BASE_URL}/upload/v1beta/files?key=#{GEMINI_API_KEY}"
+
+# Initiate resumable upload
+init_response = HTTParty.post(
+  upload_url,
+  headers: {
+    'X-Goog-Upload-Protocol' => 'resumable',
+    'X-Goog-Upload-Command' => 'start',
+    'X-Goog-Upload-Header-Content-Length' => File.size(mp3_path).to_s,
+    'X-Goog-Upload-Header-Content-Type' => 'audio/mpeg',
+    'Content-Type' => 'application/json',
+  },
+  body: { file: { display_name: "episode_#{episode_number}.mp3" } }.to_json,
+)
+
+upload_uri = init_response.headers['X-Goog-Upload-URL']
+unless upload_uri
+  logger.error "Failed to initiate upload: #{init_response.body}"
+  exit 1
+end
+
+# Upload the file
+mp3_data = File.binread(mp3_path)
+upload_response = HTTParty.post(
+  upload_uri,
+  headers: {
+    'X-Goog-Upload-Offset' => '0',
+    'X-Goog-Upload-Command' => 'upload, finalize',
+    'Content-Type' => 'audio/mpeg',
+  },
+  body: mp3_data,
+  timeout: 600,
+)
+
+file_info = JSON.parse(upload_response.body)
+file_uri = file_info.dig('file', 'uri')
+unless file_uri
+  logger.error "Failed to upload file: #{upload_response.body}"
+  exit 1
+end
+
+logger.info "Upload complete: #{file_uri}"
+
+# Step 2: Wait for file processing
+logger.info "Waiting for file processing..."
+file_name = file_info.dig('file', 'name')
+
+loop do
+  status_response = HTTParty.get(
+    "#{GEMINI_BASE_URL}/v1beta/#{file_name}?key=#{GEMINI_API_KEY}"
+  )
+  state = JSON.parse(status_response.body)['state']
+  break if state == 'ACTIVE'
+
+  if state == 'FAILED'
+    logger.error "File processing failed"
+    exit 1
+  end
+
+  logger.info "  state: #{state}, waiting..."
+  sleep 5
+end
+
+logger.info "File is ready"
+
+# Step 3: Generate content with Gemini
+logger.info "Requesting Gemini #{MODEL}..."
+
+generate_url = "#{GEMINI_BASE_URL}/v1beta/models/#{MODEL}:generateContent?key=#{GEMINI_API_KEY}"
+
+request_body = {
+  system_instruction: {
+    parts: [{ text: SYSTEM_PROMPT }]
+  },
+  contents: [
+    {
+      parts: [
+        { file_data: { mime_type: 'audio/mpeg', file_uri: file_uri } },
+        { text: build_user_prompt(existing_description) },
+      ]
+    }
+  ],
+  generation_config: {
+    temperature: 0.2,
+    response_mime_type: 'application/json',
+    max_output_tokens: 65536,
+  }
+}
+
+response = HTTParty.post(
+  generate_url,
+  headers: { 'Content-Type' => 'application/json' },
+  body: request_body.to_json,
+  timeout: 1200,
+  read_timeout: 1200,
+  open_timeout: 60,
+)
+
+response_data = JSON.parse(response.body)
+
+# Check for errors
+if response_data['error']
+  logger.error "Gemini API error: #{response_data['error']['message']}"
+  exit 1
+end
+
+result_text = response_data.dig('candidates', 0, 'content', 'parts', 0, 'text')
+unless result_text
+  logger.error "No result from Gemini: #{response.body}"
+  exit 1
+end
+
+# Step 4: Save outputs
+# Always save raw response text first so data is never lost
+output_raw = "#{OUT_DIR}/#{episode_number}_gemini_raw.txt"
+File.write(output_raw, result_text)
+logger.info "Raw response saved to #{output_raw}"
+
+# Sanitize control characters from JSON string values.
+# Gemini sometimes embeds raw control chars (0x00-0x1F) inside string values,
+# which are invalid per the JSON spec. We escape them rather than strip them,
+# preserving the text while making it valid JSON.
+def sanitize_json_string(text)
+  # Encode to UTF-8, replace invalid bytes
+  text = text.encode('UTF-8', invalid: :replace, undef: :replace, replace: '')
+  # Escape control characters (except \t \n \r which are already valid JSON escapes)
+  # by replacing them with \uXXXX sequences inside string values
+  text.gsub(/[\x00-\x08\x0b\x0c\x0e-\x1f]/u) { |c| "\\u%04x" % c.ord }
+end
+
+# Parse JSON with fallback for invalid control characters
+result = begin
+  JSON.parse(result_text)
+rescue JSON::ParserError => e
+  logger.warn "JSON parse failed (#{e.message.lines.first.strip}), retrying with control character sanitization..."
+  begin
+    JSON.parse(sanitize_json_string(result_text))
+  rescue JSON::ParserError => e2
+    logger.warn "JSON parse failed again (#{e2.message.lines.first.strip}), falling back to regex extraction..."
+    summary_match = result_text.match(/"summary"\s*:\s*"((?:[^"\\]|\\.)*)"/m)
+    summary = summary_match ? summary_match[1].gsub('\n', "\n").gsub('\"', '"') : nil
+    logger.warn "Extracted summary via regex: #{summary ? summary[0..100] + '...' : '(not found)'}"
+    { 'summary' => summary, 'topics' => [], 'transcript' => nil, 'embedding_text' => nil, '_parse_error' => true }
+  end
+end
+
+logger.info "--- Raw result keys: #{result.keys} ---"
+
+logger.info "--- Topics ---"
+(result['topics'] || []).each { |t| logger.info "  - #{t}" }
+logger.info "--- Summary ---"
+logger.info result['summary'] || '(nil)'
+logger.info "--- Embedding text (first 200 chars) ---"
+logger.info (result['embedding_text'] || '(nil)')[0..200]
+logger.info "--- Transcript (first 500 chars) ---"
+logger.info (result['transcript'] || '(nil)')[0..500]
+
+# Save parsed result as JSON
+output_json = "#{OUT_DIR}/#{episode_number}_gemini.json"
+File.write(output_json, JSON.pretty_generate(result))
+logger.info "Full result saved to #{output_json}"
+
+# Save transcript as text
+if result['transcript']
+  output_txt = "#{OUT_DIR}/#{episode_number}_gemini.txt"
+  File.write(output_txt, result['transcript'])
+  logger.info "Transcript saved to #{output_txt}"
+end
+
+if dry_run
+  logger.info "[DRY RUN] Skipping DB update"
+elsif result['summary']
+  # Reconnect before DB update — Gemini API call can take 5-10 min and
+  # NeonDB's SSL connection may have timed out in the meantime
+  ActiveRecord::Base.connection.reconnect!
+  episode.reload
+  episode.update!(summary: result['summary'])
+  logger.info "Episode #{episode_number} summary updated in DB"
+else
+  logger.warn "No summary extracted, skipping DB update. Check #{output_raw}"
+end
+
+# Step 5: Cleanup uploaded file
+HTTParty.delete("#{GEMINI_BASE_URL}/v1beta/#{file_name}?key=#{GEMINI_API_KEY}")
+logger.info "Uploaded file deleted from Gemini"
+
+logger.info "Done!"
