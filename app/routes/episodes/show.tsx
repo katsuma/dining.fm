@@ -8,6 +8,8 @@ import sanitizeHtml from "sanitize-html";
 import { LinkButton } from "@/components/LinkButton";
 import { LabelBadge } from "@/components/LabelBadge";
 import { proseStyles } from "@/components/Paragraph";
+import { EpisodeCard } from "@/components/EpisodeCard";
+import { Heading } from "@/components/Heading";
 import { Duration } from "@/utils/Duration";
 import {
   defaultTitle,
@@ -43,7 +45,33 @@ export async function loader({ params }: Route.LoaderArgs) {
     ? sanitizeHtml(episode.description)
     : "";
 
-  return { episode, sanitizedDescription };
+  let relatedEpisodes: (typeof episode)[] = [];
+  const relatedIds = await prisma.$transaction(async (tx) => {
+    // pg_vector operators require public schema in search_path
+    await tx.$executeRaw`SET LOCAL search_path TO diningfm, public`;
+    return tx.$queryRaw<{ id: number }[]>`
+      SELECT id FROM diningfm.episodes
+      WHERE id != ${episodeId}
+        AND embedding IS NOT NULL
+        AND (SELECT embedding FROM diningfm.episodes WHERE id = ${episodeId}) IS NOT NULL
+      ORDER BY embedding <=> (
+        SELECT embedding FROM diningfm.episodes WHERE id = ${episodeId}
+      )
+      LIMIT 5
+    `;
+  });
+
+  if (relatedIds.length > 0) {
+    const idOrder = relatedIds.map((r) => r.id);
+    const fetched = await prisma.episode.findMany({
+      where: { id: { in: idOrder } },
+    });
+    relatedEpisodes = fetched.sort(
+      (a, b) => idOrder.indexOf(a.id) - idOrder.indexOf(b.id)
+    );
+  }
+
+  return { episode, sanitizedDescription, relatedEpisodes };
 }
 
 export function meta({ data }: Route.MetaArgs) {
@@ -76,7 +104,8 @@ export function meta({ data }: Route.MetaArgs) {
 }
 
 function EpisodeDetail() {
-  const { episode, sanitizedDescription } = useLoaderData();
+  const { episode, sanitizedDescription, relatedEpisodes } =
+    useLoaderData<typeof loader>();
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -108,7 +137,7 @@ function EpisodeDetail() {
         <div className="flex items-center space-x-4">
           <p className="flex items-center gap-1 font-numeric text-[14px] text-black tracking-[-0.42px]">
             <IoCalendarOutline className="size-4" />
-            {PublishedDate.parse(episode.publishedAt)}
+            {PublishedDate.parse(episode.publishedAt.toISOString())}
           </p>
           <p className="flex items-center gap-1 font-numeric text-[14px] text-black tracking-[-0.42px]">
             <FaRegClock className="size-4" />
@@ -136,6 +165,17 @@ function EpisodeDetail() {
           </Paragraph>
         </div>
       </section>
+
+      {relatedEpisodes.length > 0 && (
+        <section className="mb-8">
+          <Heading title="関連エピソード" dotClassName="bg-orange" />
+          <div className="flex flex-col gap-3">
+            {relatedEpisodes.map((episode) => (
+              <EpisodeCard episode={episode} key={episode.id} />
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="flex justify-center my-10">
         <LinkButton to={"/episodes/page/1"}>一覧へ戻る</LinkButton>
