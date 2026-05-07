@@ -18,6 +18,7 @@ import {
   buildMeta,
 } from "@/utils/meta";
 import prisma from "@/utils/prisma";
+import { relatedEpisodesCache } from "@/utils/relatedEpisodesCache";
 import { PublishedDate } from "@/utils/PublishedDate";
 import { EpisodePlayer } from "./components/EpisodePlayer";
 import { Paragraph } from "@/components/Paragraph";
@@ -67,37 +68,47 @@ export async function loader({ params }: Route.LoaderArgs) {
     ? sanitizeHtml(episode.description)
     : "";
 
+  const cached = relatedEpisodesCache.get(episodeId);
   let relatedEpisodes: {
     id: number;
     title: string;
     publishedAt: Date;
     duration: string;
     imageUrl: string;
-  }[] = [];
-  const relatedIds = await prisma.$transaction(async (tx) => {
-    // pg_vector operators require public schema in search_path
-    await tx.$executeRaw`SET LOCAL search_path TO diningfm, public`;
-    return tx.$queryRaw<{ id: number }[]>`
-      SELECT id FROM diningfm.episodes
-      WHERE id != ${episodeId}
-        AND embedding IS NOT NULL
-        AND (SELECT embedding FROM diningfm.episodes WHERE id = ${episodeId}) IS NOT NULL
-      ORDER BY embedding <=> (
-        SELECT embedding FROM diningfm.episodes WHERE id = ${episodeId}
-      )
-      LIMIT 5
-    `;
-  });
+  }[] = cached ?? [];
 
-  if (relatedIds.length > 0) {
-    const idOrder = relatedIds.map((r) => r.id);
-    const fetched = await prisma.episode.findMany({
-      where: { id: { in: idOrder } },
-      select: relatedEpisodeSelect,
+  if (cached) {
+    console.log("cached related episodes hit (episodeId: ", episodeId, ")");
+  } else {
+    console.log("cached related episodes miss (episodeId: ", episodeId, ")");
+
+    const relatedIds = await prisma.$transaction(async (tx) => {
+      // pg_vector operators require public schema in search_path
+      await tx.$executeRaw`SET LOCAL search_path TO diningfm, public`;
+      return tx.$queryRaw<{ id: number }[]>`
+        SELECT id FROM diningfm.episodes
+        WHERE id != ${episodeId}
+          AND embedding IS NOT NULL
+          AND (SELECT embedding FROM diningfm.episodes WHERE id = ${episodeId}) IS NOT NULL
+        ORDER BY embedding <=> (
+          SELECT embedding FROM diningfm.episodes WHERE id = ${episodeId}
+        )
+        LIMIT 5
+      `;
     });
-    relatedEpisodes = fetched.sort(
-      (a, b) => idOrder.indexOf(a.id) - idOrder.indexOf(b.id)
-    );
+
+    if (relatedIds.length > 0) {
+      const idOrder = relatedIds.map((r) => r.id);
+      const fetched = await prisma.episode.findMany({
+        where: { id: { in: idOrder } },
+        select: relatedEpisodeSelect,
+      });
+      relatedEpisodes = fetched.sort(
+        (a, b) => idOrder.indexOf(a.id) - idOrder.indexOf(b.id)
+      );
+    }
+
+    relatedEpisodesCache.set(episodeId, relatedEpisodes);
   }
 
   return { episode, sanitizedDescription, relatedEpisodes };
