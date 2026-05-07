@@ -1,6 +1,11 @@
 import type { Episode } from "@prisma/client";
 
-export function EpisodePlayer({ episode }: { episode: Episode }) {
+type EpisodePlayerEpisode = Pick<
+  Episode,
+  "spotifyId" | "applePodcastId" | "youtubeId" | "enclosureUrl"
+>;
+
+export function EpisodePlayer({ episode }: { episode: EpisodePlayerEpisode }) {
   return (
     <>
       {episode.spotifyId !== null ? (
