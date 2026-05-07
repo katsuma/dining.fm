@@ -24,6 +24,27 @@ import { Paragraph } from "@/components/Paragraph";
 
 const NOT_FOUND_MESSAGE = "指定したエピソードは見つかりませんでした";
 
+const episodeSelect = {
+  id: true,
+  title: true,
+  publishedAt: true,
+  duration: true,
+  imageUrl: true,
+  description: true,
+  spotifyId: true,
+  applePodcastId: true,
+  youtubeId: true,
+  enclosureUrl: true,
+} as const;
+
+const relatedEpisodeSelect = {
+  id: true,
+  title: true,
+  publishedAt: true,
+  duration: true,
+  imageUrl: true,
+} as const;
+
 export async function loader({ params }: Route.LoaderArgs) {
   const episodeId = Number(params.id);
 
@@ -35,6 +56,7 @@ export async function loader({ params }: Route.LoaderArgs) {
     where: {
       id: episodeId,
     },
+    select: episodeSelect,
   });
 
   if (!episode) {
@@ -45,7 +67,13 @@ export async function loader({ params }: Route.LoaderArgs) {
     ? sanitizeHtml(episode.description)
     : "";
 
-  let relatedEpisodes: (typeof episode)[] = [];
+  let relatedEpisodes: {
+    id: number;
+    title: string;
+    publishedAt: Date;
+    duration: string;
+    imageUrl: string;
+  }[] = [];
   const relatedIds = await prisma.$transaction(async (tx) => {
     // pg_vector operators require public schema in search_path
     await tx.$executeRaw`SET LOCAL search_path TO diningfm, public`;
@@ -65,6 +93,7 @@ export async function loader({ params }: Route.LoaderArgs) {
     const idOrder = relatedIds.map((r) => r.id);
     const fetched = await prisma.episode.findMany({
       where: { id: { in: idOrder } },
+      select: relatedEpisodeSelect,
     });
     relatedEpisodes = fetched.sort(
       (a, b) => idOrder.indexOf(a.id) - idOrder.indexOf(b.id)
@@ -80,7 +109,7 @@ export function meta({ data }: Route.MetaArgs) {
   }
 
   const title = `${data.episode.id}. ${data.episode.title} | ${defaultTitle}`;
-  const description = data.episode.summary || defaultDescription;
+  const description = data.episode.description || defaultDescription;
   const url = `${defaultHost}/episodes/${data.episode.id}`;
   const imageUrl =
     data.episode.imageUrl || `${defaultHost}/opengraph-image.png`;

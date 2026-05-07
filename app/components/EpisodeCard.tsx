@@ -6,7 +6,12 @@ import { IoCalendarOutline } from "react-icons/io5";
 import { FaRegClock } from "react-icons/fa";
 import { Duration } from "@/utils/Duration";
 
-export const EpisodeCard = ({ episode }: { episode: Episode }) => (
+type EpisodeCardEpisode = Pick<
+  Episode,
+  "id" | "title" | "publishedAt" | "duration" | "imageUrl"
+>;
+
+export const EpisodeCard = ({ episode }: { episode: EpisodeCardEpisode }) => (
   <Link
     to={`/episodes/${episode.id}`}
     className="block border-b-0 no-underline"
