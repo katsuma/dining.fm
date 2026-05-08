@@ -1,6 +1,6 @@
 import type { Route } from "./+types/show";
 
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, href, useLoaderData } from "react-router";
 
 import { LabelBadge } from "@/components/LabelBadge";
 import { proseStyles, Paragraph } from "@/components/Paragraph";
@@ -106,7 +106,7 @@ function SpShow() {
             </Link>{" "}
             や<Link to="https://twitter.com/diningfm">@diningfm</Link>{" "}
             へのリプライ、
-            <Link to="/letter">GoogleForm</Link>
+            <Link to={href("/letter")}>GoogleForm</Link>
             でのお便りなどからお待ちしています📮
           </Paragraph>
         </div>
@@ -120,7 +120,7 @@ function SpShow() {
           ))}
         </div>
         <div className="flex justify-center mt-6">
-          <LinkButton to="/episodes/page/1">
+          <LinkButton to={href("/episodes/page/:page", { page: "1" })}>
             すべてのエピソードを見る
           </LinkButton>
         </div>

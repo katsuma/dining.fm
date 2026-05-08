@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
 import ReactGA from "react-ga4";
-import { Outlet } from "react-router-dom";
 import { MDXProvider } from "@mdx-js/react";
 import { components } from "@/components/mdx-components";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 import {
+  href,
   isRouteErrorResponse,
   Links,
   Meta,
+  Outlet,
   Scripts,
   ScrollRestoration,
 } from "react-router";
@@ -91,7 +92,7 @@ function ErrorContent({
         )}
       </section>
       <section className="text-center my-16">
-        <LinkButton to="/">トップページへ戻る</LinkButton>
+        <LinkButton to={href("/")}>トップページへ戻る</LinkButton>
       </section>
     </div>
   );
