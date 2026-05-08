@@ -23,7 +23,7 @@ const SP_CONTENT: Record<string, SpContent> = {
     description:
       "※このエピソードはPodcast Weekend 2026 来場者の方向けのスペシャルエピソードです。\n通常回では語られないkatsuma, daikokuのプロフィールや、番組紹介を含む過去のエピソードの中からおすすめエピソードを紹介します。",
     mp3Url: "/sp/pcwe2026.mp3",
-    relatedEpisodeIds: [174, 141, 145, 120, 28, 163, 173],
+    relatedEpisodeIds: [111, 163, 174, 141, 145, 120, 28, 173],
   },
 };
 
