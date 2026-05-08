@@ -1,6 +1,6 @@
 // provides type safety/inference
 import type { Route } from "./+types/page";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, href } from "react-router";
 import { type Episode } from "@prisma/client";
 
 import prisma from "@/utils/prisma";
@@ -78,12 +78,12 @@ function EpisodesPage() {
       </section>
       <section className="flex justify-center space-x-4 mt-6 mb-10">
         {currentPage - 1 > 0 && (
-          <LinkButton to={`/episodes/page/${currentPage - 1}`}>
+          <LinkButton to={href("/episodes/page/:page", { page: String(currentPage - 1) })}>
             « 前へ
           </LinkButton>
         )}
         {currentPage + 1 <= maxPage && (
-          <LinkButton to={`/episodes/page/${currentPage + 1}`}>
+          <LinkButton to={href("/episodes/page/:page", { page: String(currentPage + 1) })}>
             次へ »
           </LinkButton>
         )}

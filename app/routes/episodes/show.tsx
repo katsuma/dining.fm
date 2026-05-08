@@ -1,6 +1,6 @@
 import type { Route } from "./+types/show";
 
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, href, useLoaderData } from "react-router";
 import { IoCalendarOutline } from "react-icons/io5";
 import { FaRegClock } from "react-icons/fa";
 import sanitizeHtml from "sanitize-html";
@@ -200,7 +200,7 @@ function EpisodeDetail() {
             </Link>{" "}
             や<Link to="https://twitter.com/diningfm">@diningfm</Link>{" "}
             へのリプライ、
-            <Link to="/letter">GoogleForm</Link>
+            <Link to={href("/letter")}>GoogleForm</Link>
             でのお便りなどからお待ちしています📮
           </Paragraph>
         </div>
@@ -218,7 +218,7 @@ function EpisodeDetail() {
       )}
 
       <section className="flex justify-center my-10">
-        <LinkButton to={"/episodes/page/1"}>一覧へ戻る</LinkButton>
+        <LinkButton to={href("/episodes/page/:page", { page: "1" })}>一覧へ戻る</LinkButton>
       </section>
 
       <script

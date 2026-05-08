@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, href } from "react-router";
 import { CirclePlay } from "lucide-react";
 import { type Episode } from "@prisma/client";
 import { PublishedDate } from "@/utils/PublishedDate";
@@ -13,7 +13,7 @@ type EpisodeCardEpisode = Pick<
 
 export const EpisodeCard = ({ episode }: { episode: EpisodeCardEpisode }) => (
   <Link
-    to={`/episodes/${episode.id}`}
+    to={href("/episodes/:id", { id: String(episode.id) })}
     className="block border-b-0 no-underline"
   >
     <div className="group flex items-start gap-4 bg-white border-2 border-black rounded-(--card-radius) p-4 transition-all duration-200 hover:bg-episode-hover-bg hover:shadow-(--card-shadow) hover:mt-[-5px] hover:mb-[5px]">

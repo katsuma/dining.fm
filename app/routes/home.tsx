@@ -1,4 +1,4 @@
-import { Link, type LoaderFunction, useLoaderData } from "react-router-dom";
+import { Link, href, type LoaderFunction, useLoaderData } from "react-router";
 import { type Episode } from "@prisma/client";
 import type { Route } from "./+types/home";
 
@@ -63,13 +63,13 @@ const Home = () => {
           ))}
         </div>
         <div className="flex justify-center mt-6">
-          <LinkButton to="/episodes/page/1">すべて見る</LinkButton>
+          <LinkButton to={href("/episodes/page/:page", { page: "1" })}>すべて見る</LinkButton>
         </div>
       </section>
 
       <section className="mb-8 text-center">
         <div className="grid grid-cols-2 gap-2 md:flex md:justify-center md:space-x-4 md:mx-auto">
-          <Link to="/spotify" target="_blank" rel="noopener noreferrer">
+          <Link to={href("/spotify")} target="_blank" rel="noopener noreferrer">
             <img
               src={"/listen-on/spotify.svg"}
               alt={"Listen on Spotify"}
@@ -78,7 +78,7 @@ const Home = () => {
             />
           </Link>
 
-          <Link to="/applepodcasts" target="_blank" rel="noopener noreferrer">
+          <Link to={href("/applepodcasts")} target="_blank" rel="noopener noreferrer">
             <img
               src={"/listen-on/apple.svg"}
               alt={"Listen on Apple Podcasts"}
@@ -87,7 +87,7 @@ const Home = () => {
             />
           </Link>
 
-          <Link to="/youtube" target="_blank" rel="noopener noreferrer">
+          <Link to={href("/youtube")} target="_blank" rel="noopener noreferrer">
             <img
               src={"/listen-on/youtube.svg"}
               alt={"Listen on YouTube"}
@@ -104,7 +104,7 @@ const Home = () => {
           <ArticleCard
             thumbnailUrl="/podcasting-guide/mic.jpg"
             title="収録・編集環境"
-            linkUrl="/podcasting-guide"
+            linkUrl={href("/podcasting-guide")}
             description="マイクやオーディオインターフェースなど収録環境や、編集環境についてのまとめです。"
           />
         </div>

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, href } from "react-router";
 
 const Header = () => {
   return (
@@ -11,7 +11,7 @@ const Header = () => {
     >
       <div className="flex justify-center py-8">
         <h1>
-          <Link to={"/"}>
+          <Link to={href("/")}>
             <img src="/logo.svg" alt="dining.fm" width={176} height={60} />
           </Link>
         </h1>
