@@ -10,6 +10,7 @@ import { Heading } from "@/components/Heading";
 import { LabelBadge } from "@/components/LabelBadge";
 import { Paragraph } from "@/components/Paragraph";
 import { ArticleCard } from "@/components/ArticleCard";
+import { StoreBanner } from "@/components/StoreBanner";
 import { ExternalLink, Link2 } from "lucide-react";
 
 export const loader: LoaderFunction = async () => {
@@ -39,6 +40,11 @@ const announcements: {
   linkUrl?: string;
 }[] = [
   {
+    publishedAt: "2026/5/12 22:00",
+    title: "dining.fmストアをオープンしました",
+    linkUrl: "https://dining.fm/store",
+  },
+  {
     publishedAt: "2026/3/20 12:00",
     title: "サイトデザインをリニューアルしました",
   },
@@ -63,7 +69,9 @@ const Home = () => {
           ))}
         </div>
         <div className="flex justify-center mt-6">
-          <LinkButton to={href("/episodes/page/:page", { page: "1" })}>すべて見る</LinkButton>
+          <LinkButton to={href("/episodes/page/:page", { page: "1" })}>
+            すべて見る
+          </LinkButton>
         </div>
       </section>
 
@@ -78,7 +86,11 @@ const Home = () => {
             />
           </Link>
 
-          <Link to={href("/applepodcasts")} target="_blank" rel="noopener noreferrer">
+          <Link
+            to={href("/applepodcasts")}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img
               src={"/listen-on/apple.svg"}
               alt={"Listen on Apple Podcasts"}
@@ -99,6 +111,10 @@ const Home = () => {
       </section>
 
       <section className="mb-8">
+        <StoreBanner />
+      </section>
+
+      <section className="mb-8">
         <Heading title="読みもの" dotClassName="bg-yellow" />
         <div className="flex flex-col gap-3">
           <ArticleCard
@@ -112,7 +128,7 @@ const Home = () => {
 
       <section className="mb-8">
         <Heading title="お知らせ" dotClassName="bg-light-green" />
-        <div className="bg-white border-2 border-black rounded-(--card-radius) shadow-(--card-shadow) py-2 px-4">
+        <div className="px-4">
           <ul className="flex flex-col">
             {announcements.map((item, index) => (
               <li
