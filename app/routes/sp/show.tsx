@@ -48,14 +48,14 @@ export async function loader({ params }: Route.LoaderArgs) {
   return { id: params.id, content, relatedEpisodes };
 }
 
-export function meta({ data }: Route.MetaArgs) {
-  if (!data) {
+export function meta({ loaderData }: Route.MetaArgs) {
+  if (!loaderData) {
     return buildMeta([]);
   }
 
-  const title = `${data.content.title} | ${defaultTitle}`;
-  const description = data.content.description;
-  const url = `${defaultHost}/sp/${data.id}`;
+  const title = `${loaderData.content.title} | ${defaultTitle}`;
+  const description = loaderData.content.description;
+  const url = `${defaultHost}/sp/${loaderData.id}`;
 
   return buildMeta([
     { title },
