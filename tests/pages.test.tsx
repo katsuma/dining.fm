@@ -1,4 +1,3 @@
-import type { ComponentType } from "react";
 import { render, screen } from "@testing-library/react";
 import { createRoutesStub } from "react-router";
 import { describe, expect, it } from "vitest";
@@ -26,13 +25,18 @@ function renderRoute({
 }: {
   path: string;
   url: string;
-  Component: ComponentType;
+  Component:
+    | typeof Home
+    | typeof EpisodesPage
+    | typeof EpisodeDetail
+    | typeof PodcastingGuide
+    | typeof SpShow;
   loader: () => unknown;
 }) {
   const Stub = createRoutesStub([
     {
       path,
-      // @ts-expect-error: `matches` won't align between test code and app code
+      // These route modules take no Route.ComponentProps, so stub types align.
       Component,
       loader,
     },
