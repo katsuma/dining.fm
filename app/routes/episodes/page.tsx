@@ -33,26 +33,26 @@ export async function loader({ params }: Route.LoaderArgs) {
   return { currentPage, episodes, episodeCount };
 }
 
-export function meta({ data }: Route.MetaArgs) {
-  if (!data) {
+export function meta({ loaderData }: Route.MetaArgs) {
+  if (!loaderData) {
     return buildMeta([]);
   }
 
-  const maxPage = Math.ceil(data.episodeCount / episodeVisibleSize);
-  const title = `最新エピソード (${data.currentPage}/${maxPage}) | ${defaultTitle}`;
+  const maxPage = Math.ceil(loaderData.episodeCount / episodeVisibleSize);
+  const title = `最新エピソード (${loaderData.currentPage}/${maxPage}) | ${defaultTitle}`;
 
   return buildMeta([
     { title },
 
     {
       property: "og:url",
-      content: `${defaultHost}/episodes/page/${data.currentPage}`,
+      content: `${defaultHost}/episodes/page/${loaderData.currentPage}`,
     },
     { property: "og:title", content: title },
 
     {
       property: "twitter:url",
-      content: `${defaultHost}/episodes/page/${data.currentPage}`,
+      content: `${defaultHost}/episodes/page/${loaderData.currentPage}`,
     },
     { property: "twitter:title", content: title },
   ]);

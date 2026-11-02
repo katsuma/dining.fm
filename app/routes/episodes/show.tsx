@@ -25,6 +25,27 @@ import { Paragraph } from "@/components/Paragraph";
 
 const NOT_FOUND_MESSAGE = "指定したエピソードは見つかりませんでした";
 
+function stripChapterAndLinkSections(html: string): string {
+  return html.replace(
+    /<p[^>]*>\s*■\s*(?:チャプター|参考リンク|関連リンク)\s*<\/p>\s*(?:<p[^>]*>\s*<br\s*\/?\s*>\s*<\/p>\s*)*(?:<ul[\s\S]*?<\/ul>\s*(?:<p[^>]*>\s*<br\s*\/?\s*>\s*<\/p>\s*)*)+/gi,
+    ""
+  );
+}
+
+function toPlainText(html: string): string {
+  const withoutSections = stripChapterAndLinkSections(html);
+  const withBreaks = withoutSections
+    .replace(/<br\s*\/?>/gi, " ")
+    .replace(/<\/(p|li|div)>/gi, " ");
+
+  return sanitizeHtml(withBreaks, {
+    allowedTags: [],
+    allowedAttributes: {},
+  })
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 const episodeSelect = {
   id: true,
   title: true,
@@ -114,27 +135,26 @@ export async function loader({ params }: Route.LoaderArgs) {
   return { episode, sanitizedDescription, relatedEpisodes };
 }
 
-export function meta({ data }: Route.MetaArgs) {
-  if (!data || data.episode === null) {
+export function meta({ loaderData }: Route.MetaArgs) {
+  if (!loaderData) {
     return buildMeta([]);
   }
 
-  const title = `${data.episode.id}. ${data.episode.title} | ${defaultTitle}`;
-  const description = data.episode.description || defaultDescription;
-  const url = `${defaultHost}/episodes/${data.episode.id}`;
+  const title = `${loaderData.episode.id}. ${loaderData.episode.title} | ${defaultTitle}`;
+  const description =
+    toPlainText(loaderData.episode.description ?? "") || defaultDescription;
+  const url = `${defaultHost}/episodes/${loaderData.episode.id}`;
   const imageUrl =
-    data.episode.imageUrl || `${defaultHost}/opengraph-image.png`;
+    loaderData.episode.imageUrl || `${defaultHost}/opengraph-image.png`;
 
   return buildMeta([
     { title },
+    { name: "description", content: description },
 
     { property: "og:url", content: url },
     { property: "og:title", content: title },
     { property: "og:description", content: description },
-    {
-      property: "og:image",
-      content: data.episode.imageUrl || `${defaultHost}/opengraph-image.png`,
-    },
+    { property: "og:image", content: imageUrl },
 
     { property: "twitter:url", content: url },
     { property: "twitter:title", content: title },
