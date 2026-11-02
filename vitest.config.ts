@@ -17,6 +17,7 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     include: ["tests/**/*.test.{ts,tsx}"],
+    setupFiles: ["./tests/setup.ts"],
     env: {
       POSTGRES_PRISMA_URL: "postgres://vitest:vitest@127.0.0.1:5432/vitest",
     },
