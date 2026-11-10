@@ -1,6 +1,6 @@
 import type { Route } from "./+types/show";
 
-import { Link, href, useLoaderData } from "react-router";
+import { Link, data, href, useLoaderData } from "react-router";
 import { IoCalendarOutline } from "react-icons/io5";
 import { FaRegClock } from "react-icons/fa";
 import sanitizeHtml from "sanitize-html";
@@ -18,6 +18,7 @@ import {
   buildMeta,
 } from "@/utils/meta";
 import prisma from "@/utils/prisma";
+import { buildCacheHeaders, CACHE_CONTROL_LONG } from "@/utils/cacheHeaders";
 import { relatedEpisodesCache } from "@/utils/relatedEpisodesCache";
 import { PublishedDate } from "@/utils/PublishedDate";
 import { EpisodePlayer } from "./components/EpisodePlayer";
@@ -132,7 +133,26 @@ export async function loader({ params }: Route.LoaderArgs) {
     relatedEpisodesCache.set(episodeId, relatedEpisodes);
   }
 
-  return { episode, sanitizedDescription, relatedEpisodes };
+  // The episode specific cache tag lets scripts/purge-cache invalidate
+  // this page on its own; the route's headers export merges it with the
+  // shared tags.
+  return data(
+    { episode, sanitizedDescription, relatedEpisodes },
+    {
+      headers: {
+        "Vercel-Cache-Tag": `episode-${episodeId}`,
+      },
+    }
+  );
+}
+
+export function headers({ loaderHeaders, errorHeaders }: Route.HeadersArgs) {
+  return buildCacheHeaders({
+    cacheControl: CACHE_CONTROL_LONG,
+    tags: ["diningfm", "episodes"],
+    loaderHeaders,
+    errorHeaders,
+  });
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {

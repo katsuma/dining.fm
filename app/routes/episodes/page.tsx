@@ -5,6 +5,7 @@ import { type Episode } from "@prisma/client";
 
 import prisma from "@/utils/prisma";
 import { defaultTitle, defaultHost, buildMeta } from "@/utils/meta";
+import { buildCacheHeaders, CACHE_CONTROL_SHORT } from "@/utils/cacheHeaders";
 import { EpisodeCard } from "@/components/EpisodeCard";
 import { Heading } from "@/components/Heading";
 import { LinkButton } from "@/components/LinkButton";
@@ -31,6 +32,15 @@ export async function loader({ params }: Route.LoaderArgs) {
   });
   const episodeCount = await prisma.episode.count();
   return { currentPage, episodes, episodeCount };
+}
+
+export function headers({ loaderHeaders, errorHeaders }: Route.HeadersArgs) {
+  return buildCacheHeaders({
+    cacheControl: CACHE_CONTROL_SHORT,
+    tags: ["diningfm", "episodes"],
+    loaderHeaders,
+    errorHeaders,
+  });
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {

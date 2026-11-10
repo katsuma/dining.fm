@@ -2,10 +2,20 @@ import type { Route } from "./+types/show";
 import { Share } from "lucide-react";
 import Guide from "./components/Guide.mdx";
 import { buildMeta, defaultHost, defaultTitle } from "@/utils/meta";
+import { buildCacheHeaders, CACHE_CONTROL_LONG } from "@/utils/cacheHeaders";
 import styles from "./components/Guide.module.css";
 
 const pageTitle = "ポッドキャストの収録・編集環境";
 const pageUrl = `${defaultHost}/podcasting-guide`;
+
+export function headers({ loaderHeaders, errorHeaders }: Route.HeadersArgs) {
+  return buildCacheHeaders({
+    cacheControl: CACHE_CONTROL_LONG,
+    tags: ["diningfm"],
+    loaderHeaders,
+    errorHeaders,
+  });
+}
 
 export function meta(_: Route.MetaArgs) {
   const title = `${pageTitle} | ${defaultTitle}`;
