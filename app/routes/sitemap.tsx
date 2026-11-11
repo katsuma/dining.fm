@@ -1,4 +1,5 @@
 import prisma from "@/utils/prisma";
+import { CACHE_CONTROL_SHORT } from "@/utils/cacheHeaders";
 import { defaultHost } from "@/utils/meta";
 
 export async function loader() {
@@ -38,6 +39,8 @@ export async function loader() {
   return new Response(sitemap, {
     headers: {
       "Content-Type": "application/xml",
+      "Cache-Control": CACHE_CONTROL_SHORT,
+      "Vercel-Cache-Tag": "diningfm,episodes",
     },
   });
 }

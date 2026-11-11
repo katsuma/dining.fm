@@ -9,6 +9,7 @@ import { EpisodeCard } from "@/components/EpisodeCard";
 import { Heading } from "@/components/Heading";
 import { LinkButton } from "@/components/LinkButton";
 import prisma from "@/utils/prisma";
+import { buildCacheHeaders, CACHE_CONTROL_LONG } from "@/utils/cacheHeaders";
 
 type SpContent = {
   title: string;
@@ -46,6 +47,15 @@ export async function loader({ params }: Route.LoaderArgs) {
     .filter((e) => e !== undefined);
 
   return { id: params.id, content, relatedEpisodes };
+}
+
+export function headers({ loaderHeaders, errorHeaders }: Route.HeadersArgs) {
+  return buildCacheHeaders({
+    cacheControl: CACHE_CONTROL_LONG,
+    tags: ["diningfm", "episodes"],
+    loaderHeaders,
+    errorHeaders,
+  });
 }
 
 export function meta({ loaderData }: Route.MetaArgs) {

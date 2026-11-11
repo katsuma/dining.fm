@@ -4,6 +4,7 @@ import type { Route } from "./+types/home";
 
 import prisma from "@/utils/prisma";
 import { buildMeta } from "@/utils/meta";
+import { buildCacheHeaders, CACHE_CONTROL_SHORT } from "@/utils/cacheHeaders";
 import { EpisodeCard } from "@/components/EpisodeCard";
 import { LinkButton } from "@/components/LinkButton";
 import { Heading } from "@/components/Heading";
@@ -29,6 +30,15 @@ export const loader: LoaderFunction = async () => {
   });
   return { episodes };
 };
+
+export function headers({ loaderHeaders, errorHeaders }: Route.HeadersArgs) {
+  return buildCacheHeaders({
+    cacheControl: CACHE_CONTROL_SHORT,
+    tags: ["diningfm", "episodes"],
+    loaderHeaders,
+    errorHeaders,
+  });
+}
 
 export function meta(_: Route.MetaArgs) {
   return buildMeta([]);

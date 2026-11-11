@@ -1,0 +1,99 @@
+#! /usr/bin/env ruby
+
+# Purges Vercel CDN cache entries for dining.fm by cache tag.
+#
+# Usage:
+#   ./scripts/purge-cache              # delete the "episodes" tag
+#   ./scripts/purge-cache 198          # delete "episode-198" and "episodes"
+#   ./scripts/purge-cache --all        # delete the shared "diningfm" tag
+#   ./scripts/purge-cache --invalidate # mark tags stale instead of deleting
+#
+# Required environment variables (read from .env via dotenv, like the
+# other scripts):
+#   VERCEL_API_TOKEN   Vercel access token
+#   VERCEL_PROJECT_ID  Vercel project id (or name) for dining.fm
+#   VERCEL_TEAM_ID     Team id, when the project belongs to a team (optional)
+#
+# This script intentionally does not load scripts/lib/setup.rb: purging
+# needs no database, OpenAI or Pinecone setup.
+#
+# API reference (Vercel REST API, edge-cache):
+#   POST /v1/edge-cache/dangerously-delete-by-tags
+#   POST /v1/edge-cache/invalidate-by-tags
+#   https://vercel.com/docs/rest-api/edge-cache
+
+require 'dotenv'
+require 'net/http'
+require 'json'
+require 'uri'
+
+Dotenv.load
+
+def abort_with(message)
+  warn "purge-cache: #{message}"
+  exit 1
+end
+
+token = ENV['VERCEL_API_TOKEN']
+abort_with('VERCEL_API_TOKEN is not set') if token.nil? || token.empty?
+
+project_id = ENV['VERCEL_PROJECT_ID']
+abort_with('VERCEL_PROJECT_ID is not set') if project_id.nil? || project_id.empty?
+
+invalidate = false
+purge_all = false
+episode_id = nil
+
+ARGV.each do |arg|
+  case arg
+  when '--invalidate'
+    invalidate = true
+  when '--all'
+    purge_all = true
+  when /\A\d+\z/
+    episode_id = arg
+  else
+    abort_with("unknown argument: #{arg} (usage: purge-cache [episode-number] [--all] [--invalidate])")
+  end
+end
+
+tags =
+  if purge_all
+    ['diningfm']
+  elsif episode_id
+    ["episode-#{episode_id}", 'episodes']
+  else
+    ['episodes']
+  end
+
+endpoint = invalidate ? 'invalidate-by-tags' : 'dangerously-delete-by-tags'
+action = invalidate ? 'invalidate' : 'delete'
+
+query = { 'projectIdOrName' => project_id }
+team_id = ENV['VERCEL_TEAM_ID']
+query['teamId'] = team_id unless team_id.nil? || team_id.empty?
+
+uri = URI("https://api.vercel.com/v1/edge-cache/#{endpoint}")
+uri.query = URI.encode_www_form(query)
+
+request = Net::HTTP::Post.new(uri)
+request['Authorization'] = "Bearer #{token}"
+request['Content-Type'] = 'application/json'
+request.body = JSON.generate({ 'tags' => tags })
+
+response =
+  begin
+    Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(request)
+    end
+  rescue StandardError => e
+    abort_with("request failed: #{e.message}")
+  end
+
+if response.is_a?(Net::HTTPSuccess)
+  puts "purge-cache: #{action} succeeded for tags: #{tags.join(', ')}"
+else
+  warn "purge-cache: #{action} failed (HTTP #{response.code})"
+  warn response.body unless response.body.nil? || response.body.empty?
+  exit 1
+end
