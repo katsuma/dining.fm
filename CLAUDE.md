@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+Instructions shared with all coding agents live in AGENTS.md:
+
+@AGENTS.md
+
 ## Project Overview
 
 dining.fm is a modern podcast website built with React Router v7, TypeScript, and Tailwind CSS. It combines a React frontend with Ruby-based content management scripts for podcast processing and AI-powered content enhancement.
