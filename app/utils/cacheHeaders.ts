@@ -4,8 +4,13 @@
 // response while refreshing in the background.
 export const CACHE_CONTROL_SHORT =
   "public, s-maxage=3600, stale-while-revalidate=86400";
+// Long profile for near-static pages (episode detail, sp, podcasting
+// guide). Their content rarely changes after publication, and the longer
+// TTL keeps crawler sweeps across the episode back catalogue from
+// re-invoking the route (and waking the database) as often. Updates are
+// still possible at any time through the cache-tag purge script.
 export const CACHE_CONTROL_LONG =
-  "public, s-maxage=86400, stale-while-revalidate=604800";
+  "public, s-maxage=604800, stale-while-revalidate=2592000";
 
 // Builds the cache headers for a route's document response, to be returned
 // from the route's `headers` export. When the loader threw (errorHeaders is
