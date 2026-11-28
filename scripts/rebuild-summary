@@ -237,13 +237,14 @@ def sanitize_json_string(text)
   text.gsub(/[\x00-\x08\x0b\x0c\x0e-\x1f]/u) { |c| "\\u%04x" % c.ord }
 end
 
-# Parse JSON with fallback for invalid control characters
+# Parse JSON with fallback for invalid control characters.
+# allow_duplicate_key keeps the json 2.x behaviour (last key wins); json 3 rejects duplicate keys by default.
 result = begin
-  JSON.parse(result_text)
+  JSON.parse(result_text, allow_duplicate_key: true)
 rescue JSON::ParserError => e
   logger.warn "JSON parse failed (#{e.message.lines.first.strip}), retrying with control character sanitization..."
   begin
-    JSON.parse(sanitize_json_string(result_text))
+    JSON.parse(sanitize_json_string(result_text), allow_duplicate_key: true)
   rescue JSON::ParserError => e2
     logger.warn "JSON parse failed again (#{e2.message.lines.first.strip}), falling back to regex extraction..."
     summary_match = result_text.match(/"summary"\s*:\s*"((?:[^"\\]|\\.)*)"/m)
