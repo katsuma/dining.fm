@@ -2,13 +2,17 @@
 // CDN serves the cached response without invoking the route (or the
 // database); stale-while-revalidate lets it keep serving the previous
 // response while refreshing in the background.
+//
+// Note: the pages that read the database are prerendered at build time
+// (react-router.config.ts) and served as static files, which the CDN keeps
+// for the lifetime of the deployment. These headers only apply to responses
+// rendered at runtime, e.g. when the app is served without prerendering.
 export const CACHE_CONTROL_SHORT =
   "public, s-maxage=3600, stale-while-revalidate=86400";
 // Long profile for near-static pages (episode detail, sp, podcasting
 // guide). Their content rarely changes after publication, and the longer
 // TTL keeps crawler sweeps across the episode back catalogue from
-// re-invoking the route (and waking the database) as often. Updates are
-// still possible at any time through the cache-tag purge script.
+// re-invoking the route (and waking the database) as often.
 export const CACHE_CONTROL_LONG =
   "public, s-maxage=604800, stale-while-revalidate=2592000";
 
@@ -16,8 +20,7 @@ export const CACHE_CONTROL_LONG =
 // from the route's `headers` export. When the loader threw (errorHeaders is
 // set), no cache headers are returned so error responses such as 404 are
 // never stored on the CDN. Tags set by the loader itself through `data()`
-// (for example "episode-123" on the episode detail route) arrive in
-// loaderHeaders and are merged into Vercel-Cache-Tag.
+// arrive in loaderHeaders and are merged into Vercel-Cache-Tag.
 export function buildCacheHeaders({
   cacheControl,
   tags,

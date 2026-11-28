@@ -31,6 +31,11 @@ dining.fm is a modern podcast website built with React Router v7, TypeScript, an
 - `./scripts/transcribe` - Generate episode transcriptions using AI
 - `./scripts/summarize-episode` - Create AI-powered episode summaries
 - `./scripts/assign-episode-service-id` - Sync episode IDs across platforms (Spotify, Apple Podcasts, YouTube)
+- `./scripts/redeploy` - Trigger a Vercel deployment (Deploy Hook) so DB changes reach the prerendered pages
+
+### Prerendering
+
+Pages that read the database are prerendered at build time (`prerender` in `react-router.config.ts`). Their loaders call `assertPrerendering()` (`app/utils/prerender.server.ts`) first, so at runtime they return 404 instead of querying the database. When adding a route that reads the database, add its paths to the prerender list and call `assertPrerendering()` in its loader.
 
 ## Architecture
 

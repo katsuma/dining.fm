@@ -1,8 +1,11 @@
 import prisma from "@/utils/prisma";
+import { assertPrerendering } from "@/utils/prerender.server";
 import { CACHE_CONTROL_SHORT } from "@/utils/cacheHeaders";
 import { defaultHost } from "@/utils/meta";
 
 export async function loader() {
+  assertPrerendering();
+
   const staticPaths = [
     { url: `${defaultHost}/`, lastModified: new Date().toISOString() },
     {

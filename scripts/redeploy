@@ -1,0 +1,59 @@
+#! /usr/bin/env ruby
+
+# Triggers a new production deployment of dining.fm through a Vercel Deploy
+# Hook.
+#
+# Every page that reads the database (home, episode list, episode detail,
+# sp pages, sitemap.xml) is prerendered at build time, so database changes
+# only reach the site after a new build. Run this once the episode data is
+# final, i.e. after import-feed and the transcribe / summarize / embedding
+# scripts (related episodes come from the embeddings):
+#
+#   ./scripts/import-feed 210
+#   ...
+#   ./scripts/redeploy
+#
+# Required environment variable (read from .env via dotenv, like the other
+# scripts):
+#   VERCEL_DEPLOY_HOOK_URL  Deploy Hook URL for the main branch
+#                           (Vercel > Project Settings > Git > Deploy Hooks)
+#
+# This script intentionally does not load scripts/lib/setup.rb: it needs no
+# database, OpenAI or Pinecone setup.
+
+require 'dotenv'
+require 'net/http'
+require 'json'
+require 'uri'
+
+Dotenv.load
+
+def abort_with(message)
+  warn "redeploy: #{message}"
+  exit 1
+end
+
+hook_url = ENV['VERCEL_DEPLOY_HOOK_URL']
+abort_with('VERCEL_DEPLOY_HOOK_URL is not set') if hook_url.nil? || hook_url.empty?
+
+uri = URI(hook_url)
+abort_with('VERCEL_DEPLOY_HOOK_URL must be an https URL') unless uri.is_a?(URI::HTTPS)
+
+response =
+  begin
+    Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(Net::HTTP::Post.new(uri))
+    end
+  rescue StandardError => e
+    abort_with("request failed: #{e.message}")
+  end
+
+unless response.is_a?(Net::HTTPSuccess)
+  warn "redeploy: deploy hook failed (HTTP #{response.code})"
+  warn response.body unless response.body.nil? || response.body.empty?
+  exit 1
+end
+
+job_id = JSON.parse(response.body).dig('job', 'id') rescue nil
+puts "redeploy: deployment triggered#{job_id ? " (job #{job_id})" : ''}"
+puts 'redeploy: the new episodes are live once the build finishes (see the Vercel dashboard)'

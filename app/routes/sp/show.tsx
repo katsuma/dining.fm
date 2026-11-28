@@ -9,24 +9,9 @@ import { EpisodeCard } from "@/components/EpisodeCard";
 import { Heading } from "@/components/Heading";
 import { LinkButton } from "@/components/LinkButton";
 import prisma from "@/utils/prisma";
+import { assertPrerendering } from "@/utils/prerender.server";
+import { SP_CONTENT } from "./content";
 import { buildCacheHeaders, CACHE_CONTROL_LONG } from "@/utils/cacheHeaders";
-
-type SpContent = {
-  title: string;
-  description: string;
-  mp3Url: string;
-  relatedEpisodeIds: number[];
-};
-
-const SP_CONTENT: Record<string, SpContent> = {
-  pcwe2026: {
-    title: "Podcast Weekend 2026 スペシャルエピソード",
-    description:
-      "※このエピソードはPodcast Weekend 2026 来場者の方向けのスペシャルエピソードです。\n通常回では語られないkatsuma, daikokuのプロフィールや、番組紹介を含む過去のエピソードの中からおすすめエピソードを紹介します。",
-    mp3Url: "/sp/pcwe2026.mp3",
-    relatedEpisodeIds: [111, 163, 174, 141, 145, 120, 28, 173],
-  },
-};
 
 const NOT_FOUND_MESSAGE = "指定したコンテンツは見つかりませんでした";
 
@@ -36,6 +21,8 @@ export async function loader({ params }: Route.LoaderArgs) {
   if (!content) {
     throw new Response(NOT_FOUND_MESSAGE, { status: 404 });
   }
+
+  assertPrerendering(NOT_FOUND_MESSAGE);
 
   const episodesUnordered = await prisma.episode.findMany({
     where: { id: { in: content.relatedEpisodeIds } },

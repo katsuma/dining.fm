@@ -1,6 +1,6 @@
 import type { Route } from "./+types/show";
 
-import { Link, data, href, useLoaderData } from "react-router";
+import { Link, href, useLoaderData } from "react-router";
 import { IoCalendarOutline } from "react-icons/io5";
 import { FaRegClock } from "react-icons/fa";
 import sanitizeHtml from "sanitize-html";
@@ -18,6 +18,7 @@ import {
   buildMeta,
 } from "@/utils/meta";
 import prisma from "@/utils/prisma";
+import { assertPrerendering } from "@/utils/prerender.server";
 import { buildCacheHeaders, CACHE_CONTROL_LONG } from "@/utils/cacheHeaders";
 import { relatedEpisodesCache } from "@/utils/relatedEpisodesCache";
 import { PublishedDate } from "@/utils/PublishedDate";
@@ -74,6 +75,8 @@ export async function loader({ params }: Route.LoaderArgs) {
   if (isNaN(episodeId)) {
     throw new Response(NOT_FOUND_MESSAGE, { status: 404 });
   }
+
+  assertPrerendering(NOT_FOUND_MESSAGE);
 
   const episode = await prisma.episode.findUnique({
     where: {
@@ -133,17 +136,7 @@ export async function loader({ params }: Route.LoaderArgs) {
     relatedEpisodesCache.set(episodeId, relatedEpisodes);
   }
 
-  // The episode specific cache tag lets scripts/purge-cache invalidate
-  // this page on its own; the route's headers export merges it with the
-  // shared tags.
-  return data(
-    { episode, sanitizedDescription, relatedEpisodes },
-    {
-      headers: {
-        "Vercel-Cache-Tag": `episode-${episodeId}`,
-      },
-    }
-  );
+  return { episode, sanitizedDescription, relatedEpisodes };
 }
 
 export function headers({ loaderHeaders, errorHeaders }: Route.HeadersArgs) {

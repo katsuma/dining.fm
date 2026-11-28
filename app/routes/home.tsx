@@ -3,6 +3,7 @@ import { type Episode } from "@prisma/client";
 import type { Route } from "./+types/home";
 
 import prisma from "@/utils/prisma";
+import { assertPrerendering } from "@/utils/prerender.server";
 import { buildMeta } from "@/utils/meta";
 import { buildCacheHeaders, CACHE_CONTROL_SHORT } from "@/utils/cacheHeaders";
 import { EpisodeCard } from "@/components/EpisodeCard";
@@ -15,6 +16,8 @@ import { StoreBanner } from "@/components/StoreBanner";
 import { ExternalLink, Link2 } from "lucide-react";
 
 export const loader: LoaderFunction = async () => {
+  assertPrerendering();
+
   const episodes = await prisma.episode.findMany({
     orderBy: [{ id: "desc" }],
     take: 3,

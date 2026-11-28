@@ -4,22 +4,24 @@ import { useLoaderData, href } from "react-router";
 import { type Episode } from "@prisma/client";
 
 import prisma from "@/utils/prisma";
+import { assertPrerendering } from "@/utils/prerender.server";
+import { EPISODES_PER_PAGE } from "@/utils/pagination";
 import { defaultTitle, defaultHost, buildMeta } from "@/utils/meta";
 import { buildCacheHeaders, CACHE_CONTROL_SHORT } from "@/utils/cacheHeaders";
 import { EpisodeCard } from "@/components/EpisodeCard";
 import { Heading } from "@/components/Heading";
 import { LinkButton } from "@/components/LinkButton";
 
-const episodeVisibleSize = 20;
-
 export async function loader({ params }: Route.LoaderArgs) {
+  assertPrerendering();
+
   const currentPage = Number(params.page);
-  const slicedIndex = episodeVisibleSize * (currentPage - 1);
+  const slicedIndex = EPISODES_PER_PAGE * (currentPage - 1);
 
   const episodes = await prisma.episode.findMany({
     orderBy: [{ id: "desc" }],
     skip: slicedIndex,
-    take: episodeVisibleSize,
+    take: EPISODES_PER_PAGE,
     select: {
       id: true,
       title: true,
@@ -48,7 +50,7 @@ export function meta({ loaderData }: Route.MetaArgs) {
     return buildMeta([]);
   }
 
-  const maxPage = Math.ceil(loaderData.episodeCount / episodeVisibleSize);
+  const maxPage = Math.ceil(loaderData.episodeCount / EPISODES_PER_PAGE);
   const title = `最新エピソード (${loaderData.currentPage}/${maxPage}) | ${defaultTitle}`;
 
   return buildMeta([
@@ -71,7 +73,7 @@ export function meta({ loaderData }: Route.MetaArgs) {
 function EpisodesPage() {
   const { currentPage, episodes, episodeCount } = useLoaderData();
 
-  const maxPage = Math.ceil(episodeCount / episodeVisibleSize);
+  const maxPage = Math.ceil(episodeCount / EPISODES_PER_PAGE);
 
   return (
     <div className="container">
