@@ -10,6 +10,21 @@ export default defineConfig({
   server: {
     host: true,
   },
+  ssr: {
+    // sanitize-html is CommonJS and require()s the ESM-only htmlparser2.
+    // Vercel's Node.js runtime does not support require() of ES modules
+    // (ERR_REQUIRE_ESM even on Node 24), so bundle this dependency chain
+    // into the server build instead of loading it from node_modules.
+    noExternal: [
+      "sanitize-html",
+      "htmlparser2",
+      "domhandler",
+      "domutils",
+      "dom-serializer",
+      "domelementtype",
+      "entities",
+    ],
+  },
   plugins: [
     tailwindcss(),
     reactRouter(),
